@@ -14,7 +14,18 @@
     />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">LOADING...</div>
+    <script>
+      console.log("HTML JavaScript executing...");
+      document.getElementById('root').innerHTML = '<div style="background:orange;color:black;padding:20px;font-size:30px;">HTML SCRIPT TEST - ORANGE<br/>If you see this, basic JavaScript works</div>';
+    </script>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      setTimeout(() => {
+        if (document.getElementById('root').innerHTML.includes('ORANGE')) {
+          console.log("React failed to mount - still showing HTML test");
+        }
+      }, 2000);
+    </script>
   </body>
 </html>

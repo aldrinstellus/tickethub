@@ -46,6 +46,7 @@ const xThemeComponents = {
 };
 
 function TicketHubAppInner() {
+  console.log("TicketHubAppInner component rendering...");
   const { isHidden } = useSidebar();
 
   return (

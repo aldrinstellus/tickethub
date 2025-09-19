@@ -578,7 +578,20 @@ export default function Tickets() {
         </Menu>
 
         {/* Bulk Assign Dialog */}
-        <Dialog open={bulkAssignDialog} onClose={() => setBulkAssignDialog(false)} maxWidth="sm" fullWidth>
+        <Dialog
+          open={bulkAssignDialog}
+          onClose={() => setBulkAssignDialog(false)}
+          maxWidth="sm"
+          fullWidth
+          sx={{
+            '& .MuiBackdrop-root': {
+              backgroundColor: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(0, 0, 0, 0.8)'
+                : 'rgba(0, 0, 0, 0.5)',
+              backdropFilter: 'blur(4px)',
+            },
+          }}
+        >
           <DialogTitle>Assign Selected Tickets</DialogTitle>
           <DialogContent>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -612,7 +625,20 @@ export default function Tickets() {
         </Dialog>
 
         {/* Bulk Priority Dialog */}
-        <Dialog open={bulkPriorityDialog} onClose={() => setBulkPriorityDialog(false)} maxWidth="sm" fullWidth>
+        <Dialog
+          open={bulkPriorityDialog}
+          onClose={() => setBulkPriorityDialog(false)}
+          maxWidth="sm"
+          fullWidth
+          sx={{
+            '& .MuiBackdrop-root': {
+              backgroundColor: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(0, 0, 0, 0.8)'
+                : 'rgba(0, 0, 0, 0.5)',
+              backdropFilter: 'blur(4px)',
+            },
+          }}
+        >
           <DialogTitle>Change Priority</DialogTitle>
           <DialogContent>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -646,7 +672,20 @@ export default function Tickets() {
         </Dialog>
 
         {/* Bulk Status Dialog */}
-        <Dialog open={bulkStatusDialog} onClose={() => setBulkStatusDialog(false)} maxWidth="sm" fullWidth>
+        <Dialog
+          open={bulkStatusDialog}
+          onClose={() => setBulkStatusDialog(false)}
+          maxWidth="sm"
+          fullWidth
+          sx={{
+            '& .MuiBackdrop-root': {
+              backgroundColor: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(0, 0, 0, 0.8)'
+                : 'rgba(0, 0, 0, 0.5)',
+              backdropFilter: 'blur(4px)',
+            },
+          }}
+        >
           <DialogTitle>Change Status</DialogTitle>
           <DialogContent>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -680,7 +719,20 @@ export default function Tickets() {
         </Dialog>
 
         {/* Bulk Delete Dialog */}
-        <Dialog open={bulkDeleteDialog} onClose={() => setBulkDeleteDialog(false)} maxWidth="sm" fullWidth>
+        <Dialog
+          open={bulkDeleteDialog}
+          onClose={() => setBulkDeleteDialog(false)}
+          maxWidth="sm"
+          fullWidth
+          sx={{
+            '& .MuiBackdrop-root': {
+              backgroundColor: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(0, 0, 0, 0.8)'
+                : 'rgba(0, 0, 0, 0.5)',
+              backdropFilter: 'blur(4px)',
+            },
+          }}
+        >
           <DialogTitle>Delete Selected Tickets</DialogTitle>
           <DialogContent>
             <Typography variant="body2" color="text.secondary">

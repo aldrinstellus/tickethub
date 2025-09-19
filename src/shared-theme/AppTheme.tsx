@@ -20,26 +20,15 @@ interface AppThemeProps {
 export default function AppTheme(props: AppThemeProps) {
   const { children, disableCustomTheme, themeComponents } = props;
 
-  // Force dark mode on initial load
-  React.useEffect(() => {
-    // Set the data attribute on the document to force dark mode
-    document.documentElement.setAttribute('data-mui-color-scheme', 'dark');
-
-    // Also set localStorage to remember the preference
-    localStorage.setItem('mui-mode', 'dark');
-  }, []);
-
   const theme = React.useMemo(() => {
     return disableCustomTheme
       ? {}
       : createTheme({
-          // For more details about CSS variables configuration, see https://mui.com/material-ui/customization/css-theme-variables/configuration/
           cssVariables: {
             colorSchemeSelector: "data-mui-color-scheme",
             cssVarPrefix: "template",
           },
-          defaultColorScheme: "dark", // Set dark mode as default instead of using system preference
-          colorSchemes, // Recently added in v6 for building light & dark mode app, see https://mui.com/material-ui/customization/palette/#color-schemes
+          colorSchemes,
           typography,
           shadows,
           shape,
@@ -59,7 +48,7 @@ export default function AppTheme(props: AppThemeProps) {
   }
 
   return (
-    <ThemeProvider theme={theme} disableTransitionOnChange defaultMode="dark">
+    <ThemeProvider theme={theme}>
       {children}
     </ThemeProvider>
   );

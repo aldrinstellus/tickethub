@@ -53,7 +53,7 @@ const ModalPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const ModalHeader = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(3, 3, 2, 3),
+  padding: theme.spacing(3),
   borderBottom: `1px solid ${theme.palette.divider}`,
   display: 'flex',
   alignItems: 'center',

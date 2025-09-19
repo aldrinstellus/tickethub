@@ -27,22 +27,21 @@ import { useSearch } from "../contexts/SearchContext";
 
 const ModalContainer = styled(Modal)(({ theme }) => ({
   display: 'flex',
-  alignItems: 'flex-start',
+  alignItems: 'center',
   justifyContent: 'center',
-  paddingTop: '10vh',
-  paddingLeft: theme.spacing(2),
-  paddingRight: theme.spacing(2),
+  padding: theme.spacing(2),
 }));
 
 const SearchContainer = styled(Paper)(({ theme }) => ({
   width: '100%',
   maxWidth: '600px',
-  maxHeight: '70vh',
+  maxHeight: '90vh',
   borderRadius: theme.spacing(2),
-  overflow: 'hidden',
+  overflow: 'auto',
   boxShadow: theme.shadows[24],
   border: `1px solid ${theme.palette.divider}`,
   backgroundColor: theme.palette.background.paper,
+  outline: 'none',
 }));
 
 const SearchHeader = styled(Box)(({ theme }) => ({

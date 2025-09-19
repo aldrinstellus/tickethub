@@ -26,6 +26,9 @@ import EmailIcon from "@mui/icons-material/Email";
 import { LineChart, BarChart } from "@mui/x-charts";
 import ReactECharts from "echarts-for-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import CircularProgress from "@mui/material/CircularProgress";
 import PageHeader from "../components/PageHeader";
 
 export default function Reports() {
@@ -33,6 +36,110 @@ export default function Reports() {
   const [startDate, setStartDate] = React.useState<Dayjs | null>(dayjs().subtract(30, 'day'));
   const [endDate, setEndDate] = React.useState<Dayjs | null>(dayjs());
   const [selectedReport, setSelectedReport] = React.useState(0);
+  const [isExporting, setIsExporting] = React.useState(false);
+  const [exportSuccess, setExportSuccess] = React.useState(false);
+
+  // Export functionality
+  const handleExportCSV = async () => {
+    setIsExporting(true);
+    try {
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Generate CSV data
+      const reportData = generateReportData();
+      const csvContent = convertToCSV(reportData);
+
+      // Download CSV file
+      downloadFile(csvContent, 'support-report.csv', 'text/csv');
+
+      setExportSuccess(true);
+      setTimeout(() => setExportSuccess(false), 3000);
+    } catch (error) {
+      console.error('Export failed:', error);
+      alert('Export failed. Please try again.');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleExportPDF = async () => {
+    setIsExporting(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Generate PDF content (in real app, this would use a PDF library)
+      const pdfContent = generatePDFContent();
+      downloadFile(pdfContent, 'support-report.pdf', 'application/pdf');
+
+      setExportSuccess(true);
+      setTimeout(() => setExportSuccess(false), 3000);
+    } catch (error) {
+      console.error('Export failed:', error);
+      alert('Export failed. Please try again.');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleScheduleReport = () => {
+    // In real app, this would open a modal to configure scheduled reports
+    alert('Schedule Report feature would open a configuration modal here.');
+  };
+
+  const handleSendNow = async () => {
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      alert('Report sent successfully to configured recipients!');
+    } catch (error) {
+      alert('Failed to send report. Please try again.');
+    }
+  };
+
+  // Helper functions for export
+  const generateReportData = () => {
+    return [
+      ['Metric', 'Value', 'Trend', 'Period'],
+      ['First Response Time', '1.8h', '-12%', 'Last 7 days'],
+      ['Resolution Time', '24.5h', '-8%', 'Last 30 days'],
+      ['CSAT Score', '94%', '+2%', 'Last 30 days'],
+      ['SLA Compliance', '96%', '+1%', 'Last 30 days'],
+      ...performanceData.map(p => ['Performance Trend', p.created, p.resolved, 'Daily']),
+      ...agentData.map(a => ['Agent Performance', a.agent, a.tickets, a.avgResponse, a.csat])
+    ];
+  };
+
+  const convertToCSV = (data: any[][]) => {
+    return data.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+  };
+
+  const generatePDFContent = () => {
+    // In a real app, this would generate actual PDF content
+    // For demo purposes, we'll create a text version
+    return `Support Performance Report
+Generated: ${new Date().toLocaleDateString()}
+Period: ${dateRange}
+
+Key Metrics:
+- First Response Time: 1.8h (-12%)
+- Resolution Time: 24.5h (-8%)
+- CSAT Score: 94% (+2%)
+- SLA Compliance: 96% (+1%)
+
+This is a demo PDF export. In a real application, this would be formatted as a proper PDF document.`;
+  };
+
+  const downloadFile = (content: string, filename: string, mimeType: string) => {
+    const blob = new Blob([content], { type: mimeType });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
 
   const reportTemplates = [
     {
@@ -115,11 +222,29 @@ export default function Reports() {
                 subtitle="Generate and schedule automated reports"
               />
               <Stack direction="row" spacing={1}>
-                <Button variant="outlined" startIcon={<ScheduleIcon />}>
+                <Button
+                  variant="outlined"
+                  startIcon={<ScheduleIcon />}
+                  onClick={handleScheduleReport}
+                  disabled={isExporting}
+                >
                   Schedule Report
                 </Button>
-                <Button variant="contained" startIcon={<DownloadIcon />}>
-                  Export Data
+                <Button
+                  variant="outlined"
+                  startIcon={<DownloadIcon />}
+                  onClick={handleExportPDF}
+                  disabled={isExporting}
+                >
+                  Export PDF
+                </Button>
+                <Button
+                  variant="contained"
+                  startIcon={<DownloadIcon />}
+                  onClick={handleExportCSV}
+                  disabled={isExporting}
+                >
+                  {isExporting ? 'Exporting...' : 'Export CSV'}
                 </Button>
               </Stack>
             </Stack>
@@ -220,10 +345,20 @@ export default function Reports() {
                     </List>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" startIcon={<EmailIcon />}>
+                    <Button
+                      size="small"
+                      startIcon={<EmailIcon />}
+                      onClick={handleSendNow}
+                      disabled={isExporting}
+                    >
                       Send Now
                     </Button>
-                    <Button size="small" startIcon={<DownloadIcon />}>
+                    <Button
+                      size="small"
+                      startIcon={<DownloadIcon />}
+                      onClick={handleExportPDF}
+                      disabled={isExporting}
+                    >
                       Download
                     </Button>
                   </CardActions>
@@ -307,6 +442,18 @@ export default function Reports() {
             </Grid>
           </Grid>
         </Box>
+
+        {/* Export Success Notification */}
+        <Snackbar
+          open={exportSuccess}
+          autoHideDuration={3000}
+          onClose={() => setExportSuccess(false)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert severity="success" onClose={() => setExportSuccess(false)}>
+            Report exported successfully!
+          </Alert>
+        </Snackbar>
       </LocalizationProvider>
     </motion.div>
   );

@@ -475,6 +475,59 @@ export default function Tickets() {
           )}
         </Stack>
 
+        {/* Bulk Actions Toolbar */}
+        <Fade in={selectedRows.length > 0}>
+          <Paper sx={{ mb: 2, bgcolor: 'primary.light', color: 'primary.contrastText' }}>
+            <Toolbar>
+              <Typography variant="h6" sx={{ flex: '1 1 100%' }}>
+                {selectedRows.length} ticket{selectedRows.length !== 1 ? 's' : ''} selected
+              </Typography>
+              <Stack direction="row" spacing={1}>
+                <Button
+                  color="inherit"
+                  startIcon={<AssignmentIndIcon />}
+                  onClick={() => setBulkAssignDialog(true)}
+                  disabled={bulkProcessing}
+                >
+                  Assign
+                </Button>
+                <Button
+                  color="inherit"
+                  startIcon={<PriorityHighIcon />}
+                  onClick={() => setBulkPriorityDialog(true)}
+                  disabled={bulkProcessing}
+                >
+                  Priority
+                </Button>
+                <Button
+                  color="inherit"
+                  startIcon={<CheckCircleIcon />}
+                  onClick={() => setBulkStatusDialog(true)}
+                  disabled={bulkProcessing}
+                >
+                  Status
+                </Button>
+                <Button
+                  color="inherit"
+                  startIcon={<DeleteIcon />}
+                  onClick={() => setBulkDeleteDialog(true)}
+                  disabled={bulkProcessing}
+                  sx={{ color: 'error.light' }}
+                >
+                  Delete
+                </Button>
+                <IconButton
+                  color="inherit"
+                  onClick={handleBulkMenuClick}
+                  disabled={bulkProcessing}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+              </Stack>
+            </Toolbar>
+          </Paper>
+        </Fade>
+
         {/* Tickets DataGrid */}
         <Box sx={{ width: "100%", overflowX: "auto" }}>
           <Box sx={{ height: 600, minWidth: 800 }}>
@@ -488,11 +541,20 @@ export default function Tickets() {
                 rows={filteredRows}
                 columns={columns}
                 getRowId={(row) => row.id}
-                onRowClick={(params) => navigate(`/tickets/${params.id}`)}
+                onRowClick={(params, event) => {
+                  // Only navigate if not clicking on checkbox
+                  if (!(event.target as HTMLElement).closest('.MuiCheckbox-root')) {
+                    navigate(`/tickets/${params.id}`);
+                  }
+                }}
+                checkboxSelection
+                rowSelectionModel={selectedRows}
+                onRowSelectionModelChange={setSelectedRows}
                 pageSizeOptions={[25, 50, 100]}
                 initialState={{
                   pagination: { paginationModel: { pageSize: 25 } },
                 }}
+                disableRowSelectionOnClick
               />
             )}
           </Box>

@@ -476,6 +476,18 @@ export default function TicketWorkspace() {
                     SLA: {getSLATimeRemaining(ticket.createdAt, ticket.priority)}
                   </Typography>
                 </Box>
+
+                {/* Real-time connection indicator */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  {isConnected ? (
+                    <SignalWifiIcon fontSize="small" color="success" />
+                  ) : (
+                    <SignalWifiOffIcon fontSize="small" color="error" />
+                  )}
+                  <Typography variant="caption" color={isConnected ? 'success.main' : 'error.main'}>
+                    {isConnected ? 'Live' : 'Offline'}
+                  </Typography>
+                </Box>
               </>
             )}
           </Stack>

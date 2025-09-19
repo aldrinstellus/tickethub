@@ -213,26 +213,167 @@ export default function Tickets() {
   ];
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <PageHeader title="Tickets" />
-      <Box sx={{ width: "100%", overflowX: "auto" }}>
-        <Box sx={{ height: 560, minWidth: 800 }}>
-          {loading ? (
-            <Box sx={{ p: 2 }}>
-              <Skeleton variant="rectangular" width="100%" height={400} />
-            </Box>
-          ) : (
-            <DataGrid
-              density="compact"
-              rows={rows}
-              columns={columns}
-              getRowId={(row) => row.id}
-              onRowClick={(params) => navigate(`/tickets/${params.id}`)}
-            />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Box sx={{ width: "100%" }}>
+        <PageHeader title="Tickets" />
+
+        {/* Search and Basic Filters */}
+        <Paper sx={{ p: 3, mb: 3 }}>
+          <Grid container spacing={2} alignItems="center">
+            {/* Search Bar */}
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                placeholder="Search tickets by ID, customer, or subject..."
+                value={filters.search}
+                onChange={(e) => handleFilterChange('search', e.target.value)}
+                InputProps={{
+                  startAdornment: <SearchRoundedIcon sx={{ mr: 1, color: 'text.secondary' }} />,
+                }}
+              />
+            </Grid>
+
+            {/* Quick Filters */}
+            <Grid item xs={6} md={2}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Priority</InputLabel>
+                <Select
+                  value={filters.priority}
+                  label="Priority"
+                  onChange={(e) => handleFilterChange('priority', e.target.value)}
+                >
+                  {PRIORITY_OPTIONS.map(option => (
+                    <MenuItem key={option} value={option}>{option}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={6} md={2}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Status</InputLabel>
+                <Select
+                  value={filters.status}
+                  label="Status"
+                  onChange={(e) => handleFilterChange('status', e.target.value)}
+                >
+                  {STATUS_OPTIONS.map(option => (
+                    <MenuItem key={option} value={option}>{option}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            {/* Advanced Filters Toggle */}
+            <Grid item xs={12} md={2}>
+              <Button
+                fullWidth
+                variant="outlined"
+                size="small"
+                startIcon={<FilterListRoundedIcon />}
+                endIcon={showAdvancedFilters ? <ExpandLessRoundedIcon /> : <ExpandMoreRoundedIcon />}
+                onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+              >
+                Advanced Filters
+              </Button>
+            </Grid>
+          </Grid>
+
+          {/* Advanced Filters */}
+          <Collapse in={showAdvancedFilters}>
+            <Grid container spacing={2} sx={{ mt: 1 }}>
+              <Grid item xs={12} md={4}>
+                <FormControl fullWidth size="small">
+                  <InputLabel>Assigned To</InputLabel>
+                  <Select
+                    value={filters.assignedTo}
+                    label="Assigned To"
+                    onChange={(e) => handleFilterChange('assignedTo', e.target.value)}
+                  >
+                    {TEAM_MEMBERS.map(option => (
+                      <MenuItem key={option} value={option}>{option}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <DatePicker
+                  label="Start Date"
+                  value={filters.startDate}
+                  onChange={(date) => handleFilterChange('startDate', date)}
+                  slotProps={{ textField: { size: 'small', fullWidth: true } }}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <DatePicker
+                  label="End Date"
+                  value={filters.endDate}
+                  onChange={(date) => handleFilterChange('endDate', date)}
+                  slotProps={{ textField: { size: 'small', fullWidth: true } }}
+                />
+              </Grid>
+            </Grid>
+          </Collapse>
+        </Paper>
+
+        {/* Active Filters and Results Count */}
+        <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+          <Typography variant="body2" color="text.secondary">
+            {filteredRows.length} tickets found
+          </Typography>
+
+          {activeFilters.length > 0 && (
+            <>
+              <Typography variant="body2" color="text.secondary">•</Typography>
+              <Stack direction="row" spacing={1} flexWrap="wrap">
+                {activeFilters.map((filter, index) => (
+                  <Chip
+                    key={index}
+                    label={filter}
+                    size="small"
+                    onDelete={() => removeFilter(filter)}
+                    deleteIcon={<ClearRoundedIcon />}
+                  />
+                ))}
+                <Button
+                  size="small"
+                  variant="text"
+                  onClick={clearAllFilters}
+                  sx={{ textTransform: 'none' }}
+                >
+                  Clear All
+                </Button>
+              </Stack>
+            </>
           )}
+        </Stack>
+
+        {/* Tickets DataGrid */}
+        <Box sx={{ width: "100%", overflowX: "auto" }}>
+          <Box sx={{ height: 600, minWidth: 800 }}>
+            {loading ? (
+              <Box sx={{ p: 2 }}>
+                <Skeleton variant="rectangular" width="100%" height={500} />
+              </Box>
+            ) : (
+              <DataGrid
+                density="compact"
+                rows={filteredRows}
+                columns={columns}
+                getRowId={(row) => row.id}
+                onRowClick={(params) => navigate(`/tickets/${params.id}`)}
+                pageSizeOptions={[25, 50, 100]}
+                initialState={{
+                  pagination: { paginationModel: { pageSize: 25 } },
+                }}
+              />
+            )}
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </LocalizationProvider>
   );
 }
 

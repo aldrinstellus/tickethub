@@ -41,7 +41,15 @@ export function AIChatProvider({ children }: { children: React.ReactNode }) {
   const [messages, setMessages] = React.useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = React.useState(false);
   const [knowledgeBase, setKnowledgeBase] = React.useState<Article[]>([]);
-  const location = useLocation();
+
+  // Safely get location - handle case where component is rendered outside Router
+  let location;
+  try {
+    location = useLocation();
+  } catch (error) {
+    // Fallback when not in Router context
+    location = { pathname: '/dashboard' };
+  }
 
   // Load knowledge base on mount
   React.useEffect(() => {

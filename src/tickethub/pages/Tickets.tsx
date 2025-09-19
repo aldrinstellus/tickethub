@@ -209,6 +209,109 @@ export default function Tickets() {
     }
   };
 
+  // Bulk action handlers
+  const handleBulkMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setBulkActionAnchor(event.currentTarget);
+  };
+
+  const handleBulkMenuClose = () => {
+    setBulkActionAnchor(null);
+  };
+
+  const handleBulkAssign = async () => {
+    if (!newAssignee) return;
+
+    setBulkProcessing(true);
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Update tickets in state
+      const updatedRows = allRows.map(ticket =>
+        selectedRows.includes(ticket.id)
+          ? { ...ticket, assignee: newAssignee }
+          : ticket
+      );
+      setAllRows(updatedRows);
+
+      // Clear selection and close dialog
+      setSelectedRows([]);
+      setBulkAssignDialog(false);
+      setNewAssignee('');
+    } catch (error) {
+      console.error('Failed to bulk assign:', error);
+    } finally {
+      setBulkProcessing(false);
+    }
+  };
+
+  const handleBulkPriority = async () => {
+    if (!newPriority) return;
+
+    setBulkProcessing(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      const updatedRows = allRows.map(ticket =>
+        selectedRows.includes(ticket.id)
+          ? { ...ticket, priority: newPriority }
+          : ticket
+      );
+      setAllRows(updatedRows);
+
+      setSelectedRows([]);
+      setBulkPriorityDialog(false);
+      setNewPriority('');
+    } catch (error) {
+      console.error('Failed to bulk update priority:', error);
+    } finally {
+      setBulkProcessing(false);
+    }
+  };
+
+  const handleBulkStatus = async () => {
+    if (!newStatus) return;
+
+    setBulkProcessing(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      const updatedRows = allRows.map(ticket =>
+        selectedRows.includes(ticket.id)
+          ? { ...ticket, status: newStatus }
+          : ticket
+      );
+      setAllRows(updatedRows);
+
+      setSelectedRows([]);
+      setBulkStatusDialog(false);
+      setNewStatus('');
+    } catch (error) {
+      console.error('Failed to bulk update status:', error);
+    } finally {
+      setBulkProcessing(false);
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    setBulkProcessing(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      const updatedRows = allRows.filter(ticket =>
+        !selectedRows.includes(ticket.id)
+      );
+      setAllRows(updatedRows);
+
+      setSelectedRows([]);
+      setBulkDeleteDialog(false);
+    } catch (error) {
+      console.error('Failed to bulk delete:', error);
+    } finally {
+      setBulkProcessing(false);
+    }
+  };
+
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 110 },
     { field: "subject", headerName: "Subject", flex: 1, minWidth: 200 },

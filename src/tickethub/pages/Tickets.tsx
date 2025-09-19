@@ -363,8 +363,8 @@ export default function Tickets() {
         {/* Search and Basic Filters */}
         <Paper sx={{ p: 3, mb: 3 }}>
           <Grid container spacing={2} alignItems="center">
-            {/* Search Bar */}
-            <Grid item xs={12} md={6}>
+            {/* Search Bar occupying most space */}
+            <Grid item xs={12} md={9}>
               <TextField
                 fullWidth
                 placeholder="Search tickets by ID, customer, or subject..."
@@ -376,49 +376,46 @@ export default function Tickets() {
               />
             </Grid>
 
-            {/* Quick Filters */}
-            <Grid item xs={6} md={2}>
-              <FormControl fullWidth size="small">
-                <InputLabel>Priority</InputLabel>
-                <Select
-                  value={filters.priority}
-                  label="Priority"
-                  onChange={(e) => handleFilterChange('priority', e.target.value)}
-                >
-                  {PRIORITY_OPTIONS.map(option => (
-                    <MenuItem key={option} value={option}>{option}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+            {/* Filters grouped at the end */}
+            <Grid item xs={12} md={3}>
+              <Stack direction="row" spacing={1} alignItems="center" justifyContent="flex-end">
+                <FormControl size="small" sx={{ minWidth: 120 }}>
+                  <InputLabel>Priority</InputLabel>
+                  <Select
+                    value={filters.priority}
+                    label="Priority"
+                    onChange={(e) => handleFilterChange('priority', e.target.value)}
+                  >
+                    {PRIORITY_OPTIONS.map(option => (
+                      <MenuItem key={option} value={option}>{option}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
 
-            <Grid item xs={6} md={2}>
-              <FormControl fullWidth size="small">
-                <InputLabel>Status</InputLabel>
-                <Select
-                  value={filters.status}
-                  label="Status"
-                  onChange={(e) => handleFilterChange('status', e.target.value)}
-                >
-                  {STATUS_OPTIONS.map(option => (
-                    <MenuItem key={option} value={option}>{option}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+                <FormControl size="small" sx={{ minWidth: 120 }}>
+                  <InputLabel>Status</InputLabel>
+                  <Select
+                    value={filters.status}
+                    label="Status"
+                    onChange={(e) => handleFilterChange('status', e.target.value)}
+                  >
+                    {STATUS_OPTIONS.map(option => (
+                      <MenuItem key={option} value={option}>{option}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
 
-            {/* Advanced Filters Toggle */}
-            <Grid item xs={12} md={2}>
-              <Button
-                fullWidth
-                variant="outlined"
-                size="small"
-                startIcon={<FilterListRoundedIcon />}
-                endIcon={showAdvancedFilters ? <ExpandLessRoundedIcon /> : <ExpandMoreRoundedIcon />}
-                onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-              >
-                Advanced Filters
-              </Button>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<FilterListRoundedIcon />}
+                  endIcon={showAdvancedFilters ? <ExpandLessRoundedIcon /> : <ExpandMoreRoundedIcon />}
+                  onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                  sx={{ minWidth: 140 }}
+                >
+                  Advanced Filters
+                </Button>
+              </Stack>
             </Grid>
           </Grid>
 

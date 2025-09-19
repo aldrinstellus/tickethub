@@ -7,6 +7,7 @@ import Chip from "@mui/material/Chip";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { fetchTickets } from "../services/api";
 import Skeleton from "@mui/material/Skeleton";
+import PageHeader from "../components/PageHeader";
 
 export default function Tickets() {
   const navigate = useNavigate();
@@ -62,9 +63,7 @@ export default function Tickets() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
-        <Typography variant="h6">All Tickets</Typography>
-      </Stack>
+      <PageHeader title="Tickets" />
       <Box sx={{ width: "100%", overflowX: "auto" }}>
         <Box sx={{ height: 560, minWidth: 800 }}>
           {loading ? (

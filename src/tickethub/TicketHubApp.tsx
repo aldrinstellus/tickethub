@@ -9,6 +9,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import AppTheme from "../shared-theme/AppTheme";
+import { RESPONSIVE_SPACING, LAYOUT_SPACING } from "../shared-theme/spacingTokens";
 import {
   chartsCustomizations,
   dataGridCustomizations,

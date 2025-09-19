@@ -289,233 +289,283 @@ export default function AIInsightsWidget({
   }
 
   return (
-    <AICard>
-      <CardContent>
-        <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 3 }}>
-          <PsychologyIcon color="primary" />
-          <Typography variant="h6" sx={{ fontWeight: 600 }}>
-            AI Insights
-          </Typography>
-          <Chip 
-            label={aiAssistanceService.getProviderInfo().name} 
-            size="small" 
-            variant="outlined" 
-          />
-        </Stack>
+    <Stack spacing={2}>
+      {/* Header */}
+      <AICard>
+        <CardContent sx={{ pb: 2 }}>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <PsychologyIcon color="primary" />
+            <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary' }}>
+              AI Insights
+            </Typography>
+            <Chip
+              label={aiAssistanceService.getProviderInfo().name}
+              size="small"
+              variant="outlined"
+              sx={{ color: 'text.primary' }}
+            />
+          </Stack>
+        </CardContent>
+      </AICard>
 
-        {/* Sentiment Analysis */}
-        <Accordion 
-          expanded={expanded === 'sentiment'} 
-          onChange={handleAccordionChange('sentiment')}
-        >
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Stack direction="row" spacing={1} alignItems="center">
-              {getSentimentIcon(insights.sentiment.label)}
-              <Typography variant="subtitle2">Sentiment Analysis</Typography>
-              <Chip 
-                label={insights.sentiment.label} 
-                size="small" 
-                color={getSentimentColor(insights.sentiment.label)} 
+      {/* Sentiment Analysis */}
+      <SentimentCard sentiment={insights.sentiment.label}>
+        <CardContent>
+          <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+            {getSentimentIcon(insights.sentiment.label)}
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'inherit' }}>
+              Sentiment Analysis
+            </Typography>
+            <Chip
+              label={insights.sentiment.label}
+              {...getChipProps(getSentimentColor(insights.sentiment.label))}
+              color={getSentimentColor(insights.sentiment.label)}
+            />
+          </Stack>
+
+          <Stack spacing={2}>
+            <Box>
+              <Typography variant="caption" sx={{ color: 'inherit', opacity: 0.8 }}>
+                Confidence: {Math.round(insights.sentiment.confidence * 100)}%
+              </Typography>
+              <ConfidenceBar
+                variant="determinate"
+                value={insights.sentiment.confidence * 100}
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                  '& .MuiLinearProgress-bar': {
+                    backgroundColor: 'white',
+                  },
+                }}
               />
-            </Stack>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Stack spacing={2}>
+            </Box>
+
+            {insights.sentiment.keywords.length > 0 && (
               <Box>
-                <Typography variant="caption" color="text.secondary">
-                  Confidence: {Math.round(insights.sentiment.confidence * 100)}%
+                <Typography variant="caption" sx={{ color: 'inherit', opacity: 0.8, display: 'block', mb: 1 }}>
+                  Key indicators:
                 </Typography>
-                <ConfidenceBar 
-                  variant="determinate" 
-                  value={insights.sentiment.confidence * 100}
-                  color={getSentimentColor(insights.sentiment.label)}
-                />
+                <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+                  {insights.sentiment.keywords.map((keyword, index) => (
+                    <Chip
+                      key={index}
+                      label={keyword}
+                      size="small"
+                      variant="outlined"
+                      sx={{
+                        color: 'inherit',
+                        borderColor: 'currentColor',
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      }}
+                    />
+                  ))}
+                </Stack>
               </Box>
-              
-              {insights.sentiment.keywords.length > 0 && (
-                <Box>
-                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
-                    Key indicators:
-                  </Typography>
-                  <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
-                    {insights.sentiment.keywords.map((keyword, index) => (
-                      <Chip 
-                        key={index} 
-                        label={keyword} 
-                        size="small" 
-                        variant="outlined" 
-                      />
-                    ))}
-                  </Stack>
-                </Box>
-              )}
-            </Stack>
-          </AccordionDetails>
-        </Accordion>
+            )}
+          </Stack>
+        </CardContent>
+      </SentimentCard>
 
-        {/* Category Suggestions */}
-        <Accordion 
-          expanded={expanded === 'category'} 
-          onChange={handleAccordionChange('category')}
-        >
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <CategoryIcon color="primary" />
-              <Typography variant="subtitle2">Category Suggestions</Typography>
-              <Chip 
-                label={insights.categoryData[0]?.category || 'General'} 
-                size="small" 
-                variant="outlined" 
+      {/* Category Suggestions */}
+      <AICard>
+        <CardContent>
+          <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+            <CategoryIcon color="primary" />
+            <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+              Category Suggestions
+            </Typography>
+            <Chip
+              label={insights.categoryData[0]?.category || 'General'}
+              size="small"
+              color="primary"
+              sx={{ color: 'white', fontWeight: 600 }}
+            />
+          </Stack>
+
+          <Stack spacing={2}>
+            {insights.categoryData.slice(0, 3).map((category, index) => (
+              <Box key={index}>
+                <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
+                  <Typography variant="body2" sx={{ fontWeight: 500 }}>{category.category}</Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {Math.round(category.confidence * 100)}%
+                  </Typography>
+                </Stack>
+                <ConfidenceBar
+                  variant="determinate"
+                  value={category.confidence * 100}
+                  color="primary"
+                />
+                <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: 'block' }}>
+                  {category.reasoning}
+                </Typography>
+              </Box>
+            ))}
+          </Stack>
+        </CardContent>
+      </AICard>
+
+      {/* Escalation Risk */}
+      <RiskCard risk={insights.escalationRisk.risk}>
+        <CardContent>
+          <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+            <TrendingUpIcon sx={{ color: 'inherit' }} />
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'inherit' }}>
+              Escalation Risk
+            </Typography>
+            <Chip
+              label={insights.escalationRisk.risk}
+              {...getChipProps(getRiskColor(insights.escalationRisk.risk))}
+              color={getRiskColor(insights.escalationRisk.risk)}
+            />
+          </Stack>
+
+          <Stack spacing={2}>
+            <Box>
+              <Typography variant="caption" sx={{ color: 'inherit', opacity: 0.8 }}>
+                Risk probability: {Math.round(insights.escalationRisk.probability * 100)}%
+              </Typography>
+              <ConfidenceBar
+                variant="determinate"
+                value={insights.escalationRisk.probability * 100}
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                  '& .MuiLinearProgress-bar': {
+                    backgroundColor: 'white',
+                  },
+                }}
               />
-            </Stack>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Stack spacing={1}>
-              {insights.categoryData.slice(0, 3).map((category, index) => (
-                <Box key={index}>
-                  <Stack direction="row" justifyContent="space-between" alignItems="center">
-                    <Typography variant="body2">{category.category}</Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {Math.round(category.confidence * 100)}%
+            </Box>
+
+            {insights.escalationRisk.factors.length > 0 && (
+              <Box>
+                <Typography variant="caption" sx={{ color: 'inherit', opacity: 0.8, display: 'block', mb: 1 }}>
+                  Risk factors:
+                </Typography>
+                <Stack spacing={0.5}>
+                  {insights.escalationRisk.factors.map((factor, index) => (
+                    <Typography key={index} variant="body2" sx={{ fontSize: '0.8rem', color: 'inherit' }}>
+                      • {factor}
                     </Typography>
-                  </Stack>
-                  <ConfidenceBar 
-                    variant="determinate" 
-                    value={category.confidence * 100}
-                    color="primary"
-                  />
-                  <Typography variant="caption" color="text.secondary">
-                    {category.reasoning}
-                  </Typography>
-                </Box>
-              ))}
-            </Stack>
-          </AccordionDetails>
-        </Accordion>
+                  ))}
+                </Stack>
+              </Box>
+            )}
 
-        {/* Escalation Risk */}
-        <Accordion 
-          expanded={expanded === 'escalation'} 
-          onChange={handleAccordionChange('escalation')}
-        >
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <TrendingUpIcon color="warning" />
-              <Typography variant="subtitle2">Escalation Risk</Typography>
-              <Chip 
-                label={insights.escalationRisk.risk} 
-                size="small" 
-                color={getRiskColor(insights.escalationRisk.risk)} 
+            {insights.escalationRisk.suggestedActions.length > 0 && (
+              <Box>
+                <Typography variant="caption" sx={{ color: 'inherit', opacity: 0.8, display: 'block', mb: 1 }}>
+                  Suggested actions:
+                </Typography>
+                <Stack spacing={0.5}>
+                  {insights.escalationRisk.suggestedActions.map((action, index) => (
+                    <Alert
+                      key={index}
+                      severity="info"
+                      sx={{
+                        py: 0.5,
+                        backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                        border: '1px solid rgba(255, 255, 255, 0.3)',
+                        '& .MuiAlert-message': {
+                          color: 'inherit',
+                        },
+                      }}
+                    >
+                      <Typography variant="caption" sx={{ color: 'inherit' }}>{action}</Typography>
+                    </Alert>
+                  ))}
+                </Stack>
+              </Box>
+            )}
+          </Stack>
+        </CardContent>
+      </RiskCard>
+
+      {/* Priority Suggestion */}
+      {insights.prioritySuggestion.shouldChange && (
+        <Card sx={{ backgroundColor: '#fff3e0', border: '1px solid #ff9800' }}>
+          <CardContent>
+            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+              <PriorityHighIcon sx={{ color: '#e65100' }} />
+              <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#e65100' }}>
+                Priority Adjustment
+              </Typography>
+              <Chip
+                label={`→ ${insights.prioritySuggestion.suggestedPriority}`}
+                size="small"
+                sx={{ backgroundColor: '#ff9800', color: 'white', fontWeight: 600 }}
               />
             </Stack>
-          </AccordionSummary>
-          <AccordionDetails>
+
             <Stack spacing={2}>
-              <Box>
-                <Typography variant="caption" color="text.secondary">
-                  Risk probability: {Math.round(insights.escalationRisk.probability * 100)}%
+              <Alert
+                severity="warning"
+                sx={{
+                  backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                  border: '1px solid rgba(255, 152, 0, 0.3)',
+                  '& .MuiAlert-message': {
+                    color: '#e65100',
+                  },
+                }}
+              >
+                <Typography variant="body2" sx={{ color: '#e65100', fontWeight: 500 }}>
+                  Current: {insights.prioritySuggestion.currentPriority} →
+                  Suggested: {insights.prioritySuggestion.suggestedPriority}
                 </Typography>
-                <ConfidenceBar 
-                  variant="determinate" 
-                  value={insights.escalationRisk.probability * 100}
-                  color={getRiskColor(insights.escalationRisk.risk)}
+              </Alert>
+
+              <Box>
+                <Typography variant="caption" sx={{ color: '#bf360c' }}>
+                  AI Confidence: {Math.round(insights.prioritySuggestion.confidence * 100)}%
+                </Typography>
+                <ConfidenceBar
+                  variant="determinate"
+                  value={insights.prioritySuggestion.confidence * 100}
+                  sx={{
+                    backgroundColor: 'rgba(255, 152, 0, 0.3)',
+                    '& .MuiLinearProgress-bar': {
+                      backgroundColor: '#ff9800',
+                    },
+                  }}
                 />
               </Box>
-              
-              {insights.escalationRisk.factors.length > 0 && (
-                <Box>
-                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
-                    Risk factors:
-                  </Typography>
-                  <Stack spacing={0.5}>
-                    {insights.escalationRisk.factors.map((factor, index) => (
-                      <Typography key={index} variant="body2" sx={{ fontSize: '0.8rem' }}>
-                        • {factor}
-                      </Typography>
-                    ))}
-                  </Stack>
-                </Box>
-              )}
-              
-              {insights.escalationRisk.suggestedActions.length > 0 && (
-                <Box>
-                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
-                    Suggested actions:
-                  </Typography>
-                  <Stack spacing={0.5}>
-                    {insights.escalationRisk.suggestedActions.map((action, index) => (
-                      <Alert key={index} severity="info" sx={{ py: 0.5 }}>
-                        <Typography variant="caption">{action}</Typography>
-                      </Alert>
-                    ))}
-                  </Stack>
-                </Box>
-              )}
+
+              <Typography variant="body2" sx={{ color: '#bf360c' }}>
+                {insights.prioritySuggestion.reasoning}
+              </Typography>
             </Stack>
-          </AccordionDetails>
-        </Accordion>
+          </CardContent>
+        </Card>
+      )}
 
-        {/* Priority Suggestion */}
-        {insights.prioritySuggestion.shouldChange && (
-          <Accordion 
-            expanded={expanded === 'priority'} 
-            onChange={handleAccordionChange('priority')}
-          >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Stack direction="row" spacing={1} alignItems="center">
-                <PriorityHighIcon color="warning" />
-                <Typography variant="subtitle2">Priority Adjustment</Typography>
-                <Chip 
-                  label={`→ ${insights.prioritySuggestion.suggestedPriority}`} 
-                  size="small" 
-                  color="warning"
-                />
-              </Stack>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack spacing={2}>
-                <Alert severity="warning">
-                  <Typography variant="body2">
-                    Current: {insights.prioritySuggestion.currentPriority} → 
-                    Suggested: {insights.prioritySuggestion.suggestedPriority}
-                  </Typography>
-                </Alert>
-                
-                <Box>
-                  <Typography variant="caption" color="text.secondary">
-                    AI Confidence: {Math.round(insights.prioritySuggestion.confidence * 100)}%
-                  </Typography>
-                  <ConfidenceBar 
-                    variant="determinate" 
-                    value={insights.prioritySuggestion.confidence * 100}
-                    color="warning"
-                  />
-                </Box>
-                
-                <Typography variant="body2" color="text.secondary">
-                  {insights.prioritySuggestion.reasoning}
-                </Typography>
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-        )}
-
-        {/* Suggested Actions */}
-        {insights.suggestedActions.length > 0 && (
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="subtitle2" sx={{ mb: 1 }}>
+      {/* Suggested Actions */}
+      {insights.suggestedActions.length > 0 && (
+        <AICard>
+          <CardContent>
+            <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>
               Recommended Actions
             </Typography>
             <Stack spacing={1}>
               {insights.suggestedActions.map((action, index) => (
-                <Alert key={index} severity="info" sx={{ py: 0.5 }}>
-                  <Typography variant="body2">{action}</Typography>
+                <Alert
+                  key={index}
+                  severity="info"
+                  sx={{
+                    py: 0.5,
+                    backgroundColor: '#e3f2fd',
+                    border: '1px solid #2196f3',
+                    '& .MuiAlert-message': {
+                      color: '#0d47a1',
+                    },
+                  }}
+                >
+                  <Typography variant="body2" sx={{ color: '#0d47a1', fontWeight: 500 }}>{action}</Typography>
                 </Alert>
               ))}
             </Stack>
-          </Box>
-        )}
-      </CardContent>
-    </AICard>
+          </CardContent>
+        </AICard>
+      )}
+    </Stack>
   );
 }

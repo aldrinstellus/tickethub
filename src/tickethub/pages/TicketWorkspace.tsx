@@ -111,6 +111,8 @@ export default function TicketWorkspace() {
 
         setTicket(ticketData);
         setMessages(messagesData);
+        setKbArticles(articlesData);
+
         if (ticketData) {
           const relatedArticles = articlesData.filter((a) =>
             a.tags.some((t) => ticketData.tags.includes(t))
@@ -126,6 +128,38 @@ export default function TicketWorkspace() {
 
     loadTicketData();
   }, [id]);
+
+  // Filter knowledge base articles based on search and category
+  const filteredKbArticles = React.useMemo(() => {
+    let filtered = kbArticles;
+
+    // Filter by search
+    if (kbSearch.trim()) {
+      filtered = filtered.filter(
+        (article) =>
+          article.title.toLowerCase().includes(kbSearch.toLowerCase()) ||
+          article.content.toLowerCase().includes(kbSearch.toLowerCase()) ||
+          article.tags.some((tag) => tag.toLowerCase().includes(kbSearch.toLowerCase()))
+      );
+    }
+
+    // Filter by category
+    if (selectedKbCategory !== "all") {
+      filtered = filtered.filter((article) =>
+        article.tags.includes(selectedKbCategory)
+      );
+    }
+
+    return filtered.slice(0, 10); // Limit to 10 results
+  }, [kbArticles, kbSearch, selectedKbCategory]);
+
+  const kbCategories = React.useMemo(() => {
+    const categories = new Set<string>();
+    kbArticles.forEach((article) => {
+      article.tags.forEach((tag) => categories.add(tag));
+    });
+    return Array.from(categories);
+  }, [kbArticles]);
 
   if (loading) {
     return (

@@ -29,6 +29,7 @@ import IntegrationInstructionsIcon from "@mui/icons-material/IntegrationInstruct
 import PeopleIcon from "@mui/icons-material/People";
 import EditIcon from "@mui/icons-material/Edit";
 import PageHeader from "../components/PageHeader";
+import { getDummyAvatarUrl } from "../components/UserProfileDropdown";
 
 interface SettingsData {
   // Workspace settings

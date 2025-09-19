@@ -6,6 +6,8 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import SupportMenuContent from "./SupportMenuContent";
 import { TicketHubLogo } from "./SupportAppNavbar";
 import { useUser } from "../contexts/UserContext";
@@ -65,6 +67,17 @@ export default function SupportSideMenu() {
             {user.email}
           </Typography>
         </Box>
+        <IconButton
+          size="small"
+          onClick={() => {
+            if (window.confirm('Are you sure you want to logout?')) {
+              window.location.reload(); // Simple logout - in real app would call logout()
+            }
+          }}
+          sx={{ color: 'text.secondary' }}
+        >
+          <LogoutRoundedIcon fontSize="small" />
+        </IconButton>
       </Stack>
     </Drawer>
   );

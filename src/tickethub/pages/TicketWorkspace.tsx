@@ -23,6 +23,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { articles, generateAiResponse, Ticket, Article } from "../data/mockData";
@@ -30,6 +32,35 @@ import type { Message as TicketMessage } from "../data/mockData";
 import { fetchTicketById, fetchArticles, fetchMessages, createMessage, updateTicketStatus, assignTicket, updateTicketPriority } from "../services/api";
 import { useUser } from "../contexts/UserContext";
 import PageHeader from "../components/PageHeader";
+
+// SLA calculation function
+function getSLATimeRemaining(createdAt: string, priority: string): string {
+  const created = new Date(createdAt);
+  const now = new Date();
+
+  // SLA targets in hours
+  const slaHours: Record<string, number> = {
+    'Urgent': 2,
+    'High': 8,
+    'Normal': 24,
+    'Low': 72
+  };
+
+  const targetHours = slaHours[priority] || 24;
+  const targetTime = new Date(created.getTime() + targetHours * 60 * 60 * 1000);
+  const remainingMs = targetTime.getTime() - now.getTime();
+
+  if (remainingMs <= 0) {
+    const overdue = Math.abs(remainingMs);
+    const overdueHours = Math.floor(overdue / (1000 * 60 * 60));
+    const overdueMinutes = Math.floor((overdue % (1000 * 60 * 60)) / (1000 * 60));
+    return `Overdue by ${overdueHours}h ${overdueMinutes}m`;
+  }
+
+  const hours = Math.floor(remainingMs / (1000 * 60 * 60));
+  const minutes = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
+  return `${hours}h ${minutes}m remaining`;
+}
 
 export default function TicketWorkspace() {
   const { id } = useParams();
@@ -214,7 +245,70 @@ export default function TicketWorkspace() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <PageHeader title={ticket?.subject || `Ticket ${id}`} />
+      {/* Custom Header with Back Button and SLA Timer */}
+      <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 3 }}>
+        {/* Back Button */}
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBackRoundedIcon />}
+          onClick={() => navigate('/tickets')}
+          sx={{ minWidth: 'auto', px: 2 }}
+        >
+          Back to Tickets
+        </Button>
+
+        {/* Ticket Info */}
+        <Box sx={{ flexGrow: 1 }}>
+          <Typography variant="h5" component="h1" sx={{ fontWeight: 600, mb: 1 }}>
+            #{ticket?.id}: {ticket?.subject || `Ticket ${id}`}
+          </Typography>
+          <Stack direction="row" spacing={2} alignItems="center">
+            {ticket && (
+              <>
+                <Chip
+                  size="small"
+                  label={ticket.priority}
+                  color={ticket.priority === "Urgent" ? "error" : ticket.priority === "High" ? "warning" : "default"}
+                />
+                <Chip size="small" label={ticket.status} variant="outlined" />
+
+                {/* SLA Timer */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <AccessTimeIcon fontSize="small" color="warning" />
+                  <Typography variant="body2" color="warning.main" sx={{ fontWeight: 500 }}>
+                    SLA: {getSLATimeRemaining(ticket.createdAt, ticket.priority)}
+                  </Typography>
+                </Box>
+              </>
+            )}
+          </Stack>
+        </Box>
+
+        {/* Action Buttons */}
+        {ticket && (
+          <Stack direction="row" spacing={1}>
+            <Button variant="outlined" size="small" disabled={updating}>
+              Hold
+            </Button>
+            <Button variant="outlined" size="small" disabled={updating}>
+              Reassign
+            </Button>
+            <Button variant="outlined" size="small" color="warning" disabled={updating}>
+              Escalate
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
+              color="success"
+              disabled={updating}
+              onClick={() => handleStatusUpdate('Resolved')}
+            >
+              Close
+            </Button>
+          </Stack>
+        )}
+      </Stack>
+
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
           <Card variant="outlined" sx={{ mb: 2 }}>

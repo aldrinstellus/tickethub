@@ -64,14 +64,18 @@ function NotFound() {
 }
 
 export default function App() {
+  console.log("App component rendering...");
+
   return (
-    <BrowserRouter>
-      <CssBaseline enableColorScheme />
-      <Routes>
-        <Route path="/crm/*" element={<CrmDashboard />} />
-        <Route path="/*" element={<TicketHubApp />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <CssBaseline enableColorScheme />
+        <Routes>
+          <Route path="/crm/*" element={<CrmDashboard />} />
+          <Route path="/*" element={<TicketHubApp />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }

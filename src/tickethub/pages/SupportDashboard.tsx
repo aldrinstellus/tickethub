@@ -51,7 +51,7 @@ export default function SupportDashboard() {
           Support Overview
         </Typography>
         <Box>
-          <Button variant="contained" startIcon={<AddRoundedIcon />} sx={{ mr: 1 }}>
+          <Button variant="contained" startIcon={<AddRoundedIcon />} sx={{ mr: 1 }} onClick={() => window.dispatchEvent(new CustomEvent('open-quick-create'))}>
             New Ticket
           </Button>
           <Button variant="outlined" startIcon={<AddRoundedIcon />}>New Macro</Button>

@@ -118,6 +118,21 @@ async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promis
   }
 }
 
+// Transform Supabase data to match our TypeScript interface
+function transformSupabaseTicket(dbTicket: any): Ticket {
+  return {
+    id: dbTicket.id,
+    subject: dbTicket.subject,
+    customer: dbTicket.customer,
+    priority: dbTicket.priority,
+    status: dbTicket.status,
+    assignee: dbTicket.assignee,
+    updatedAt: dbTicket.updated_at, // Transform snake_case to camelCase
+    tags: dbTicket.tags || [],
+    body: dbTicket.body || '',
+  };
+}
+
 export async function fetchTickets() {
   console.log("Starting fetchTickets...");
 
@@ -126,7 +141,13 @@ export async function fetchTickets() {
     console.log("Attempting Supabase fetch...");
     let supabaseTickets;
     try {
-      supabaseTickets = await supabaseFetch<Ticket[]>("tickets?order=updated_at.desc");
+      const rawTickets = await supabaseFetch<any[]>("tickets?order=updated_at.desc");
+      if (rawTickets && Array.isArray(rawTickets)) {
+        // Transform the data to match our interface
+        supabaseTickets = rawTickets.map(transformSupabaseTicket);
+      } else {
+        supabaseTickets = null;
+      }
     } catch (supabaseError) {
       console.warn("Supabase fetch failed:", supabaseError);
       supabaseTickets = null;

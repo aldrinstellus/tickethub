@@ -87,6 +87,54 @@ export default function TicketWorkspace() {
     setDraft(ai);
   };
 
+  const handleStatusUpdate = async (newStatus: Ticket['status']) => {
+    if (!ticket) return;
+
+    setUpdating(true);
+    try {
+      const updated = await updateTicketStatus(ticket.id, newStatus);
+      if (updated) {
+        setTicket(updated);
+      }
+    } catch (err) {
+      console.error("Failed to update status:", err);
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const handleAssignUpdate = async (newAssignee: string) => {
+    if (!ticket) return;
+
+    setUpdating(true);
+    try {
+      const updated = await assignTicket(ticket.id, newAssignee);
+      if (updated) {
+        setTicket(updated);
+      }
+    } catch (err) {
+      console.error("Failed to assign ticket:", err);
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const handlePriorityUpdate = async (newPriority: Ticket['priority']) => {
+    if (!ticket) return;
+
+    setUpdating(true);
+    try {
+      const updated = await updateTicketPriority(ticket.id, newPriority);
+      if (updated) {
+        setTicket(updated);
+      }
+    } catch (err) {
+      console.error("Failed to update priority:", err);
+    } finally {
+      setUpdating(false);
+    }
+  };
+
   const RightColumn = (
     <>
       <Card variant="outlined" sx={{ mb: 2 }}>

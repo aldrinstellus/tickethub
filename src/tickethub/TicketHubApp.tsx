@@ -75,6 +75,7 @@ export default function TicketHubApp() {
             </Routes>
             <Outlet />
           </Stack>
+          <QuickCreateTicket />
         </Box>
       </Box>
     </AppTheme>

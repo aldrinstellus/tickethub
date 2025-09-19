@@ -52,9 +52,9 @@ export default function SupportSideMenuMobile({ open, toggleDrawer }: SupportSid
     >
       <Box sx={{ display: "flex", flexDirection: "column", mx: 2, my: 2, gap: 1 }}>
         <List dense>
-          {mainListItems.map((item, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton selected={location.pathname.startsWith(item.path)} onClick={() => handleNavigation(item.path)}>
+          {mainListItems.map((item) => (
+            <ListItem key={item.path} disablePadding>
+              <ListItemButton selected={isSelected(item.path)} onClick={() => handleNavigation(item.path)}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>

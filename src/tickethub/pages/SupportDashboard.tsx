@@ -206,6 +206,17 @@ export default function SupportDashboard() {
           </Box>
         </motion.div>
 
+        {/* AI Dashboard Widget */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+        >
+          <Box sx={{ mb: 3 }}>
+            <AIDashboardWidget />
+          </Box>
+        </motion.div>
+
         {/* Main Dashboard Layout */}
         <Grid container spacing={3} sx={{ mb: 3 }}>
           {/* Left Column - Business Metrics & Activity */}

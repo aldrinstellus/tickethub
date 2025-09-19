@@ -41,7 +41,8 @@ export default function TicketHubApp() {
   return (
     <AppTheme themeComponents={xThemeComponents}>
       <UserProvider>
-        <CssBaseline enableColorScheme />
+        <SidebarProvider>
+          <CssBaseline enableColorScheme />
       <SupportTopNavbar />
       <Box sx={{ display: "flex", height: "100vh", pt: "64px" }}>
         <SupportSideMenu />
@@ -82,6 +83,7 @@ export default function TicketHubApp() {
           <QuickCreateTicket />
         </Box>
       </Box>
+        </SidebarProvider>
       </UserProvider>
     </AppTheme>
   );

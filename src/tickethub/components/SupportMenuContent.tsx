@@ -64,7 +64,7 @@ export default function SupportMenuContent({ collapsed = false }: SupportMenuCon
                 sx={{
                   minHeight: 48,
                   justifyContent: collapsed ? 'center' : 'initial',
-                  px: 2.5,
+                  px: 3,
                 }}
               >
                 <ListItemIcon
@@ -99,7 +99,7 @@ export default function SupportMenuContent({ collapsed = false }: SupportMenuCon
                   sx={{
                     minHeight: 48,
                     justifyContent: collapsed ? 'center' : 'initial',
-                    px: 2.5,
+                    px: 3,
                   }}
                 >
                   <ListItemIcon

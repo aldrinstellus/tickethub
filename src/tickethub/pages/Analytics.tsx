@@ -423,7 +423,7 @@ export default function Analytics() {
               </Grid>
             </TabPanel>
 
-            <TabPanel value={tabValue} index={2}>
+            <TabPanel key={2} value={tabValue} index={2}>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <Card variant="outlined">

@@ -210,7 +210,7 @@ export default function Surveys() {
               title="Surveys"
               subtitle="Collect feedback and measure customer satisfaction"
             />
-            <Button variant="contained" startIcon={<BarChartIcon />}>
+            <Button variant="contained" startIcon={<AddIcon />} onClick={handleCreateSurvey}>
               Create Survey
             </Button>
           </Stack>

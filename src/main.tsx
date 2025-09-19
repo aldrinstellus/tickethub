@@ -14,11 +14,7 @@ if (rootElement) {
   console.log("Creating React root...");
   const root = ReactDOM.createRoot(rootElement);
   console.log("Rendering app...");
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
+  root.render(<App />);
   console.log("=== RENDER COMPLETE ===");
 } else {
   console.error("ROOT ELEMENT NOT FOUND!");

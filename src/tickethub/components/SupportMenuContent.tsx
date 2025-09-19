@@ -85,8 +85,8 @@ export default function SupportMenuContent({ collapsed = false }: SupportMenuCon
       <Box>
         <Divider sx={{ my: 1 }} />
         <List dense>
-          {secondaryListItems.map((item, index) => (
-            <ListItem key={index} disablePadding sx={{ display: "block" }}>
+          {secondaryListItems.map((item) => (
+            <ListItem key={item.path} disablePadding sx={{ display: "block" }}>
               <Tooltip
                 title={collapsed ? item.text : ""}
                 placement="right"

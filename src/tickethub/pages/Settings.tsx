@@ -556,14 +556,14 @@ export default function Settings() {
       </TabPanel>
 
       {/* Floating Action Buttons */}
-      <Box sx={{
+      <Box sx={(theme) => ({
         position: 'fixed',
-        bottom: 24,
-        right: 24,
+        bottom: theme.spacing(3),
+        right: theme.spacing(3),
         display: 'flex',
-        gap: 2,
-        zIndex: 1000
-      }}>
+        gap: theme.spacing(2),
+        zIndex: theme.zIndex.speedDial
+      })}>
         {hasChanges && (
           <Button
             variant="outlined"
@@ -586,7 +586,12 @@ export default function Settings() {
 
       {/* Change Indicator */}
       {hasChanges && (
-        <Alert severity="info" sx={{ position: 'fixed', bottom: 100, right: 24, zIndex: 1000 }}>
+        <Alert severity="info" sx={(theme) => ({
+          position: 'fixed',
+          bottom: theme.spacing(12.5),
+          right: theme.spacing(3),
+          zIndex: theme.zIndex.speedDial - 1
+        })}>
           You have unsaved changes.
         </Alert>
       )}

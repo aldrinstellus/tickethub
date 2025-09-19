@@ -391,6 +391,344 @@ export default function Surveys() {
             </Grid>
           </Grid>
         </motion.div>
+
+        {/* Survey Creation Dialog */}
+        <Dialog open={createDialogOpen} onClose={() => setCreateDialogOpen(false)} maxWidth="md" fullWidth>
+          <DialogTitle>
+            Create New Survey
+            <Typography variant="body2" color="text.secondary">
+              Step {currentStep + 1} of 3
+            </Typography>
+          </DialogTitle>
+          <DialogContent sx={{ minHeight: 400 }}>
+            {currentStep === 0 && (
+              <Stack spacing={3} sx={{ mt: 1 }}>
+                <TextField
+                  fullWidth
+                  label="Survey Name"
+                  value={newSurvey.name}
+                  onChange={(e) => handleSurveyFieldChange('name', e.target.value)}
+                  placeholder="e.g., Post-Support CSAT Survey"
+                />
+
+                <FormControl fullWidth>
+                  <InputLabel>Survey Type</InputLabel>
+                  <Select
+                    value={newSurvey.type}
+                    label="Survey Type"
+                    onChange={(e) => handleSurveyFieldChange('type', e.target.value)}
+                  >
+                    <MenuItem value="CSAT">CSAT (Customer Satisfaction)</MenuItem>
+                    <MenuItem value="NPS">NPS (Net Promoter Score)</MenuItem>
+                    <MenuItem value="Custom">Custom Survey</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={3}
+                  label="Description"
+                  value={newSurvey.description}
+                  onChange={(e) => handleSurveyFieldChange('description', e.target.value)}
+                  placeholder="Describe the purpose of this survey"
+                />
+
+                <FormControl fullWidth>
+                  <InputLabel>Trigger</InputLabel>
+                  <Select
+                    value={newSurvey.trigger}
+                    label="Trigger"
+                    onChange={(e) => handleSurveyFieldChange('trigger', e.target.value)}
+                  >
+                    <MenuItem value="manual">Manual Send</MenuItem>
+                    <MenuItem value="post-resolution">After Ticket Resolution</MenuItem>
+                    <MenuItem value="scheduled">Scheduled (Recurring)</MenuItem>
+                  </Select>
+                </FormControl>
+              </Stack>
+            )}
+
+            {currentStep === 1 && (
+              <Stack spacing={2} sx={{ mt: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Typography variant="h6">Survey Questions</Typography>
+                  <Button
+                    variant="outlined"
+                    startIcon={<AddIcon />}
+                    onClick={handleAddQuestion}
+                  >
+                    Add Question
+                  </Button>
+                </Box>
+
+                {newSurvey.questions.length === 0 ? (
+                  <Paper sx={{ p: 3, textAlign: 'center' }}>
+                    <Typography variant="body2" color="text.secondary">
+                      No questions added yet. Click "Add Question" to get started.
+                    </Typography>
+                  </Paper>
+                ) : (
+                  <Stack spacing={2}>
+                    {newSurvey.questions.map((question, index) => (
+                      <Paper key={question.id} sx={{ p: 2 }}>
+                        <Stack direction="row" spacing={2} alignItems="flex-start">
+                          <DragIndicatorIcon color="action" sx={{ mt: 0.5 }} />
+                          <Box sx={{ flexGrow: 1 }}>
+                            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                              {getQuestionTypeIcon(question.type)}
+                              <Typography variant="subtitle2">
+                                Question {index + 1}
+                              </Typography>
+                              <Chip size="small" label={question.type} />
+                              {question.required && (
+                                <Chip size="small" label="Required" color="error" />
+                              )}
+                            </Stack>
+                            <Typography variant="body2" sx={{ mb: 1 }}>
+                              {question.question || 'No question text'}
+                            </Typography>
+                            {question.options && question.options.length > 0 && (
+                              <Typography variant="caption" color="text.secondary">
+                                Options: {question.options.join(', ')}
+                              </Typography>
+                            )}
+                          </Box>
+                          <Stack direction="row" spacing={1}>
+                            <IconButton
+                              size="small"
+                              onClick={() => {
+                                setEditingQuestion(question);
+                                setQuestionDialogOpen(true);
+                              }}
+                            >
+                              <EditIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              color="error"
+                              onClick={() => handleDeleteQuestion(question.id)}
+                            >
+                              <DeleteIcon fontSize="small" />
+                            </IconButton>
+                          </Stack>
+                        </Stack>
+                      </Paper>
+                    ))}
+                  </Stack>
+                )}
+              </Stack>
+            )}
+
+            {currentStep === 2 && (
+              <Stack spacing={3} sx={{ mt: 1 }}>
+                <Typography variant="h6">Survey Preview</Typography>
+                <Paper sx={{ p: 3 }}>
+                  <Typography variant="h6" sx={{ mb: 2 }}>
+                    {newSurvey.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                    {newSurvey.description}
+                  </Typography>
+
+                  <Stack spacing={3}>
+                    {newSurvey.questions.map((question, index) => (
+                      <Box key={question.id}>
+                        <Typography variant="body1" sx={{ mb: 1 }}>
+                          {index + 1}. {question.question}
+                          {question.required && (
+                            <Typography component="span" color="error.main"> *</Typography>
+                          )}
+                        </Typography>
+
+                        {question.type === 'rating' && (
+                          <Stack direction="row" spacing={1}>
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <StarIcon key={star} color="action" />
+                            ))}
+                          </Stack>
+                        )}
+
+                        {question.type === 'nps' && (
+                          <Stack direction="row" spacing={1}>
+                            {Array.from({ length: 11 }, (_, i) => (
+                              <Button key={i} variant="outlined" size="small">
+                                {i}
+                              </Button>
+                            ))}
+                          </Stack>
+                        )}
+
+                        {(question.type === 'multiple-choice' || question.type === 'single-choice') && (
+                          <Stack spacing={1}>
+                            {question.options?.map((option, optIndex) => (
+                              <FormControlLabel
+                                key={optIndex}
+                                control={
+                                  question.type === 'multiple-choice' ?
+                                    <input type="checkbox" disabled /> :
+                                    <input type="radio" disabled />
+                                }
+                                label={option}
+                              />
+                            ))}
+                          </Stack>
+                        )}
+
+                        {question.type === 'text' && (
+                          <TextField
+                            fullWidth
+                            multiline
+                            rows={3}
+                            placeholder="Your answer here..."
+                            disabled
+                          />
+                        )}
+                      </Box>
+                    ))}
+                  </Stack>
+                </Paper>
+              </Stack>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setCreateDialogOpen(false)}>Cancel</Button>
+            {currentStep > 0 && (
+              <Button onClick={() => setCurrentStep(prev => prev - 1)}>
+                Back
+              </Button>
+            )}
+            {currentStep < 2 ? (
+              <Button
+                variant="contained"
+                onClick={() => setCurrentStep(prev => prev + 1)}
+                disabled={currentStep === 0 && !newSurvey.name.trim()}
+              >
+                Next
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                onClick={handleSaveSurvey}
+                disabled={newSurvey.questions.length === 0}
+              >
+                Create Survey
+              </Button>
+            )}
+          </DialogActions>
+        </Dialog>
+
+        {/* Question Creation Dialog */}
+        <Dialog open={questionDialogOpen} onClose={() => setQuestionDialogOpen(false)} maxWidth="sm" fullWidth>
+          <DialogTitle>
+            {editingQuestion?.question ? 'Edit Question' : 'Add Question'}
+          </DialogTitle>
+          <DialogContent>
+            {editingQuestion && (
+              <Stack spacing={3} sx={{ mt: 1 }}>
+                <FormControl fullWidth>
+                  <InputLabel>Question Type</InputLabel>
+                  <Select
+                    value={editingQuestion.type}
+                    label="Question Type"
+                    onChange={(e) => setEditingQuestion(prev =>
+                      prev ? { ...prev, type: e.target.value as SurveyQuestion['type'] } : null
+                    )}
+                  >
+                    <MenuItem value="rating">5-Star Rating</MenuItem>
+                    <MenuItem value="nps">NPS (0-10 Scale)</MenuItem>
+                    <MenuItem value="single-choice">Single Choice</MenuItem>
+                    <MenuItem value="multiple-choice">Multiple Choice</MenuItem>
+                    <MenuItem value="text">Text Response</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <TextField
+                  fullWidth
+                  label="Question Text"
+                  value={editingQuestion.question}
+                  onChange={(e) => setEditingQuestion(prev =>
+                    prev ? { ...prev, question: e.target.value } : null
+                  )}
+                  placeholder="Enter your question here..."
+                />
+
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={editingQuestion.required}
+                      onChange={(e) => setEditingQuestion(prev =>
+                        prev ? { ...prev, required: e.target.checked } : null
+                      )}
+                    />
+                  }
+                  label="Required question"
+                />
+
+                {(editingQuestion.type === 'single-choice' || editingQuestion.type === 'multiple-choice') && (
+                  <Box>
+                    <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                      Answer Options
+                    </Typography>
+                    <Stack spacing={2}>
+                      {editingQuestion.options?.map((option, index) => (
+                        <Stack key={index} direction="row" spacing={1} alignItems="center">
+                          <TextField
+                            fullWidth
+                            size="small"
+                            value={option}
+                            onChange={(e) => {
+                              const newOptions = [...(editingQuestion.options || [])];
+                              newOptions[index] = e.target.value;
+                              setEditingQuestion(prev =>
+                                prev ? { ...prev, options: newOptions } : null
+                              );
+                            }}
+                            placeholder={`Option ${index + 1}`}
+                          />
+                          <IconButton
+                            size="small"
+                            color="error"
+                            onClick={() => {
+                              const newOptions = editingQuestion.options?.filter((_, i) => i !== index) || [];
+                              setEditingQuestion(prev =>
+                                prev ? { ...prev, options: newOptions } : null
+                              );
+                            }}
+                          >
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </Stack>
+                      ))}
+                      <Button
+                        variant="outlined"
+                        startIcon={<AddIcon />}
+                        onClick={() => {
+                          const newOptions = [...(editingQuestion.options || []), ''];
+                          setEditingQuestion(prev =>
+                            prev ? { ...prev, options: newOptions } : null
+                          );
+                        }}
+                      >
+                        Add Option
+                      </Button>
+                    </Stack>
+                  </Box>
+                )}
+              </Stack>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setQuestionDialogOpen(false)}>Cancel</Button>
+            <Button
+              variant="contained"
+              onClick={handleSaveQuestion}
+              disabled={!editingQuestion?.question.trim()}
+            >
+              Save Question
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </motion.div>
   );

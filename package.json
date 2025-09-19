@@ -45,5 +45,8 @@
     "prettier": "3.5.3",
     "typescript": "latest",
     "vite": "latest"
+  },
+  "overrides": {
+    "react-is": "^18.3.1"
   }
 }

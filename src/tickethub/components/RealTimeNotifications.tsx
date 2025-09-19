@@ -210,8 +210,9 @@ export default function RealTimeNotifications() {
                     <ListItemText
                       primary={
                         <Stack direction="row" spacing={1} alignItems="center">
-                          <Typography 
-                            variant="body2" 
+                          <Typography
+                            component="span"
+                            variant="body2"
                             sx={{ fontWeight: notification.read ? 400 : 600 }}
                           >
                             {notification.title}

@@ -107,6 +107,7 @@ export default function SupportTopNavbar() {
 
             <RealTimeNotifications />
             <ColorModeIconDropdown />
+            <UserProfileDropdown />
 
             {/* Mobile menu button */}
             <IconButton

@@ -104,9 +104,7 @@ export default function SupportTopNavbar() {
               New Ticket
             </Button>
 
-            <MenuButton showBadge aria-label="Open notifications">
-              <NotificationsRoundedIcon />
-            </MenuButton>
+            <RealTimeNotifications />
             <ColorModeIconDropdown />
 
             {/* Mobile menu button */}

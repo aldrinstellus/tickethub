@@ -265,9 +265,14 @@ export async function createMessage(message: Omit<Message, 'id' | 'created_at' |
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
   const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
-  const fullMessage: Message = {
-    ...message,
+  // Build local message for fallback only (id/timestamps generated locally)
+  const localMessage: Message = {
+    // @ts-ignore - id will be provided by Supabase; this object is for fallback only
     id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    ticket_id: message.ticket_id,
+    author: message.author,
+    content: message.content,
+    is_agent: message.is_agent,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   };
@@ -283,13 +288,19 @@ export async function createMessage(message: Omit<Message, 'id' | 'created_at' |
           Authorization: `Bearer ${supabaseKey}`,
           Prefer: "return=representation",
         },
-        body: JSON.stringify(fullMessage),
+        // Send only the fields Supabase should set defaults for (no id or timestamps)
+        body: JSON.stringify({
+          ticket_id: message.ticket_id,
+          author: message.author,
+          content: message.content,
+          is_agent: message.is_agent,
+        }),
       });
 
       if (res.ok) {
         const data = await res.json();
         const created = Array.isArray(data) ? data[0] : data;
-        return created || fullMessage;
+        return created || localMessage;
       }
     } catch (err) {
       console.warn("Failed to create message in Supabase:", err);
@@ -297,6 +308,6 @@ export async function createMessage(message: Omit<Message, 'id' | 'created_at' |
   }
 
   // Fallback to in-memory persistence
-  mockMessages.push(fullMessage);
-  return fullMessage;
+  mockMessages.push(localMessage);
+  return localMessage;
 }

@@ -340,7 +340,7 @@ export default function Analytics() {
         <Grid container spacing={2} sx={{ mb: 3 }}>
           <AnimatePresence>
             {kpiData.map((kpi, idx) => (
-              <Grid item xs={12} sm={6} md={3} key={idx}>
+              <Grid item xs={12} sm={6} md={3} key={kpi.title}>
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8, y: 20 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}

@@ -79,11 +79,23 @@ function SimpleTest() {
 export default function App() {
   console.log("App component rendering...");
 
-  // Temporarily show simple test instead of full app
-  if (window.location.search.includes('test')) {
-    return <SimpleTest />;
-  }
+  // Temporarily return simple test to debug
+  return (
+    <div style={{
+      padding: '20px',
+      backgroundColor: 'white',
+      color: 'black',
+      minHeight: '100vh',
+      fontSize: '24px'
+    }}>
+      <h1>REACT IS WORKING!</h1>
+      <p>If you can see this, React is mounting correctly.</p>
+      <p>Time: {new Date().toLocaleTimeString()}</p>
+    </div>
+  );
 
+  // Original app code commented out
+  /*
   return (
     <ErrorBoundary>
       <BrowserRouter>
@@ -96,4 +108,5 @@ export default function App() {
       </BrowserRouter>
     </ErrorBoundary>
   );
+  */
 }

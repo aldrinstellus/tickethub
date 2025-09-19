@@ -94,16 +94,18 @@ export default function TicketHubApp() {
   return (
     <AppTheme themeComponents={xThemeComponents}>
       <UserProvider>
-        <SidebarProvider>
-          <SearchProvider>
-            <TicketCreationProvider>
-              <CssBaseline enableColorScheme />
-              <TicketHubAppInner />
-              <FederatedSearch />
-              <NewTicketModal />
-            </TicketCreationProvider>
-          </SearchProvider>
-        </SidebarProvider>
+        <RealTimeProvider>
+          <SidebarProvider>
+            <SearchProvider>
+              <TicketCreationProvider>
+                <CssBaseline enableColorScheme />
+                <TicketHubAppInner />
+                <FederatedSearch />
+                <NewTicketModal />
+              </TicketCreationProvider>
+            </SearchProvider>
+          </SidebarProvider>
+        </RealTimeProvider>
       </UserProvider>
     </AppTheme>
   );

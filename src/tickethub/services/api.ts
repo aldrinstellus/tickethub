@@ -41,6 +41,7 @@ async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promis
 
   try {
     const url = `${SUPABASE_URL.replace(/\/+$/, "")}/rest/v1/${endpoint}`;
+    console.log(`Attempting Supabase fetch: ${url}`);
 
     // Add timeout to prevent hanging requests
     const controller = new AbortController();
@@ -60,25 +61,33 @@ async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promis
     clearTimeout(timeoutId);
 
     if (!res.ok) {
-      console.warn(`Supabase API error: ${res.status} ${res.statusText}. Using fallback data.`);
+      console.warn(`Supabase API error: ${res.status} ${res.statusText} for ${url}. Using fallback data.`);
+      try {
+        const errorText = await res.text();
+        console.warn(`Error details:`, errorText);
+      } catch (err) {
+        console.warn(`Could not read error response`);
+      }
       return null;
     }
 
     const data = await res.json();
-    console.log(`Supabase fetch successful for endpoint: ${endpoint}`);
+    console.log(`Supabase fetch successful for endpoint: ${endpoint}, received ${Array.isArray(data) ? data.length : 1} items`);
     return data as T;
   } catch (e) {
     // Handle different types of errors gracefully
     if (e instanceof Error) {
       if (e.name === 'AbortError') {
-        console.warn("Supabase request timed out, using fallback data");
+        console.warn(`Supabase request timed out for ${endpoint}, using fallback data`);
       } else if (e.message.includes('Failed to fetch')) {
-        console.warn("Network error connecting to Supabase, using fallback data");
+        console.warn(`Network error connecting to Supabase for ${endpoint}, using fallback data. Check network connection and Supabase URL.`);
+      } else if (e.message.includes('NetworkError')) {
+        console.warn(`Network error for ${endpoint}:`, e.message);
       } else {
-        console.warn("Supabase fetch failed:", e.message, "- using fallback data");
+        console.warn(`Supabase fetch failed for ${endpoint}:`, e.message, "- using fallback data");
       }
     } else {
-      console.warn("Unknown error in Supabase fetch, using fallback data:", e);
+      console.warn(`Unknown error in Supabase fetch for ${endpoint}, using fallback data:`, e);
     }
     return null;
   }

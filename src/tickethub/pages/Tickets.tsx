@@ -85,23 +85,38 @@ export default function Tickets() {
   React.useEffect(() => {
     let mounted = true;
     setLoading(true);
-    fetchTickets().then((data) => {
-      if (!mounted) return;
-      // Ensure data is always an array with valid tickets
-      const validTickets = Array.isArray(data) ? data.filter(ticket =>
-        ticket && typeof ticket === 'object' && ticket.id && ticket.subject
-      ) : [];
-      setAllRows(validTickets);
-      setFilteredRows(validTickets);
-    }).catch((err) => {
-      console.error("Failed to load tickets:", err);
-      if (mounted) {
-        setAllRows([]);
-        setFilteredRows([]);
-      }
-    }).finally(() => {
-      if (mounted) setLoading(false);
-    });
+
+    fetchTickets()
+      .then((data) => {
+        if (!mounted) return;
+        console.log("Tickets loaded:", data);
+
+        // Ensure data is always an array with valid tickets
+        const validTickets = Array.isArray(data) ? data.filter(ticket =>
+          ticket &&
+          typeof ticket === 'object' &&
+          ticket.id &&
+          ticket.subject
+        ) : [];
+
+        console.log(`Setting ${validTickets.length} valid tickets`);
+        setAllRows(validTickets);
+        setFilteredRows(validTickets);
+      })
+      .catch((err) => {
+        console.error("Failed to load tickets:", err);
+        if (mounted) {
+          // Set empty arrays as fallback
+          setAllRows([]);
+          setFilteredRows([]);
+        }
+      })
+      .finally(() => {
+        if (mounted) {
+          setLoading(false);
+        }
+      });
+
     return () => { mounted = false; };
   }, []);
 

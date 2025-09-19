@@ -151,15 +151,15 @@ export default function AIDashboardWidget() {
         </Stack>
 
         {/* Key Metrics */}
-        <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={6} md={3}>
+        <Grid container spacing={1.5} sx={{ mb: 3 }}>
+          <Grid item xs={6}>
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
               <MetricCard>
                 <AnalyticsIcon color="primary" sx={{ mb: 1 }} />
-                <Typography variant="h5" sx={{ fontWeight: 700, color: 'primary.main' }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main' }}>
                   {stats.totalAnalyzed.toLocaleString()}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
@@ -169,14 +169,14 @@ export default function AIDashboardWidget() {
             </motion.div>
           </Grid>
 
-          <Grid item xs={6} md={3}>
+          <Grid item xs={6}>
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
               <MetricCard>
                 <SpeedIcon color="success" sx={{ mb: 1 }} />
-                <Typography variant="h5" sx={{ fontWeight: 700, color: 'success.main' }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, color: 'success.main' }}>
                   {stats.avgResponseTime}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
@@ -186,14 +186,14 @@ export default function AIDashboardWidget() {
             </motion.div>
           </Grid>
 
-          <Grid item xs={6} md={3}>
+          <Grid item xs={6}>
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
               <MetricCard>
                 <TrendingUpIcon color="warning" sx={{ mb: 1 }} />
-                <Typography variant="h5" sx={{ fontWeight: 700, color: 'warning.main' }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, color: 'warning.main' }}>
                   {stats.accuracyScore.toFixed(2)}%
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
@@ -203,14 +203,14 @@ export default function AIDashboardWidget() {
             </motion.div>
           </Grid>
 
-          <Grid item xs={6} md={3}>
+          <Grid item xs={6}>
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
               <MetricCard>
                 <AutoAwesomeIcon color="secondary" sx={{ mb: 1 }} />
-                <Typography variant="h5" sx={{ fontWeight: 700, color: 'secondary.main' }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, color: 'secondary.main' }}>
                   {stats.automationRate.toFixed(2)}%
                 </Typography>
                 <Typography variant="caption" color="text.secondary">

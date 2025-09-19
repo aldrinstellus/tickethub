@@ -171,7 +171,10 @@ export default function Tickets() {
     // Date range filter
     if (filters.startDate || filters.endDate) {
       filtered = filtered.filter(ticket => {
-        const ticketDate = dayjs(ticket.updatedAt);
+        const dateValue = ticket.updatedAt || ticket.created_at || ticket.updatedAt;
+        if (!dateValue) return false;
+        const ticketDate = dayjs(dateValue);
+        if (!ticketDate.isValid()) return false;
         const afterStart = !filters.startDate || ticketDate.isAfter(filters.startDate);
         const beforeEnd = !filters.endDate || ticketDate.isBefore(filters.endDate.add(1, 'day'));
         return afterStart && beforeEnd;

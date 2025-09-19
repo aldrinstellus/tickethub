@@ -573,9 +573,22 @@ export default function Tickets() {
                 columns={columns}
                 getRowId={(row) => row.id}
                 onRowClick={(params, event) => {
-                  // Only navigate if not clicking on checkbox
-                  if (!(event.target as HTMLElement).closest('.MuiCheckbox-root')) {
+                  try {
+                    const target = event.target as HTMLElement;
+                    console.debug('DataGrid row clicked:', params.id, target?.className || target?.nodeName);
+
+                    // Avoid navigating when clicking interactive controls like checkboxes or buttons inside the row
+                    const isCheckbox = !!(target.closest('.MuiCheckbox-root') || target.closest('.MuiDataGrid-cellCheckbox') || target.closest('input[type="checkbox"]'));
+                    const isButton = !!target.closest('button');
+
+                    if (isCheckbox || isButton) {
+                      console.debug('Clicked interactive element inside row, not navigating', { isCheckbox, isButton });
+                      return;
+                    }
+
                     navigate(`/tickets/${params.id}`);
+                  } catch (err) {
+                    console.warn('onRowClick navigation failed', err);
                   }
                 }}
                 checkboxSelection

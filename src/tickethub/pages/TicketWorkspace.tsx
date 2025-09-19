@@ -253,44 +253,171 @@ export default function TicketWorkspace() {
     }
   };
 
+  const handleInsertArticle = (article: Article) => {
+    const articleContent = `\n\n**From Knowledge Base: ${article.title}**\n${article.content}\n\n`;
+    setDraft((prev) => prev + articleContent);
+  };
+
+  const handleCopyArticle = async (article: Article) => {
+    try {
+      await navigator.clipboard.writeText(`**${article.title}**\n\n${article.content}`);
+      // Could add a toast notification here
+    } catch (err) {
+      console.error("Failed to copy article:", err);
+    }
+  };
+
   const RightColumn = (
     <>
+      {/* Suggested Articles Based on Ticket */}
       <Card variant="outlined" sx={{ mb: 2 }}>
         <CardContent>
-          <Typography variant="subtitle2" sx={{ mb: 1 }}>
-            Suggested Articles
+          <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>
+            Suggested for This Ticket
           </Typography>
           <Stack spacing={1}>
-            {related.map((a) => (
-              <Box key={a.id} sx={{ p: 1, border: "1px solid", borderColor: "divider", borderRadius: 1 }}>
-                <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                  {a.title}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {a.content}
-                </Typography>
-                <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-                  {a.tags.map((t) => (
-                    <Chip key={t} size="small" label={t} />
-                  ))}
-                </Stack>
-              </Box>
-            ))}
+            {related.length > 0 ? (
+              related.slice(0, 3).map((a) => (
+                <Box key={a.id} sx={{ p: 1.5, border: "1px solid", borderColor: "divider", borderRadius: 1, bgcolor: 'action.hover' }}>
+                  <Stack direction="row" spacing={1} alignItems="flex-start" sx={{ mb: 1 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 600, flexGrow: 1 }}>
+                      {a.title}
+                    </Typography>
+                    <IconButton size="small" onClick={() => handleInsertArticle(a)} title="Insert into reply">
+                      <ContentCopyIcon fontSize="small" />
+                    </IconButton>
+                  </Stack>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
+                    {a.content.length > 80 ? `${a.content.substring(0, 80)}...` : a.content}
+                  </Typography>
+                  <Stack direction="row" spacing={0.5} flexWrap="wrap">
+                    {a.tags.slice(0, 2).map((t) => (
+                      <Chip key={t} size="small" label={t} variant="outlined" />
+                    ))}
+                  </Stack>
+                </Box>
+              ))
+            ) : (
+              <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>
+                No suggested articles found
+              </Typography>
+            )}
           </Stack>
         </CardContent>
       </Card>
 
+      {/* Knowledge Base Search & Browse */}
+      <Card variant="outlined" sx={{ mb: 2 }}>
+        <CardContent>
+          <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, flexGrow: 1 }}>
+              Knowledge Base
+            </Typography>
+            <Button size="small" variant="text" endIcon={<OpenInNewIcon />}>
+              Browse All
+            </Button>
+          </Stack>
+
+          {/* Search Bar */}
+          <TextField
+            fullWidth
+            size="small"
+            placeholder="Search articles..."
+            value={kbSearch}
+            onChange={(e) => setKbSearch(e.target.value)}
+            InputProps={{
+              startAdornment: <SearchIcon sx={{ mr: 1, color: 'text.secondary' }} />,
+            }}
+            sx={{ mb: 2 }}
+          />
+
+          {/* Category Filter */}
+          <FormControl fullWidth size="small" sx={{ mb: 2 }}>
+            <InputLabel>Category</InputLabel>
+            <Select
+              value={selectedKbCategory}
+              label="Category"
+              onChange={(e) => setSelectedKbCategory(e.target.value)}
+              startAdornment={<FilterListIcon sx={{ mr: 1, color: 'text.secondary' }} />}
+            >
+              <MenuItem value="all">All Categories</MenuItem>
+              {kbCategories.map((category) => (
+                <MenuItem key={category} value={category}>
+                  {category}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          {/* Search Results */}
+          <Stack spacing={1} sx={{ maxHeight: 300, overflowY: 'auto' }}>
+            {filteredKbArticles.length > 0 ? (
+              filteredKbArticles.map((article) => (
+                <Box key={article.id} sx={{ p: 1.5, border: "1px solid", borderColor: "divider", borderRadius: 1 }}>
+                  <Stack direction="row" spacing={1} alignItems="flex-start" sx={{ mb: 1 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 600, flexGrow: 1, fontSize: '0.875rem' }}>
+                      {article.title}
+                    </Typography>
+                    <Stack direction="row" spacing={0.5}>
+                      <IconButton size="small" onClick={() => handleCopyArticle(article)} title="Copy article">
+                        <ContentCopyIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton size="small" onClick={() => handleInsertArticle(article)} title="Insert into reply">
+                        <SendRoundedIcon fontSize="small" />
+                      </IconButton>
+                    </Stack>
+                  </Stack>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
+                    {article.content.length > 60 ? `${article.content.substring(0, 60)}...` : article.content}
+                  </Typography>
+                  <Stack direction="row" spacing={0.5} flexWrap="wrap">
+                    {article.tags.slice(0, 2).map((tag) => (
+                      <Chip key={tag} size="small" label={tag} variant="outlined" />
+                    ))}
+                  </Stack>
+                </Box>
+              ))
+            ) : (
+              <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>
+                {kbSearch || selectedKbCategory !== "all" ? "No articles found" : "Start typing to search"}
+              </Typography>
+            )}
+          </Stack>
+        </CardContent>
+      </Card>
+
+      {/* Quick Response Macros */}
       <Card variant="outlined">
         <CardContent>
-          <Typography variant="subtitle2" sx={{ mb: 1 }}>
-            Macros
+          <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>
+            Quick Responses
           </Typography>
           <Stack spacing={1}>
             {macroPresets.map((m) => (
-              <Button key={m} size="small" variant="text" onClick={() => setDraft((d) => (d ? `${d}\n\n${m}` : m))} sx={{ justifyContent: "flex-start", minHeight: 44 }}>
+              <Button
+                key={m}
+                size="small"
+                variant="text"
+                onClick={() => setDraft((d) => (d ? `${d}\n\n${m}` : m))}
+                sx={{
+                  justifyContent: "flex-start",
+                  minHeight: 44,
+                  textAlign: 'left',
+                  whiteSpace: 'normal',
+                  lineHeight: 1.3
+                }}
+              >
                 {m}
               </Button>
             ))}
+            <Button
+              variant="outlined"
+              size="small"
+              sx={{ mt: 1 }}
+              onClick={() => {/* Navigate to manage macros */}}
+            >
+              Manage Macros
+            </Button>
           </Stack>
         </CardContent>
       </Card>

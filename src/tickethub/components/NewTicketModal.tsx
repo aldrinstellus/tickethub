@@ -40,6 +40,12 @@ const ModalContainer = styled(Modal)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   padding: theme.spacing(2),
+  '& .MuiBackdrop-root': {
+    backgroundColor: theme.palette.mode === 'dark'
+      ? 'rgba(0, 0, 0, 0.8)'
+      : 'rgba(0, 0, 0, 0.5)',
+    backdropFilter: 'blur(4px)',
+  },
 }));
 
 const ModalPaper = styled(Paper)(({ theme }) => ({

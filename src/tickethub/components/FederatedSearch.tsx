@@ -30,6 +30,12 @@ const ModalContainer = styled(Modal)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   padding: theme.spacing(2),
+  '& .MuiBackdrop-root': {
+    backgroundColor: theme.palette.mode === 'dark'
+      ? 'rgba(0, 0, 0, 0.85)'
+      : 'rgba(0, 0, 0, 0.5)',
+    backdropFilter: 'blur(6px)',
+  },
 }));
 
 const SearchContainer = styled(Paper)(({ theme }) => ({

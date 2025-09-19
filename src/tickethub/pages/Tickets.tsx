@@ -548,7 +548,7 @@ export default function Tickets() {
 
         {/* Tickets DataGrid */}
         <Box sx={{ width: "100%", overflowX: "auto" }}>
-          <Box sx={{ height: { xs: 400, sm: 500, md: 600 }, minWidth: 800 }}>
+          <Box sx={{ height: { xs: 400, sm: 500, md: 600 }, minWidth: 0, width: '100%' }}>
             {loading ? (
               <Box sx={{ p: 2 }}>
                 <Skeleton variant="rectangular" width="100%" height={500} />

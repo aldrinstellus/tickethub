@@ -51,18 +51,35 @@ function NotFound() {
   );
 }
 
-function TestTicketHub() {
+// Minimal test TicketHub component to avoid import issues
+function MinimalTicketHub() {
   return (
-    <Box sx={{ p: 4, minHeight: '100vh', bgcolor: 'background.default' }}>
-      <Typography variant="h2" gutterBottom sx={{ color: 'primary.main' }}>
-        🎫 TicketHub
-      </Typography>
-      <Typography variant="h5" color="text.secondary" gutterBottom>
-        Testing Import Issue
-      </Typography>
-      <Typography variant="body1" sx={{ mt: 2 }}>
-        If you see this, the issue was with TicketHubApp import
-      </Typography>
+    <Box sx={{ display: 'flex', height: '100vh' }}>
+      {/* Sidebar */}
+      <Box sx={{ width: 240, bgcolor: 'primary.dark', color: 'primary.contrastText', p: 2 }}>
+        <Typography variant="h6" gutterBottom>🎫 TicketHub</Typography>
+        <Typography variant="body2">Navigation</Typography>
+        <Box sx={{ mt: 2 }}>
+          <Typography variant="body2" sx={{ py: 1 }}>📊 Dashboard</Typography>
+          <Typography variant="body2" sx={{ py: 1 }}>🎫 Tickets</Typography>
+          <Typography variant="body2" sx={{ py: 1 }}>📚 Knowledge Base</Typography>
+          <Typography variant="body2" sx={{ py: 1 }}>📈 Analytics</Typography>
+          <Typography variant="body2" sx={{ py: 1 }}>⚙️ Settings</Typography>
+        </Box>
+      </Box>
+
+      {/* Main Content */}
+      <Box sx={{ flex: 1, p: 4, bgcolor: 'background.default' }}>
+        <Typography variant="h3" gutterBottom>
+          Support Dashboard
+        </Typography>
+        <Typography variant="h6" color="text.secondary" gutterBottom>
+          Welcome to TicketHub - Minimal Version Working!
+        </Typography>
+        <Typography variant="body1" sx={{ mt: 2 }}>
+          This proves the basic layout works. Time: {new Date().toLocaleTimeString()}
+        </Typography>
+      </Box>
     </Box>
   );
 }
@@ -74,7 +91,7 @@ export default function App() {
       <BrowserRouter>
         <ErrorBoundary>
           <Routes>
-            <Route path="/*" element={<TestTicketHub />} />
+            <Route path="/*" element={<MinimalTicketHub />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ErrorBoundary>

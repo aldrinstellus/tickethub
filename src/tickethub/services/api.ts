@@ -16,11 +16,17 @@ if (SUPABASE_URL && SUPABASE_KEY) {
 
 async function tryFetch<T>(url: string): Promise<T | null> {
   try {
+    console.log(`Attempting to fetch from: ${url}`);
     const res = await fetch(url);
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.log(`Fetch failed with status: ${res.status} for ${url}`);
+      return null;
+    }
     const data = await res.json();
+    console.log(`Successfully fetched data from: ${url}`);
     return data as T;
   } catch (e) {
+    console.log(`Fetch error for ${url}:`, e instanceof Error ? e.message : e);
     return null;
   }
 }

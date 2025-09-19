@@ -17,6 +17,16 @@ export type Article = {
   tags: string[];
 };
 
+export type Message = {
+  id: string;
+  ticket_id: string;
+  author: string;
+  content: string;
+  is_agent: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
 export const tickets: Ticket[] = [
   {
     id: "TH-1042",
@@ -50,6 +60,45 @@ export const tickets: Ticket[] = [
     updatedAt: "2025-09-19T07:41:00Z",
     tags: ["api", "rate limit"],
     body: "Receiving 429 errors on the /events endpoint since yesterday.",
+  },
+];
+
+export const messages: Message[] = [
+  {
+    id: "msg-001",
+    ticket_id: "TH-1042",
+    author: "Jane Doe",
+    content: "I'm not receiving the password reset email. I've checked spam.",
+    is_agent: false,
+    created_at: "2025-09-18T10:24:00Z",
+    updated_at: "2025-09-18T10:24:00Z",
+  },
+  {
+    id: "msg-002",
+    ticket_id: "TH-1042",
+    author: "Alex Thompson",
+    content: "Thanks for reporting this. I'm checking the details and will follow up shortly.",
+    is_agent: true,
+    created_at: "2025-09-18T10:30:00Z",
+    updated_at: "2025-09-18T10:30:00Z",
+  },
+  {
+    id: "msg-003",
+    ticket_id: "TH-1043",
+    author: "Acme Corp",
+    content: "Our invoice shows extra seats we didn't use.",
+    is_agent: false,
+    created_at: "2025-09-19T08:02:00Z",
+    updated_at: "2025-09-19T08:02:00Z",
+  },
+  {
+    id: "msg-004",
+    ticket_id: "TH-1044",
+    author: "Devify",
+    content: "Receiving 429 errors on the /events endpoint since yesterday.",
+    is_agent: false,
+    created_at: "2025-09-19T07:41:00Z",
+    updated_at: "2025-09-19T07:41:00Z",
   },
 ];
 

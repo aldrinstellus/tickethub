@@ -41,7 +41,7 @@ export default function SupportTopNavbar() {
           color: "text.primary",
         }}
       >
-        <Toolbar sx={{ justifyContent: "space-between", minHeight: "64px !important", px: 2 }}>
+        <Toolbar sx={{ justifyContent: "space-between", minHeight: "64px !important", px: { xs: 2, sm: 3 } }}>
           {/* Left side - Wordmark (Logo and Title) with Sidebar Toggle */}
           <Stack
             direction="row"

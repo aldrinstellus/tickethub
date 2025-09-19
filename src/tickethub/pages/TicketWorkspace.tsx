@@ -25,7 +25,8 @@ import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { articles, generateAiResponse, Ticket, Article, Message } from "../data/mockData";
+import { articles, generateAiResponse, Ticket, Article } from "../data/mockData";
+import type { Message as TicketMessage } from "../data/mockData";
 import { fetchTicketById, fetchArticles, fetchMessages, createMessage, updateTicketStatus, assignTicket, updateTicketPriority } from "../services/api";
 import { useUser } from "../contexts/UserContext";
 
@@ -37,7 +38,7 @@ export default function TicketWorkspace() {
   const [draft, setDraft] = React.useState("");
   const [related, setRelated] = React.useState<Article[]>([]);
   const [updating, setUpdating] = React.useState(false);
-  const [messages, setMessages] = React.useState<Message[]>([]);
+  const [messages, setMessages] = React.useState<TicketMessage[]>([]);
   const [sendingMessage, setSendingMessage] = React.useState(false);
 
   const theme = useTheme();

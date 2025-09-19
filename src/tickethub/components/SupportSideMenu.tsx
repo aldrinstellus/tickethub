@@ -8,13 +8,15 @@ import { useSidebar } from "../contexts/SidebarContext";
 const drawerWidth = 240;
 const collapsedWidth = 72;
 
-const Drawer = styled(MuiDrawer)<{ $collapsed?: boolean }>(({ $collapsed }) => ({
-  width: $collapsed ? collapsedWidth : drawerWidth,
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== 'collapsed',
+})<{ collapsed?: boolean }>(({ collapsed }) => ({
+  width: collapsed ? collapsedWidth : drawerWidth,
   flexShrink: 0,
   boxSizing: "border-box",
   transition: "width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
   [`& .${drawerClasses.paper}`]: {
-    width: $collapsed ? collapsedWidth : drawerWidth,
+    width: collapsed ? collapsedWidth : drawerWidth,
     boxSizing: "border-box",
     transition: "width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
     overflowX: "hidden",

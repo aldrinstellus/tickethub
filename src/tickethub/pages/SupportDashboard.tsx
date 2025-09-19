@@ -45,7 +45,7 @@ const statCardsData = [
 
 export default function SupportDashboard() {
   return (
-    <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
+    <Box sx={{ width: "100%", px: { xs: 2, md: 0 } }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3, display: { xs: "none", sm: "flex" } }}>
         <Typography variant="h5" component="h2">
           Support Overview

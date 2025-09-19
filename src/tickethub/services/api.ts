@@ -264,10 +264,10 @@ export async function createTicket(ticket: Ticket): Promise<Ticket> {
 export async function fetchTicketById(id: string): Promise<Ticket | null> {
   try {
     // Try Supabase first
-    const supabaseTicket = await supabaseFetch<Ticket[]>(`tickets?id=eq.${encodeURIComponent(id)}`);
-    if (supabaseTicket && Array.isArray(supabaseTicket) && supabaseTicket.length > 0) {
+    const rawTicket = await supabaseFetch<any[]>(`tickets?id=eq.${encodeURIComponent(id)}`);
+    if (rawTicket && Array.isArray(rawTicket) && rawTicket.length > 0) {
       console.log(`Successfully fetched ticket ${id} from Supabase`);
-      return supabaseTicket[0];
+      return transformSupabaseTicket(rawTicket[0]);
     }
 
     // Try local API fallback
@@ -312,8 +312,8 @@ export async function updateTicketStatus(id: string, status: Ticket['status']): 
 
       if (res.ok) {
         const data = await res.json();
-        const updated = Array.isArray(data) ? data[0] : data;
-        return updated || null;
+        const rawTicket = Array.isArray(data) ? data[0] : data;
+        return rawTicket ? transformSupabaseTicket(rawTicket) : null;
       }
     } catch (err) {
       // ignore and fallback

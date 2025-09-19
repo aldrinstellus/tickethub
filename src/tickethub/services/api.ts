@@ -18,15 +18,30 @@ async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promis
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
   const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
+  // If config is missing, immediately return null to use fallback
   if (!supabaseUrl || !supabaseKey) {
     console.log("Supabase config missing, using fallback data");
     return null;
   }
 
+  // Validate URL format
+  try {
+    new URL(supabaseUrl);
+  } catch {
+    console.warn("Invalid Supabase URL format, using fallback data");
+    return null;
+  }
+
   try {
     const url = `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/${endpoint}`;
+
+    // Add timeout to prevent hanging requests
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     const res = await fetch(url, {
       ...options,
+      signal: controller.signal,
       headers: {
         "Content-Type": "application/json",
         apikey: supabaseKey,
@@ -35,27 +50,61 @@ async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promis
       },
     });
 
+    clearTimeout(timeoutId);
+
     if (!res.ok) {
-      console.warn(`Supabase API error: ${res.status} ${res.statusText}`);
+      console.warn(`Supabase API error: ${res.status} ${res.statusText}. Using fallback data.`);
       return null;
     }
+
     const data = await res.json();
+    console.log(`Supabase fetch successful for endpoint: ${endpoint}`);
     return data as T;
   } catch (e) {
-    console.warn("Supabase fetch failed, using fallback:", e);
+    // Handle different types of errors gracefully
+    if (e instanceof Error) {
+      if (e.name === 'AbortError') {
+        console.warn("Supabase request timed out, using fallback data");
+      } else if (e.message.includes('Failed to fetch')) {
+        console.warn("Network error connecting to Supabase, using fallback data");
+      } else {
+        console.warn("Supabase fetch failed:", e.message, "- using fallback data");
+      }
+    } else {
+      console.warn("Unknown error in Supabase fetch, using fallback data:", e);
+    }
     return null;
   }
 }
 
 export async function fetchTickets() {
-  // Try Supabase first
-  const supabaseTickets = await supabaseFetch<Ticket[]>("tickets?order=updated_at.desc");
-  if (supabaseTickets) return supabaseTickets;
+  try {
+    // Try Supabase first
+    const supabaseTickets = await supabaseFetch<Ticket[]>("tickets?order=updated_at.desc");
+    if (supabaseTickets && Array.isArray(supabaseTickets)) {
+      console.log(`Successfully fetched ${supabaseTickets.length} tickets from Supabase`);
+      return supabaseTickets;
+    }
 
-  // Fallback to mock data
-  const remote = await tryFetch<typeof mockTickets>("/api/tickets");
-  if (remote) return remote;
-  return new Promise<typeof mockTickets>((res) => setTimeout(() => res(mockTickets), DEFAULT_DELAY));
+    // Try local API fallback
+    const remote = await tryFetch<typeof mockTickets>("/api/tickets");
+    if (remote) {
+      console.log("Using tickets from local API");
+      return remote;
+    }
+
+    // Use mock data as final fallback
+    console.log("Using mock ticket data");
+    return new Promise<typeof mockTickets>((res) =>
+      setTimeout(() => res(mockTickets), DEFAULT_DELAY)
+    );
+  } catch (error) {
+    console.error("Error in fetchTickets:", error);
+    // Always return mock data if everything fails
+    return new Promise<typeof mockTickets>((res) =>
+      setTimeout(() => res(mockTickets), DEFAULT_DELAY)
+    );
+  }
 }
 
 export async function fetchArticles(): Promise<Article[]> {

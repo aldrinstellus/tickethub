@@ -46,25 +46,43 @@ export default function SupportDashboard() {
 
   React.useEffect(() => {
     let mounted = true;
-    setLoading(true);
-    fetchTickets()
-      .then((data) => {
+
+    const loadDashboardData = async () => {
+      if (!mounted) return;
+
+      setLoading(true);
+      try {
+        const data = await fetchTickets();
+
         if (!mounted) return;
+
         // Ensure data is always an array with valid tickets
         const validTickets = Array.isArray(data) ? data.filter(ticket =>
-          ticket && typeof ticket === 'object' && ticket.status && ticket.priority
+          ticket &&
+          typeof ticket === 'object' &&
+          ticket.id &&
+          ticket.status &&
+          ticket.priority &&
+          ticket.subject
         ) : [];
+
+        console.log(`Dashboard loaded with ${validTickets.length} valid tickets`);
         setTicketsData(validTickets);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Failed to load dashboard tickets:", err);
         if (mounted) {
+          // Set empty array on error but don't break the UI
           setTicketsData([]);
         }
-      })
-      .finally(() => {
-        if (mounted) setLoading(false);
-      });
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadDashboardData();
+
     return () => {
       mounted = false;
     };

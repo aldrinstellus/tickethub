@@ -55,12 +55,58 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+interface TimePeriod {
+  label: string;
+  value: string;
+  days: number;
+}
+
+const timePeriods: TimePeriod[] = [
+  { label: "Last 7 days", value: "7d", days: 7 },
+  { label: "Last 30 days", value: "30d", days: 30 },
+  { label: "Last 3 months", value: "3m", days: 90 },
+  { label: "Last 6 months", value: "6m", days: 180 },
+  { label: "Last year", value: "1y", days: 365 },
+  { label: "Custom range", value: "custom", days: 0 },
+];
+
 export default function Analytics() {
   const [tabValue, setTabValue] = React.useState(0);
+  const [selectedPeriod, setSelectedPeriod] = React.useState("30d");
+  const [customStartDate, setCustomStartDate] = React.useState<Dayjs | null>(null);
+  const [customEndDate, setCustomEndDate] = React.useState<Dayjs | null>(null);
+  const [showCustomDates, setShowCustomDates] = React.useState(false);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
+
+  const handlePeriodChange = (period: string) => {
+    setSelectedPeriod(period);
+    setShowCustomDates(period === "custom");
+
+    if (period === "custom") {
+      // Set default custom range to last 30 days
+      setCustomEndDate(dayjs());
+      setCustomStartDate(dayjs().subtract(30, 'day'));
+    }
+  };
+
+  // Get current period info for display
+  const getCurrentPeriodInfo = () => {
+    if (selectedPeriod === "custom" && customStartDate && customEndDate) {
+      const days = customEndDate.diff(customStartDate, 'day');
+      return {
+        label: `${customStartDate.format('MMM D')} - ${customEndDate.format('MMM D, YYYY')}`,
+        days: days
+      };
+    }
+
+    const period = timePeriods.find(p => p.value === selectedPeriod);
+    return period ? { label: period.label, days: period.days } : { label: "Last 30 days", days: 30 };
+  };
+
+  const currentPeriod = getCurrentPeriodInfo();
 
   // Mock data
   const kpiData = [

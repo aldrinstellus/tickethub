@@ -48,11 +48,12 @@ export default function SupportTopNavbar() {
           >
             <TicketHubLogo />
             <Typography
-              variant="h5"
+              variant="h4"
               component="div"
               sx={{
                 fontFamily: '"Special Gothic Condensed One", sans-serif',
-                fontWeight: 600
+                fontWeight: 600,
+                fontSize: '1.75rem'
               }}
             >
               TicketHub

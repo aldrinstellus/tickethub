@@ -193,11 +193,11 @@ export default function LiveMetricsWidget() {
               </Typography>
               <Stack direction="row" spacing={1} alignItems="baseline">
                 <AnimatedNumber value={liveMetrics.onlineAgents} />
-                <Chip 
-                  icon={<SignalWifiIcon />} 
-                  label="online" 
-                  size="small" 
-                  color="success" 
+                <Chip
+                  icon={<SignalWifi4BarIcon />}
+                  label="online"
+                  size="small"
+                  color="success"
                   variant="outlined"
                 />
               </Stack>

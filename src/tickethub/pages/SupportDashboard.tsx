@@ -15,8 +15,8 @@ import Divider from "@mui/material/Divider";
 import Skeleton from "@mui/material/Skeleton";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import CrmStatCard from "../../crm/components/CrmStatCard";
-import { tickets } from "../data/mockData";
 import { useNavigate } from "react-router-dom";
+import { fetchTickets } from "../services/api";
 
 function timeAgo(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();

@@ -554,7 +554,7 @@ export default function Tickets() {
               <DataGrid
                 loading={loading}
                 density="compact"
-                rows={filteredRows}
+                rows={Array.isArray(filteredRows) ? filteredRows : []}
                 columns={columns}
                 getRowId={(row) => row.id}
                 onRowClick={(params, event) => {

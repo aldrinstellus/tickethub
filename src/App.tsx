@@ -96,16 +96,18 @@ function TestAppTheme() {
 export default function App() {
   console.log("App component rendering...");
 
+  // Return to working basic test
   return (
-    <ErrorBoundary>
-      <BrowserRouter>
-        <CssBaseline enableColorScheme />
-        <Routes>
-          <Route path="/crm/*" element={<CrmDashboard />} />
-          <Route path="/*" element={<TestAppTheme />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </ErrorBoundary>
+    <div style={{
+      padding: '20px',
+      backgroundColor: 'white',
+      color: 'black',
+      minHeight: '100vh',
+      fontSize: '24px'
+    }}>
+      <h1>REACT IS WORKING AGAIN!</h1>
+      <p>Basic app restored. Time: {new Date().toLocaleTimeString()}</p>
+      <p>Now I'll incrementally add TicketHub components to find the issue.</p>
+    </div>
   );
 }

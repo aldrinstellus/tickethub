@@ -393,10 +393,11 @@ export default function FederatedSearch() {
                               }
                               secondary={result.subtitle}
                               primaryTypographyProps={{
+                                component: 'div',
                                 sx: { lineHeight: 1.2 }
                               }}
                               secondaryTypographyProps={{
-                                sx: { 
+                                sx: {
                                   fontSize: '12px',
                                   lineHeight: 1.3,
                                   color: 'text.secondary',

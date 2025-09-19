@@ -28,7 +28,7 @@ import Settings from "./pages/Settings";
 import Playground from "./pages/Playground";
 import QuickCreateTicket from "./components/QuickCreateTicket";
 import { UserProvider } from "./contexts/UserContext";
-import { SidebarProvider } from "./contexts/SidebarContext";
+import { SidebarProvider, useSidebar } from "./contexts/SidebarContext";
 
 const xThemeComponents = {
   ...chartsCustomizations,
@@ -37,12 +37,11 @@ const xThemeComponents = {
   ...treeViewCustomizations,
 };
 
-export default function TicketHubApp() {
+function TicketHubAppInner() {
+  const { isHidden } = useSidebar();
+
   return (
-    <AppTheme themeComponents={xThemeComponents}>
-      <UserProvider>
-        <SidebarProvider>
-          <CssBaseline enableColorScheme />
+    <>
       <SupportTopNavbar />
       <Box sx={{ display: "flex", height: "100vh", pt: "64px" }}>
         <SupportSideMenu />
@@ -54,6 +53,7 @@ export default function TicketHubApp() {
               ? `rgba(${theme.vars.palette.background.defaultChannel} / 1)`
               : alpha(theme.palette.background.default, 1),
             overflow: "auto",
+            transition: "margin-left 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
           })}
         >
           <Stack
@@ -83,6 +83,17 @@ export default function TicketHubApp() {
           <QuickCreateTicket />
         </Box>
       </Box>
+    </>
+  );
+}
+
+export default function TicketHubApp() {
+  return (
+    <AppTheme themeComponents={xThemeComponents}>
+      <UserProvider>
+        <SidebarProvider>
+          <CssBaseline enableColorScheme />
+          <TicketHubAppInner />
         </SidebarProvider>
       </UserProvider>
     </AppTheme>

@@ -114,12 +114,48 @@ export default function TicketWorkspace() {
       if (!id) return;
 
       setLoading(true);
+
+      // Fetch ticket, articles, messages with individual fallbacks so one failure doesn't block others
+      let ticketData: Ticket | null = null;
+      let articlesData: Article[] = [];
+      let messagesData: TicketMessage[] = [];
+
       try {
-        const [ticketData, articlesData, messagesData] = await Promise.all([
-          fetchTicketById(id),
-          fetchArticles(),
-          fetchMessages(id)
-        ]);
+        try {
+          ticketData = await fetchTicketById(id);
+        } catch (err) {
+          console.warn('fetchTicketById failed, falling back to mock data', err);
+        }
+
+        try {
+          articlesData = await fetchArticles();
+        } catch (err) {
+          console.warn('fetchArticles failed, falling back to mock articles', err);
+          articlesData = articles; // from mock import
+        }
+
+        try {
+          messagesData = await fetchMessages(id);
+        } catch (err) {
+          console.warn('fetchMessages failed, falling back to mock messages', err);
+        }
+
+        // Final fallback: if no ticketData, look up mockTickets
+        if (!ticketData) {
+          ticketData = mockTickets.find((t) => t.id === id) || null;
+          if (ticketData) console.info('Using mock ticket for id', id);
+        }
+
+        // If messagesData empty, try mockMessages
+        if ((!messagesData || messagesData.length === 0) && mockMessages) {
+          messagesData = mockMessages.filter(m => m.ticket_id === id) || [];
+          if (messagesData.length) console.info('Using mock messages for id', id);
+        }
+
+        // If articlesData empty use imported articles
+        if ((!articlesData || articlesData.length === 0) && articles) {
+          articlesData = articles;
+        }
 
         setTicket(ticketData);
         setMessages(messagesData);
@@ -127,12 +163,12 @@ export default function TicketWorkspace() {
 
         if (ticketData) {
           const relatedArticles = articlesData.filter((a) =>
-            a.tags.some((t) => ticketData.tags.includes(t))
+            a.tags.some((t) => ticketData && ticketData.tags && ticketData.tags.includes(t))
           );
           setRelated(relatedArticles);
         }
       } catch (err) {
-        console.error("Failed to load ticket:", err);
+        console.error('Unexpected error loading ticket data:', err);
       } finally {
         setLoading(false);
       }

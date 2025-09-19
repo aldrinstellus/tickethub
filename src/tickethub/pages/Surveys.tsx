@@ -20,6 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import { PieChart, LineChart } from "@mui/x-charts";
 import { motion, AnimatePresence } from "framer-motion";
+import PageHeader from "../components/PageHeader";
 
 export default function Surveys() {
   const [csatEnabled, setCsatEnabled] = React.useState(true);
@@ -84,12 +85,10 @@ export default function Surveys() {
           transition={{ duration: 0.4, delay: 0.1 }}
         >
           <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
-            <Box>
-              <Typography variant="h5">Customer Surveys</Typography>
-              <Typography variant="body2" color="text.secondary">
-                Collect feedback and measure customer satisfaction
-              </Typography>
-            </Box>
+            <PageHeader
+              title="Surveys"
+              subtitle="Collect feedback and measure customer satisfaction"
+            />
             <Button variant="contained" startIcon={<BarChartIcon />}>
               Create Survey
             </Button>

@@ -3,8 +3,23 @@ import * as ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
+console.log("=== MAIN.TSX EXECUTING ===");
+console.log("React:", React);
+console.log("ReactDOM:", ReactDOM);
+
+const rootElement = document.getElementById("root");
+console.log("Root element:", rootElement);
+
+if (rootElement) {
+  console.log("Creating React root...");
+  const root = ReactDOM.createRoot(rootElement);
+  console.log("Rendering app...");
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+  console.log("=== RENDER COMPLETE ===");
+} else {
+  console.error("ROOT ELEMENT NOT FOUND!");
+}

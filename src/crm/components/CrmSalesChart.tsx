@@ -126,45 +126,24 @@ export default function CrmSalesChart() {
         </Stack>
 
         <Box sx={{ flexGrow: 1, width: "100%", height: "300px" }}>
-          <BarChart
-            series={[
-              {
-                data: salesData,
-                label: "Actual Sales",
-                color: theme.palette.primary.main,
-                valueFormatter: (value) => (value ? formatYAxis(value) : ""),
-              },
-              {
-                data: targetsData,
-                label: "Targets",
-                color: theme.palette.grey[400],
-                valueFormatter: (value) => (value ? formatYAxis(value) : ""),
-              },
-              {
-                data: projectedData,
-                label: "Projected",
-                color: theme.palette.secondary.main,
-                valueFormatter: (value) => (value ? formatYAxis(value) : ""),
-              },
-            ]}
-            xAxis={[xAxisData]}
-            yAxis={[
-              {
-                label: "Revenue",
-                valueFormatter: formatYAxis,
-              },
-            ]}
-            height={300}
-            margin={{ top: 10, bottom: 30, left: 60, right: 10 }}
-            slotProps={{
-              legend: {
-                position: { vertical: "top", horizontal: "middle" },
-                itemMarkWidth: 10,
-                itemMarkHeight: 10,
-                markGap: 5,
-                itemGap: 10,
-              },
+          {/* ECharts replacement */}
+          <ReactECharts
+            option={{
+              tooltip: { trigger: 'axis', formatter: (params: any) => {
+                return params.map((p: any) => `${p.seriesName}: ${formatYAxis(p.value)}`).join('<br/>');
+              } },
+              legend: { data: ['Actual Sales','Targets','Projected'], top: 10 },
+              toolbox: { feature: { saveAsImage: {} } },
+              xAxis: { type: 'category', data: monthNames },
+              yAxis: { type: 'value', axisLabel: { formatter: (value: number) => formatYAxis(value) } },
+              dataZoom: [{ type: 'slider', start: 0, end: 100 }],
+              series: [
+                { name: 'Actual Sales', type: 'bar', data: salesData, itemStyle: { color: theme.palette.primary.main } },
+                { name: 'Targets', type: 'bar', data: targetsData, itemStyle: { color: theme.palette.grey[400] } },
+                { name: 'Projected', type: 'line', data: projectedData, itemStyle: { color: theme.palette.secondary.main }, smooth: true },
+              ],
             }}
+            style={{ height: '100%', width: '100%' }}
           />
         </Box>
       </CardContent>

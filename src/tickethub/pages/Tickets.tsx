@@ -33,14 +33,16 @@ export default function Tickets() {
         <Typography variant="h6">All Tickets</Typography>
         <Button variant="contained" startIcon={<AddRoundedIcon />}>New Ticket</Button>
       </Stack>
-      <Box sx={{ height: 560, width: "100%" }}>
-        <DataGrid
-          density="compact"
-          rows={tickets}
-          columns={columns}
-          getRowId={(row) => row.id}
-          onRowClick={(params) => navigate(`/support/tickets/${params.id}`)}
-        />
+      <Box sx={{ width: "100%", overflowX: "auto" }}>
+        <Box sx={{ height: 560, minWidth: 800 }}>
+          <DataGrid
+            density="compact"
+            rows={tickets}
+            columns={columns}
+            getRowId={(row) => row.id}
+            onRowClick={(params) => navigate(`/support/tickets/${params.id}`)}
+          />
+        </Box>
       </Box>
     </Box>
   );

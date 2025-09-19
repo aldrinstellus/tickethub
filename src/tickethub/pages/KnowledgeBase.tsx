@@ -6,10 +6,29 @@ import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { articles } from "../data/mockData";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Article } from "../data/mockData";
+import { fetchArticles } from "../services/api";
 
 export default function KnowledgeBase() {
   const [query, setQuery] = React.useState("");
+  const [articles, setArticles] = React.useState<Article[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    let mounted = true;
+    setLoading(true);
+    fetchArticles().then((data) => {
+      if (!mounted) return;
+      setArticles(data);
+    }).catch((err) => {
+      console.error("Failed to load articles:", err);
+    }).finally(() => {
+      if (mounted) setLoading(false);
+    });
+    return () => { mounted = false; };
+  }, []);
+
   const filtered = articles.filter(
     (a) => a.title.toLowerCase().includes(query.toLowerCase()) || a.content.toLowerCase().includes(query.toLowerCase()),
   );

@@ -22,7 +22,7 @@ export default function SupportHeader() {
     >
       <Stack direction="column" spacing={1}>
         <SupportNavbarBreadcrumbs />
-        <Typography variant="h4" component="h1" sx={{ fontWeight: 600, fontFamily: 'Special Elite, cursive' }}>
+        <Typography variant="h4" component="h1" sx={{ fontWeight: 600, fontFamily: '"Special Gothic Condensed One", sans-serif' }}>
           TicketHub
         </Typography>
       </Stack>

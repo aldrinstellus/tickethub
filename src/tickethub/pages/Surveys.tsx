@@ -44,10 +44,39 @@ import { PieChart, LineChart } from "@mui/x-charts";
 import { motion, AnimatePresence } from "framer-motion";
 import PageHeader from "../components/PageHeader";
 
+interface SurveyQuestion {
+  id: string;
+  type: 'rating' | 'text' | 'multiple-choice' | 'single-choice' | 'nps';
+  question: string;
+  required: boolean;
+  options?: string[];
+}
+
+interface NewSurvey {
+  name: string;
+  type: 'CSAT' | 'NPS' | 'Custom';
+  description: string;
+  trigger: 'manual' | 'post-resolution' | 'scheduled';
+  questions: SurveyQuestion[];
+}
+
 export default function Surveys() {
   const [csatEnabled, setCsatEnabled] = React.useState(true);
   const [npsEnabled, setNpsEnabled] = React.useState(false);
   const [followUpEnabled, setFollowUpEnabled] = React.useState(true);
+
+  // Survey creation state
+  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
+  const [currentStep, setCurrentStep] = React.useState(0);
+  const [newSurvey, setNewSurvey] = React.useState<NewSurvey>({
+    name: '',
+    type: 'Custom',
+    description: '',
+    trigger: 'manual',
+    questions: []
+  });
+  const [editingQuestion, setEditingQuestion] = React.useState<SurveyQuestion | null>(null);
+  const [questionDialogOpen, setQuestionDialogOpen] = React.useState(false);
 
   const surveyTemplates = [
     {

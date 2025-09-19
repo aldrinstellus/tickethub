@@ -40,7 +40,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import SignalWifiIcon from "@mui/icons-material/SignalWifi";
+import SignalWifiIcon from "@mui/icons-material/SignalWifi4Bar";
 import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';

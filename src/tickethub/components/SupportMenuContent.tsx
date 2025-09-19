@@ -50,8 +50,8 @@ export default function SupportMenuContent({ collapsed = false }: SupportMenuCon
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: "space-between" }}>
       <List dense>
-        {mainListItems.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: "block" }}>
+        {mainListItems.map((item) => (
+          <ListItem key={item.path} disablePadding sx={{ display: "block" }}>
             <Tooltip
               title={collapsed ? item.text : ""}
               placement="right"

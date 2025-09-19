@@ -121,28 +121,33 @@ export default function AIDashboardWidget() {
   return (
     <AICard>
       <CardContent>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
-          <Stack direction="row" spacing={1} alignItems="center">
-            <PsychologyIcon color="primary" />
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              AI Assistant Dashboard
-            </Typography>
-          </Stack>
-          
-          <Stack direction="row" spacing={1} alignItems="center">
-            <Chip 
-              icon={<AutoAwesomeIcon />}
-              label={providerInfo?.name || 'AI Provider'} 
-              size="small" 
-              color="primary"
-              variant="outlined"
-            />
+        <Stack spacing={1} sx={{ mb: 3 }}>
+          {/* Icon, Title, and Settings Row */}
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Stack direction="row" spacing={1} alignItems="center">
+              <PsychologyIcon color="primary" />
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                AI Assistant Dashboard
+              </Typography>
+            </Stack>
+
             <Tooltip title="AI Settings">
               <IconButton size="small">
                 <SettingsIcon fontSize="small" />
               </IconButton>
             </Tooltip>
           </Stack>
+
+          {/* Badge Row */}
+          <Box>
+            <Chip
+              icon={<AutoAwesomeIcon />}
+              label={providerInfo?.name || 'Enhanced Mock'}
+              size="small"
+              color="primary"
+              variant="outlined"
+            />
+          </Box>
         </Stack>
 
         {/* Key Metrics */}

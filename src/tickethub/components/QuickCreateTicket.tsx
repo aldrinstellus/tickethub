@@ -75,7 +75,20 @@ export default function QuickCreateTicket() {
         <AddIcon />
       </Fab>
 
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        fullWidth
+        maxWidth="sm"
+        sx={{
+          '& .MuiBackdrop-root': {
+            backgroundColor: (theme) => theme.palette.mode === 'dark'
+              ? 'rgba(0, 0, 0, 0.8)'
+              : 'rgba(0, 0, 0, 0.5)',
+            backdropFilter: 'blur(4px)',
+          },
+        }}
+      >
         <DialogTitle>Create New Ticket</DialogTitle>
         <DialogContent>
           <TextField label="Subject" fullWidth margin="dense" value={subject} onChange={(e) => setSubject(e.target.value)} className="form-input-minheight" />

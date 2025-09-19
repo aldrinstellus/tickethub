@@ -76,6 +76,7 @@ export default function SupportTopNavbar() {
             {/* New Ticket Button */}
             <Button
               variant="contained"
+              color="primary"
               startIcon={<AddRoundedIcon />}
               onClick={() => window.dispatchEvent(new CustomEvent('open-quick-create'))}
               sx={{ display: { xs: "none", sm: "flex" } }}

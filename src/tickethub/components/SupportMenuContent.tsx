@@ -14,12 +14,14 @@ import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import AssessmentRoundedIcon from "@mui/icons-material/AssessmentRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import ShowChartRoundedIcon from "@mui/icons-material/ShowChartRounded";
+import PollRoundedIcon from "@mui/icons-material/PollRounded";
 
 const mainListItems = [
   { text: "Dashboard", icon: <DashboardRoundedIcon />, path: "/support" },
   { text: "Tickets", icon: <ConfirmationNumberRoundedIcon />, path: "/support/tickets" },
-  { text: "Knowledge Base", icon: <MenuBookRoundedIcon />, path: "/support/knowledge" },
-  { text: "Reports", icon: <AssessmentRoundedIcon />, path: "/support/reports" },
+  { text: "Knowledge Base", icon: <MenuBookRoundedIcon />, path: "/support/knowledge-base" },
+  { text: "Analytics", icon: <AssessmentRoundedIcon />, path: "/support/analytics" },
+  { text: "Surveys", icon: <PollRoundedIcon />, path: "/support/surveys" },
   { text: "Playground", icon: <ShowChartRoundedIcon />, path: "/support/playground" },
 ];
 

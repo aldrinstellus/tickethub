@@ -13,6 +13,7 @@ import MenuOpenRoundedIcon from "@mui/icons-material/MenuOpenRounded";
 import MenuButton from "../../dashboard/components/MenuButton";
 import ColorModeIconDropdown from "../../shared-theme/ColorModeIconDropdown";
 import SearchTrigger from "./SearchTrigger";
+import RealTimeNotifications from "./RealTimeNotifications";
 import { TicketHubLogo } from "./SupportAppNavbar";
 import SupportSideMenuMobile from "./SupportSideMenuMobile";
 import { useSidebar } from "../contexts/SidebarContext";

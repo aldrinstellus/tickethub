@@ -134,9 +134,9 @@ export default function Tickets() {
     if (filters.search.trim()) {
       const searchTerm = filters.search.toLowerCase();
       filtered = filtered.filter(ticket =>
-        ticket.id.toLowerCase().includes(searchTerm) ||
-        ticket.subject.toLowerCase().includes(searchTerm) ||
-        ticket.customer.toLowerCase().includes(searchTerm)
+        (ticket.id || '').toString().toLowerCase().includes(searchTerm) ||
+        (ticket.subject || '').toString().toLowerCase().includes(searchTerm) ||
+        (ticket.customer || '').toString().toLowerCase().includes(searchTerm)
       );
       active.push(`Search: "${filters.search}"`);
     }

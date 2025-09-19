@@ -147,7 +147,6 @@ export default function SupportDashboard() {
         <Stack direction="row" spacing={2} alignItems="center">
           <Typography variant="body2" color="text.secondary">{now.toLocaleString()}</Typography>
           <Chip label="All systems operational" color="success" size="small" />
-          <Button variant="contained" startIcon={<AddRoundedIcon />} onClick={() => window.dispatchEvent(new CustomEvent('open-quick-create'))}>New Ticket</Button>
           </Stack>
         </Stack>
       </motion.div>

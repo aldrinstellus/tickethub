@@ -66,7 +66,6 @@ export default function Tickets() {
     <Box sx={{ width: "100%" }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
         <Typography variant="h6">All Tickets</Typography>
-        <Button variant="contained" startIcon={<AddRoundedIcon />}>New Ticket</Button>
       </Stack>
       <Box sx={{ width: "100%", overflowX: "auto" }}>
         <Box sx={{ height: 560, minWidth: 800 }}>

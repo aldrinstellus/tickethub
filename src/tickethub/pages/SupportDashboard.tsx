@@ -21,6 +21,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import PageHeader from "../components/PageHeader";
 import LiveMetricsWidget from "../components/LiveMetricsWidget";
 import AIDashboardWidget from "../components/AIDashboardWidget";
+import AIInsightsWidget from "../components/AIInsightsWidget";
 import { getDummyAvatarUrl } from "../components/UserProfileDropdown";
 
 function timeAgo(iso: string) {

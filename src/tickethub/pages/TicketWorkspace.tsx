@@ -14,23 +14,72 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
+import CircularProgress from "@mui/material/CircularProgress";
 import CloseIcon from "@mui/icons-material/Close";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { tickets, articles, generateAiResponse } from "../data/mockData";
+import { articles, generateAiResponse, Ticket, Article } from "../data/mockData";
+import { fetchTicketById, fetchArticles } from "../services/api";
 
 export default function TicketWorkspace() {
   const { id } = useParams();
-  const ticket = tickets.find((t) => t.id === id) ?? tickets[0];
+  const [ticket, setTicket] = React.useState<Ticket | null>(null);
+  const [loading, setLoading] = React.useState(true);
   const [draft, setDraft] = React.useState("");
-  const related = articles.filter((a) => a.tags.some((t) => ticket.tags.includes(t)));
+  const [related, setRelated] = React.useState<Article[]>([]);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [kbOpen, setKbOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    async function loadTicketData() {
+      if (!id) return;
+
+      setLoading(true);
+      try {
+        const [ticketData, articlesData] = await Promise.all([
+          fetchTicketById(id),
+          fetchArticles()
+        ]);
+
+        setTicket(ticketData);
+        if (ticketData) {
+          const relatedArticles = articlesData.filter((a) =>
+            a.tags.some((t) => ticketData.tags.includes(t))
+          );
+          setRelated(relatedArticles);
+        }
+      } catch (err) {
+        console.error("Failed to load ticket:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadTicketData();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 400 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!ticket) {
+    return (
+      <Box sx={{ textAlign: 'center', py: 4 }}>
+        <Typography variant="h6" color="text.secondary">
+          Ticket not found
+        </Typography>
+      </Box>
+    );
+  }
 
   const handleGenerate = () => {
     const ai = generateAiResponse(`${ticket.subject} ${ticket.body}`, related);

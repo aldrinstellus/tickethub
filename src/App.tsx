@@ -2,22 +2,21 @@ import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import AppTheme from "./shared-theme/AppTheme";
 
 export default function App() {
   console.log("App rendering...");
 
   return (
-    <AppTheme>
+    <>
       <CssBaseline />
-      <Box sx={{ p: 4, minHeight: '100vh' }}>
+      <Box sx={{ p: 4, minHeight: '100vh', backgroundColor: 'white', color: 'black' }}>
         <Typography variant="h3" gutterBottom>
-          TicketHub - Testing AppTheme
+          TicketHub - Testing WITHOUT AppTheme
         </Typography>
         <Typography variant="body1">
-          If you can see this, AppTheme and MUI are working correctly.
+          If you can see this, MUI is working but AppTheme was the issue.
         </Typography>
       </Box>
-    </AppTheme>
+    </>
   );
 }

@@ -507,7 +507,7 @@ export default function TicketWorkspace() {
                 {/* Real-time connection indicator */}
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                   {isConnected ? (
-                    <SignalWifiIcon fontSize="small" color="success" />
+                    <SignalWifi4BarIcon fontSize="small" color="success" />
                   ) : (
                     <SignalWifiOffIcon fontSize="small" color="error" />
                   )}

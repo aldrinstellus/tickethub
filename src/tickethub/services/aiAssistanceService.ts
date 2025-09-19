@@ -48,6 +48,16 @@ export interface SmartResponse {
 class AIAssistanceService {
   // Sentiment Analysis
   async analyzeSentiment(text: string): Promise<SentimentAnalysis> {
+    // Handle undefined, null, or non-string inputs
+    if (!text || typeof text !== 'string') {
+      return {
+        score: 0,
+        label: 'neutral',
+        confidence: 0.5,
+        keywords: []
+      };
+    }
+
     // In a real implementation, this would call an AI service
     const lowerText = text.toLowerCase();
     

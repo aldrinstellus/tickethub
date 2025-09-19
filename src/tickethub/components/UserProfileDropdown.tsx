@@ -160,18 +160,11 @@ export default function UserProfileDropdown() {
         aria-expanded={open ? 'true' : undefined}
         aria-label="User profile menu"
       >
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          variant="dot"
-          statuscolor={currentStatus.color}
-        >
-          <Avatar
-            alt={user.name}
-            src={avatarUrl}
-            sx={{ width: 32, height: 32 }}
-          />
-        </StyledBadge>
+        <Avatar
+          alt={user.name}
+          src={avatarUrl}
+          sx={{ width: 32, height: 32 }}
+        />
       </IconButton>
 
       <Menu

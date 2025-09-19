@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';

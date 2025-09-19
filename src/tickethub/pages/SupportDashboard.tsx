@@ -138,17 +138,14 @@ export default function SupportDashboard() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
         >
-          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
-        <Box>
-          <Typography variant="h5">Dashboard</Typography>
-          <Typography variant="caption" color="text.secondary">Home &gt; Dashboard</Typography>
-        </Box>
-        <Stack direction="row" spacing={2} alignItems="center">
-          <Typography variant="body2" color="text.secondary">{now.toLocaleString()}</Typography>
-          <Chip label="All systems operational" color="success" size="small" />
+          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 2 }}>
+            <PageHeader title="Dashboard" />
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Typography variant="body2" color="text.secondary">{now.toLocaleString()}</Typography>
+              <Chip label="All systems operational" color="success" size="small" />
+            </Stack>
           </Stack>
-        </Stack>
-      </motion.div>
+        </motion.div>
 
         {/* Metrics */}
         <Grid container spacing={2} sx={{ mb: 3 }}>

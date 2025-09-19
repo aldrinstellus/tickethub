@@ -387,7 +387,7 @@ export default function SupportDashboard() {
                 flex: 1,
                 overflowY: "auto",
                 pl: 1,
-                pr: 1,
+                pr: 2,
                 scrollbarWidth: 'none', // Firefox
                 msOverflowStyle: 'none', // IE/Edge
                 '&::-webkit-scrollbar': {

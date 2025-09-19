@@ -244,9 +244,9 @@ export async function createTicket(ticket: Ticket): Promise<Ticket> {
 
       if (res.ok) {
         const data = await res.json();
-        const created = Array.isArray(data) ? data[0] : data;
+        const rawTicket = Array.isArray(data) ? data[0] : data;
         console.log("Successfully created ticket in Supabase");
-        return created || ticket;
+        return rawTicket ? transformSupabaseTicket(rawTicket) : ticket;
       }
     } catch (err) {
       console.warn("Failed to create ticket in Supabase:", err);
@@ -357,9 +357,9 @@ export async function assignTicket(id: string, assignee: string): Promise<Ticket
 
       if (res.ok) {
         const data = await res.json();
-        const updated = Array.isArray(data) ? data[0] : data;
+        const rawTicket = Array.isArray(data) ? data[0] : data;
         console.log(`Successfully assigned ticket ${id} to ${assignee}`);
-        return updated || null;
+        return rawTicket ? transformSupabaseTicket(rawTicket) : null;
       }
     } catch (err) {
       console.warn(`Error assigning ticket ${id}:`, err);
@@ -403,9 +403,9 @@ export async function updateTicketPriority(id: string, priority: Ticket['priorit
 
       if (res.ok) {
         const data = await res.json();
-        const updated = Array.isArray(data) ? data[0] : data;
+        const rawTicket = Array.isArray(data) ? data[0] : data;
         console.log(`Successfully updated ticket ${id} priority to ${priority}`);
-        return updated || null;
+        return rawTicket ? transformSupabaseTicket(rawTicket) : null;
       }
     } catch (err) {
       console.warn(`Error updating ticket ${id} priority:`, err);

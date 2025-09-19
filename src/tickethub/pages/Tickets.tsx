@@ -362,7 +362,7 @@ export default function Tickets() {
         <PageHeader title="Tickets" />
 
         {/* Search and Basic Filters */}
-        <Paper sx={{ p: 3, mb: 3 }}>
+        <Paper sx={{ p: 2, mb: 2 }}>
           <Grid container spacing={2} alignItems="center">
             {/* Search Bar - full width */}
             <Grid item xs={12}>

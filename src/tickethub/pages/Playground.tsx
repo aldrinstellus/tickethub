@@ -7,6 +7,7 @@ import ReactECharts from "echarts-for-react";
 import Plot from "react-plotly.js";
 import Chart from "react-apexcharts";
 import { motion } from "framer-motion";
+import PageHeader from "../components/PageHeader";
 
 export default function Playground() {
   const echartsOption = {
@@ -18,9 +19,7 @@ export default function Playground() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        Charts & Motion Playground
-      </Typography>
+      <PageHeader title="Playground" />
       <Stack spacing={2}>
         <Paper sx={{ p: 2 }}>
           <Typography variant="subtitle2" sx={{ mb: 1 }}>ECharts (echarts-for-react)</Typography>

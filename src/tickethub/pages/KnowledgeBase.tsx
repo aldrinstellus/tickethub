@@ -45,9 +45,63 @@ export default function KnowledgeBase() {
     return () => { mounted = false; };
   }, []);
 
-  const filtered = articles.filter(
-    (a) => a?.title?.toLowerCase().includes(query.toLowerCase()) || a?.content?.toLowerCase().includes(query.toLowerCase()),
-  );
+  // Extract all unique categories from articles
+  const allCategories = React.useMemo(() => {
+    const categories = new Set<string>();
+    articles.forEach((article) => {
+      article.tags?.forEach((tag) => categories.add(tag));
+    });
+    return Array.from(categories).sort();
+  }, [articles]);
+
+  // Get category counts
+  const categoryCounts = React.useMemo(() => {
+    const counts: { [key: string]: number } = {};
+    articles.forEach((article) => {
+      article.tags?.forEach((tag) => {
+        counts[tag] = (counts[tag] || 0) + 1;
+      });
+    });
+    return counts;
+  }, [articles]);
+
+  // Filter articles based on search query and selected categories
+  const filtered = React.useMemo(() => {
+    return articles.filter((article) => {
+      // Text search filter
+      const matchesQuery = query === "" ||
+        article?.title?.toLowerCase().includes(query.toLowerCase()) ||
+        article?.content?.toLowerCase().includes(query.toLowerCase());
+
+      // Category filter
+      const matchesCategories = selectedCategories.length === 0 ||
+        selectedCategories.some(category => article.tags?.includes(category));
+
+      return matchesQuery && matchesCategories;
+    });
+  }, [articles, query, selectedCategories]);
+
+  // Handle category selection
+  const handleCategoryToggle = (category: string) => {
+    setSelectedCategories(prev =>
+      prev.includes(category)
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
+    );
+  };
+
+  // Clear all filters
+  const handleClearFilters = () => {
+    setQuery("");
+    setSelectedCategories([]);
+  };
+
+  // Get popular categories (top 6 by article count)
+  const popularCategories = React.useMemo(() => {
+    return allCategories
+      .sort((a, b) => (categoryCounts[b] || 0) - (categoryCounts[a] || 0))
+      .slice(0, 6);
+  }, [allCategories, categoryCounts]);
 
   if (loading) {
     return (

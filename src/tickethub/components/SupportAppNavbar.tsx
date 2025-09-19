@@ -89,8 +89,7 @@ export function TicketHubLogo() {
         alignSelf: "center",
         boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.15)",
       }}
-    >
-      <SupportAgentRoundedIcon sx={{ color: "white", fontSize: "1.8rem" }} />
-    </Box>
+      aria-hidden="true"
+    />
   );
 }

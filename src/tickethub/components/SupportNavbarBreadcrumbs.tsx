@@ -21,7 +21,6 @@ export default function SupportNavbarBreadcrumbs() {
       </Link>
       {pathnames.map((value, index) => {
         const last = index === pathnames.length - 1;
-        const to = `/${pathnames.slice(0, index + 1).join("/)"}`; // will not be used since base is /support link above
         return last ? (
           <Typography key={index} color="text.primary">
             {capitalizeFirstLetter(value)}

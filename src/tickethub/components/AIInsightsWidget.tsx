@@ -187,7 +187,7 @@ export default function AIInsightsWidget({
       case 'negative':
         return 'error';
       default:
-        return 'default';
+        return 'info';
     }
   };
 
@@ -203,6 +203,18 @@ export default function AIInsightsWidget({
         return 'success';
     }
   };
+
+  const getChipProps = (color: string, variant: 'filled' | 'outlined' = 'filled') => ({
+    size: 'small' as const,
+    variant,
+    sx: {
+      color: 'white',
+      fontWeight: 600,
+      '& .MuiChip-label': {
+        color: 'inherit',
+      },
+    },
+  });
 
   if (loading) {
     return (

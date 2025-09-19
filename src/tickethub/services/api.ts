@@ -1,4 +1,4 @@
-import { tickets as mockTickets, articles as mockArticles, Article, Ticket } from "../data/mockData";
+import { tickets as mockTickets, articles as mockArticles, messages as mockMessages, Article, Ticket, Message } from "../data/mockData";
 
 const DEFAULT_DELAY = 500;
 

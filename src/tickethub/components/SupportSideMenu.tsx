@@ -22,10 +22,9 @@ const Drawer = styled(MuiDrawer)<{ $collapsed?: boolean }>(({ $collapsed }) => (
 }));
 
 export default function SupportSideMenu() {
-  const { user } = useUser();
   const { isExpanded, isCollapsed, isHidden } = useSidebar();
 
-  if (!user || isHidden) {
+  if (isHidden) {
     return null;
   }
 

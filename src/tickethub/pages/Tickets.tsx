@@ -7,10 +7,25 @@ import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { tickets } from "../data/mockData";
+import { fetchTickets } from "../services/api";
+import Skeleton from "@mui/material/Skeleton";
 
 export default function Tickets() {
   const navigate = useNavigate();
+  const [rows, setRows] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    let mounted = true;
+    setLoading(true);
+    fetchTickets().then((data) => {
+      if (!mounted) return;
+      setRows(data);
+    }).finally(() => {
+      if (mounted) setLoading(false);
+    });
+    return () => { mounted = false; };
+  }, []);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 110 },

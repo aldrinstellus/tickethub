@@ -85,17 +85,17 @@ export class SearchService {
     return searchWords.every(word => normalizedContent.includes(word));
   }
 
-  private searchTickets(query: string): SearchResult[] {
+  private searchTickets(query: string, limit: number = 5): SearchResult[] {
     if (!query.trim() || this.ticketsCache.length === 0) return [];
 
     return this.ticketsCache
-      .filter(ticket => 
+      .filter(ticket =>
         this.searchInString(query, ticket.subject) ||
         this.searchInString(query, ticket.body || '') ||
         this.searchInString(query, ticket.customer || '') ||
         this.searchInString(query, ticket.id)
       )
-      .slice(0, 5) // Limit to 5 results
+      .slice(0, limit)
       .map(ticket => ({
         id: ticket.id,
         title: ticket.subject,
@@ -107,35 +107,35 @@ export class SearchService {
       }));
   }
 
-  private searchArticles(query: string): SearchResult[] {
+  private searchArticles(query: string, limit: number = 5): SearchResult[] {
     if (!query.trim() || this.articlesCache.length === 0) return [];
 
     return this.articlesCache
-      .filter(article => 
+      .filter(article =>
         this.searchInString(query, article.title) ||
         this.searchInString(query, article.content) ||
         article.tags.some(tag => this.searchInString(query, tag))
       )
-      .slice(0, 5) // Limit to 5 results
+      .slice(0, limit)
       .map(article => ({
         id: article.id.toString(),
         title: article.title,
-        subtitle: article.content.substring(0, 80) + '...',
+        subtitle: article.content.substring(0, 100) + (article.content.length > 100 ? '...' : ''),
         type: 'article' as const,
         url: '/knowledge-base',
       }));
   }
 
-  private searchUsers(query: string): SearchResult[] {
+  private searchUsers(query: string, limit: number = 3): SearchResult[] {
     if (!query.trim()) return [];
 
     return mockUsers
-      .filter(user => 
+      .filter(user =>
         this.searchInString(query, user.name) ||
         this.searchInString(query, user.email) ||
         this.searchInString(query, user.role)
       )
-      .slice(0, 3) // Limit to 3 results
+      .slice(0, limit)
       .map(user => ({
         id: user.id,
         title: user.name,
@@ -145,15 +145,15 @@ export class SearchService {
       }));
   }
 
-  private searchPages(query: string): SearchResult[] {
+  private searchPages(query: string, limit: number = 4): SearchResult[] {
     if (!query.trim()) return [];
 
     return appPages
-      .filter(page => 
+      .filter(page =>
         this.searchInString(query, page.title) ||
         this.searchInString(query, page.description)
       )
-      .slice(0, 4) // Limit to 4 results
+      .slice(0, limit)
       .map(page => ({
         id: page.id,
         title: page.title,
@@ -175,11 +175,17 @@ export class SearchService {
 
     await this.updateCacheIfNeeded();
 
+    // Perform searches with higher limits for federated search
+    const tickets = this.searchTickets(query, 8);
+    const articles = this.searchArticles(query, 6);
+    const pages = this.searchPages(query, 6);
+    const users = this.searchUsers(query, 4);
+
     return {
-      tickets: this.searchTickets(query),
-      articles: this.searchArticles(query),
-      pages: this.searchPages(query),
-      users: this.searchUsers(query),
+      tickets,
+      articles,
+      pages,
+      users,
     };
   }
 

@@ -26,9 +26,93 @@ import { Ticket } from '../data/mockData';
 import { aiAssistanceService, AIInsights } from '../services/aiAssistanceService';
 
 const AICard = styled(Card)(({ theme }) => ({
-  background: `linear-gradient(135deg, ${theme.palette.primary.light}15, ${theme.palette.secondary.light}10)`,
-  border: `1px solid ${theme.palette.primary.light}`,
+  background: theme.palette.background.paper,
+  border: `1px solid ${theme.palette.divider}`,
 }));
+
+const SentimentCard = styled(Card, {
+  shouldForwardProp: (prop) => prop !== 'sentiment',
+})<{ sentiment: string }>(({ theme, sentiment }) => {
+  const getColors = () => {
+    switch (sentiment) {
+      case 'positive':
+        return {
+          background: theme.palette.success.light,
+          border: theme.palette.success.main,
+          color: theme.palette.success.contrastText,
+        };
+      case 'negative':
+        return {
+          background: theme.palette.error.light,
+          border: theme.palette.error.main,
+          color: theme.palette.error.contrastText,
+        };
+      default:
+        return {
+          background: theme.palette.info.light,
+          border: theme.palette.info.main,
+          color: theme.palette.info.contrastText,
+        };
+    }
+  };
+
+  const colors = getColors();
+  return {
+    background: colors.background,
+    border: `1px solid ${colors.border}`,
+    '& .MuiTypography-root': {
+      color: colors.color,
+    },
+    '& .MuiAccordionSummary-root': {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    },
+  };
+});
+
+const RiskCard = styled(Card, {
+  shouldForwardProp: (prop) => prop !== 'risk',
+})<{ risk: string }>(({ theme, risk }) => {
+  const getColors = () => {
+    switch (risk) {
+      case 'critical':
+        return {
+          background: theme.palette.error.light,
+          border: theme.palette.error.main,
+          color: theme.palette.error.contrastText,
+        };
+      case 'high':
+        return {
+          background: theme.palette.warning.light,
+          border: theme.palette.warning.main,
+          color: theme.palette.warning.contrastText,
+        };
+      case 'medium':
+        return {
+          background: theme.palette.info.light,
+          border: theme.palette.info.main,
+          color: theme.palette.info.contrastText,
+        };
+      default:
+        return {
+          background: theme.palette.success.light,
+          border: theme.palette.success.main,
+          color: theme.palette.success.contrastText,
+        };
+    }
+  };
+
+  const colors = getColors();
+  return {
+    background: colors.background,
+    border: `1px solid ${colors.border}`,
+    '& .MuiTypography-root': {
+      color: colors.color,
+    },
+    '& .MuiAccordionSummary-root': {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    },
+  };
+});
 
 const ConfidenceBar = styled(LinearProgress)(({ theme }) => ({
   height: 6,

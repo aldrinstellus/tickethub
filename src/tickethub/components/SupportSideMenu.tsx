@@ -2,14 +2,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import MuiDrawer, { drawerClasses } from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import SupportMenuContent from "./SupportMenuContent";
-import { useUser } from "../contexts/UserContext";
 import { useSidebar } from "../contexts/SidebarContext";
 
 const drawerWidth = 240;

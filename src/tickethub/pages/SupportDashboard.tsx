@@ -194,6 +194,17 @@ export default function SupportDashboard() {
           </Stack>
         </motion.div>
 
+        {/* Live Metrics Widget */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          <Box sx={{ mb: 3 }}>
+            <LiveMetricsWidget />
+          </Box>
+        </motion.div>
+
         {/* Main Dashboard Layout */}
         <Grid container spacing={3} sx={{ mb: 3 }}>
           {/* Left Column - Business Metrics & Activity */}

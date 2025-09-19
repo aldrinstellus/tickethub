@@ -189,15 +189,66 @@ export default function TicketWorkspace() {
         <Grid item xs={12} md={8}>
           <Card variant="outlined" sx={{ mb: 2 }}>
             <CardContent>
-              <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1 }}>
-                <Typography variant="h6" component="h2" sx={{ mr: 1 }}>
+              <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 2 }}>
+                <Typography variant="h6" component="h2" sx={{ mr: 1, flexGrow: 1 }}>
                   {ticket.subject}
                 </Typography>
                 <Chip size="small" label={ticket.priority} color={ticket.priority === "Urgent" ? "error" : ticket.priority === "High" ? "warning" : "default"} />
                 <Chip size="small" label={ticket.status} />
               </Stack>
+
+              <Grid container spacing={2} sx={{ mb: 2 }}>
+                <Grid item xs={12} sm={4}>
+                  <FormControl fullWidth size="small" disabled={updating}>
+                    <InputLabel>Status</InputLabel>
+                    <Select
+                      value={ticket.status}
+                      label="Status"
+                      onChange={(e) => handleStatusUpdate(e.target.value as Ticket['status'])}
+                    >
+                      <MenuItem value="Open">Open</MenuItem>
+                      <MenuItem value="Pending">Pending</MenuItem>
+                      <MenuItem value="Resolved">Resolved</MenuItem>
+                      <MenuItem value="Closed">Closed</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <FormControl fullWidth size="small" disabled={updating}>
+                    <InputLabel>Priority</InputLabel>
+                    <Select
+                      value={ticket.priority}
+                      label="Priority"
+                      onChange={(e) => handlePriorityUpdate(e.target.value as Ticket['priority'])}
+                    >
+                      <MenuItem value="Low">Low</MenuItem>
+                      <MenuItem value="Normal">Normal</MenuItem>
+                      <MenuItem value="High">High</MenuItem>
+                      <MenuItem value="Urgent">Urgent</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <FormControl fullWidth size="small" disabled={updating}>
+                    <InputLabel>Assignee</InputLabel>
+                    <Select
+                      value={ticket.assignee}
+                      label="Assignee"
+                      onChange={(e) => handleAssignUpdate(e.target.value)}
+                    >
+                      <MenuItem value="Unassigned">Unassigned</MenuItem>
+                      <MenuItem value="Alex Thompson">Alex Thompson</MenuItem>
+                      <MenuItem value="Priya Patel">Priya Patel</MenuItem>
+                      <MenuItem value="Marcus Johnson">Marcus Johnson</MenuItem>
+                      <MenuItem value="Sarah Chen">Sarah Chen</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+
               <Typography variant="body2" color="text.secondary">
-                {ticket.customer} • Assigned to {ticket.assignee} • Updated {new Date(ticket.updatedAt).toLocaleString()}
+                {ticket.customer} • Updated {new Date(ticket.updatedAt).toLocaleString()}
+                {updating && <CircularProgress size={16} sx={{ ml: 1 }} />}
               </Typography>
             </CardContent>
           </Card>

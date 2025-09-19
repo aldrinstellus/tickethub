@@ -39,7 +39,7 @@ function generateTicketId(): string {
 
 // Mock function to simulate API delay
 function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout resolve, ms);
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 export async function createTicket(ticketData: NewTicketData): Promise<CreatedTicket> {

@@ -45,7 +45,7 @@ export default function SupportSideMenu() {
       <Box sx={{ display: "flex", mt: "calc(var(--template-frame-height, 0px) + 4px)", p: 1.5 }}>
         <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
           <TicketHubLogo />
-          <Typography variant="h4" component="div" sx={{ fontFamily: '"Special Gothic Condensed One", sans-serif', fontWeight: 400 }}>TicketHub</Typography>
+          <Typography variant="h2" component="div" sx={{ fontFamily: '"Special Gothic Condensed One", sans-serif', fontWeight: 900, fontSize: '2.5rem' }}>TicketHub</Typography>
         </Stack>
       </Box>
       <Divider />

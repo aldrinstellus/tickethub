@@ -33,7 +33,7 @@ export default function SupportSideMenu() {
   return (
     <Drawer
       variant="permanent"
-      $collapsed={isCollapsed}
+      collapsed={isCollapsed}
       sx={{
         display: { xs: "none", md: "block" },
         [`& .${drawerClasses.paper}`]: {

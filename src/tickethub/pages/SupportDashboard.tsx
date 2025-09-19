@@ -197,7 +197,7 @@ export default function SupportDashboard() {
         </motion.div>
 
         {/* Two Column Layout with Independent Scrolling */}
-        <Box sx={{ display: "flex", flex: 1, gap: 3, overflow: "hidden" }}>
+        <Box sx={{ display: "flex", flex: 1, gap: 3, overflow: "hidden", px: 1 }}>
 
           {/* LEFT COLUMN (70%) - Command Center */}
           <Box

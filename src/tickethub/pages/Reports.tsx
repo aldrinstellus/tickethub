@@ -26,6 +26,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import { LineChart, BarChart } from "@mui/x-charts";
 import ReactECharts from "echarts-for-react";
 import { motion, AnimatePresence } from "framer-motion";
+import PageHeader from "../components/PageHeader";
 
 export default function Reports() {
   const [dateRange, setDateRange] = React.useState("last30days");
@@ -109,12 +110,10 @@ export default function Reports() {
             transition={{ duration: 0.4, delay: 0.1 }}
           >
             <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
-              <Box>
-                <Typography variant="h5">Performance Reports</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Generate and schedule automated reports
-                </Typography>
-              </Box>
+              <PageHeader
+                title="Reports"
+                subtitle="Generate and schedule automated reports"
+              />
               <Stack direction="row" spacing={1}>
                 <Button variant="outlined" startIcon={<ScheduleIcon />}>
                   Schedule Report

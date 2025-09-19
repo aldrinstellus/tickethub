@@ -381,7 +381,13 @@ export default function SupportDashboard() {
                     <Box>
                       {Object.entries(workload).map(([user, count]) => (
                         <Stack key={user} direction="row" alignItems="center" spacing={1} sx={{ mb: 1.5 }}>
-                          <Avatar sx={{ width: 32, height: 32 }}>{user.split(' ').map(s=>s[0]).slice(0,2).join('')}</Avatar>
+                          <Avatar
+                            src={getDummyAvatarUrl(user)}
+                            alt={user}
+                            sx={{ width: 32, height: 32 }}
+                          >
+                            {user.split(' ').map(s=>s[0]).slice(0,2).join('')}
+                          </Avatar>
                           <Box sx={{ flexGrow: 1 }}>
                             <Typography variant="body2" sx={{ fontWeight: 500 }}>{user}</Typography>
                             <Typography variant="caption" color="text.secondary">{count} open tickets</Typography>

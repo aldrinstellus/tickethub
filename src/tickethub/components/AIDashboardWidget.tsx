@@ -132,7 +132,7 @@ export default function AIDashboardWidget() {
             </Stack>
 
             <Tooltip title="AI Settings">
-              <IconButton size="small" sx={{ mr: -0.5 }}>
+              <IconButton size="small" sx={{ ml: 1 }}>
                 <SettingsIcon fontSize="small" />
               </IconButton>
             </Tooltip>

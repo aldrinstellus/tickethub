@@ -98,6 +98,12 @@ export default function TicketWorkspace() {
   const [kbSearch, setKbSearch] = React.useState("");
   const [selectedKbCategory, setSelectedKbCategory] = React.useState("all");
   const [kbArticles, setKbArticles] = React.useState<Article[]>([]);
+  // Live time state used to update SLA timers and relative timestamps
+  const [now, setNow] = React.useState<Date>(new Date());
+  React.useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 60 * 1000);
+    return () => clearInterval(t);
+  }, []);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));

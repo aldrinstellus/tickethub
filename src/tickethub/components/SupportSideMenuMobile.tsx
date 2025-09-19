@@ -18,15 +18,15 @@ import PollRoundedIcon from "@mui/icons-material/PollRounded";
 import { TicketHubLogo } from "./SupportAppNavbar";
 
 const mainListItems = [
-  { text: "Dashboard", icon: <DashboardRoundedIcon />, path: "/support" },
-  { text: "Tickets", icon: <ConfirmationNumberRoundedIcon />, path: "/support/tickets" },
-  { text: "Knowledge Base", icon: <MenuBookRoundedIcon />, path: "/support/knowledge-base" },
-  { text: "Analytics", icon: <AssessmentRoundedIcon />, path: "/support/analytics" },
-  { text: "Surveys", icon: <PollRoundedIcon />, path: "/support/surveys" },
+  { text: "Dashboard", icon: <DashboardRoundedIcon />, path: "/" },
+  { text: "Tickets", icon: <ConfirmationNumberRoundedIcon />, path: "/tickets" },
+  { text: "Knowledge Base", icon: <MenuBookRoundedIcon />, path: "/knowledge-base" },
+  { text: "Analytics", icon: <AssessmentRoundedIcon />, path: "/analytics" },
+  { text: "Surveys", icon: <PollRoundedIcon />, path: "/surveys" },
 ];
 
 const secondaryListItems = [
-  { text: "Settings", icon: <SettingsRoundedIcon />, path: "/support/settings" },
+  { text: "Settings", icon: <SettingsRoundedIcon />, path: "/settings" },
 ];
 
 interface SupportSideMenuMobileProps {

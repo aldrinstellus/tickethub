@@ -64,21 +64,35 @@ function NotFound() {
   );
 }
 
-export default function App() {
-  console.log("App component loading - restoring TicketHub...");
-  
+function TestComponent() {
   return (
-    <ErrorBoundary>
-      <AppTheme>
-        <CssBaseline />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/*" element={<TicketHubApp />} />
-            <Route path="/crm" element={<CrmDashboard />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </AppTheme>
-    </ErrorBoundary>
+    <div style={{ background: 'blue', color: 'white', padding: '20px', fontSize: '24px' }}>
+      <h1>Testing Step by Step</h1>
+      <p>1. Basic React: ✅</p>
+      <p>2. Testing AppTheme next...</p>
+    </div>
   );
+}
+
+export default function App() {
+  console.log("App component loading - testing step by step...");
+
+  try {
+    return (
+      <ErrorBoundary>
+        <AppTheme>
+          <CssBaseline />
+          <TestComponent />
+        </AppTheme>
+      </ErrorBoundary>
+    );
+  } catch (error) {
+    console.error("Error in App component:", error);
+    return (
+      <div style={{ background: 'red', color: 'white', padding: '20px' }}>
+        <h1>App Error</h1>
+        <p>Error: {error instanceof Error ? error.message : String(error)}</p>
+      </div>
+    );
+  }
 }

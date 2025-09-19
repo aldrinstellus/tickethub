@@ -76,20 +76,6 @@ export default function SupportAppNavbar() {
 }
 
 export function TicketHubLogo() {
-  return (
-    <Box
-      sx={{
-        width: "2.5rem",
-        height: "2.5rem",
-        bgcolor: "primary.main",
-        borderRadius: "12px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: "center",
-        boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.15)",
-      }}
-      aria-hidden="true"
-    />
-  );
+  // Logo mark removed per design request — keep function to avoid breaking imports
+  return null;
 }

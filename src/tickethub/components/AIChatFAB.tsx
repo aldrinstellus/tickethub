@@ -57,7 +57,7 @@ export default function AIChatFAB() {
           onClick={handleClick}
           sx={{
             position: 'fixed',
-            bottom: 100, // Above the QuickCreate FAB
+            bottom: 80, // Above the QuickCreate FAB
             right: 24,
             zIndex: 1401, // Above QuickCreate FAB (1400)
             background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',

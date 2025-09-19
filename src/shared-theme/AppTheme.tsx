@@ -19,6 +19,16 @@ interface AppThemeProps {
 
 export default function AppTheme(props: AppThemeProps) {
   const { children, disableCustomTheme, themeComponents } = props;
+
+  // Force dark mode on initial load
+  React.useEffect(() => {
+    // Set the data attribute on the document to force dark mode
+    document.documentElement.setAttribute('data-mui-color-scheme', 'dark');
+
+    // Also set localStorage to remember the preference
+    localStorage.setItem('mui-mode', 'dark');
+  }, []);
+
   const theme = React.useMemo(() => {
     return disableCustomTheme
       ? {}
@@ -43,11 +53,13 @@ export default function AppTheme(props: AppThemeProps) {
           },
         });
   }, [disableCustomTheme, themeComponents]);
+
   if (disableCustomTheme) {
     return <React.Fragment>{children}</React.Fragment>;
   }
+
   return (
-    <ThemeProvider theme={theme} disableTransitionOnChange>
+    <ThemeProvider theme={theme} disableTransitionOnChange defaultMode="dark">
       {children}
     </ThemeProvider>
   );

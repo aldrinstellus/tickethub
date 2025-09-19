@@ -27,6 +27,7 @@ import Surveys from "./pages/Surveys";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Playground from "./pages/Playground";
+import QuickCreateTicket from "./components/QuickCreateTicket";
 
 const xThemeComponents = {
   ...chartsCustomizations,

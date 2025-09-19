@@ -222,15 +222,15 @@ export async function fetchTicketById(id: string): Promise<Ticket | null> {
  */
 export async function updateTicketStatus(id: string, status: Ticket['status']): Promise<Ticket | null> {
 
-  if (supabaseUrl && supabaseKey) {
+  if (SUPABASE_URL && SUPABASE_KEY) {
     try {
-      const url = `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/tickets?id=eq.${encodeURIComponent(id)}`;
+      const url = `${SUPABASE_URL.replace(/\/+$/, "")}/rest/v1/tickets?id=eq.${encodeURIComponent(id)}`;
       const res = await fetch(url, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          apikey: supabaseKey,
-          Authorization: `Bearer ${supabaseKey}`,
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
           Prefer: "return=representation",
         },
         body: JSON.stringify({ status, updated_at: new Date().toISOString() }),

@@ -20,9 +20,17 @@ export default function KnowledgeBase() {
     setLoading(true);
     fetchArticles().then((data) => {
       if (!mounted) return;
-      setArticles(data);
+      // Ensure data is always an array with valid articles
+      const validArticles = Array.isArray(data) ? data.filter(article =>
+        article && typeof article === 'object' && article.title && article.content
+      ) : [];
+      setArticles(validArticles);
     }).catch((err) => {
       console.error("Failed to load articles:", err);
+      if (mounted) {
+        // Set empty array on error to prevent crashes
+        setArticles([]);
+      }
     }).finally(() => {
       if (mounted) setLoading(false);
     });

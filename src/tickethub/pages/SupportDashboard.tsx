@@ -326,7 +326,7 @@ export default function SupportDashboard() {
                         <ListItem disablePadding>
                           <ListItemButton onClick={() => navigate(`/tickets/${t.id}`)} sx={{ width: '100%' }}>
                             <Avatar sx={{ width: 36, height: 36, mr: 2 }}>{t.customer.split(' ').map(s=>s[0]).slice(0,2).join('')}</Avatar>
-                            <ListItemText primary={`${t.id} — ${t.subject}`} secondary={`${t.customer} • ${timeAgo(t.updatedAt)} • ${t.assignee}`} />
+                            <ListItemText primary={`${t.id} — ${t.subject}`} secondary={`${t.customer} �� ${timeAgo(t.updatedAt)} • ${t.assignee}`} />
                             <Chip label={t.priority} color={t.priority === 'Urgent' ? 'error' : t.priority === 'High' ? 'warning' : t.priority === 'Normal' ? 'default' : 'success'} size="small" />
                           </ListItemButton>
                         </ListItem>
@@ -370,22 +370,77 @@ export default function SupportDashboard() {
                   <CardContent>
                     <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
                       <Typography variant="h6">AI Insights</Typography>
-                      <Button variant="text">View All</Button>
+                      <Button variant="text" color="primary" size="small">
+                        View AI Recommendations
+                      </Button>
                     </Stack>
-                    <Stack spacing={1.5}>
-                      <Box>
-                        <Typography variant="body2" color="error.main" sx={{ fontWeight: 500 }}>
-                          ⚠️ {escalateCandidates.length} tickets likely to escalate
+                    <Stack spacing={2}>
+                      {/* Escalation Predictions */}
+                      <Box sx={{ p: 2, bgcolor: 'error.50', borderRadius: 1, border: '1px solid', borderColor: 'error.200' }}>
+                        <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                          <Typography variant="body2" color="error.main" sx={{ fontWeight: 600 }}>
+                            ⚠️ Escalation Risk
+                          </Typography>
+                        </Stack>
+                        <Typography variant="body2" color="error.main" sx={{ fontWeight: 500, mb: 1 }}>
+                          {escalateCandidates.length} tickets likely to escalate
                         </Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant="body2" color="warning.main" sx={{ fontWeight: 500 }}>
-                          📊 {escalateCandidates.length > 0 ? 2 : 0} priority changes suggested
+                        <Typography variant="caption" color="error.dark">
+                          Predicted within next 2-4 hours based on response patterns
                         </Typography>
+                        {escalateCandidates.length > 0 && (
+                          <Button variant="outlined" size="small" color="error" sx={{ mt: 1 }}>
+                            View High-Risk Tickets
+                          </Button>
+                        )}
                       </Box>
-                      <Box>
-                        <Typography variant="body2" color="info.main" sx={{ fontWeight: 500 }}>
-                          📚 3 knowledge gaps detected
+
+                      {/* Priority Suggestions */}
+                      <Box sx={{ p: 2, bgcolor: 'warning.50', borderRadius: 1, border: '1px solid', borderColor: 'warning.200' }}>
+                        <Typography variant="body2" color="warning.main" sx={{ fontWeight: 600, mb: 1 }}>
+                          📊 Priority Adjustments
+                        </Typography>
+                        <Typography variant="body2" color="warning.main" sx={{ fontWeight: 500, mb: 1 }}>
+                          {escalateCandidates.length > 0 ? 3 : 0} priority changes suggested
+                        </Typography>
+                        <Typography variant="caption" color="warning.dark">
+                          AI recommends increasing priority for tickets with urgent keywords
+                        </Typography>
+                        {escalateCandidates.length > 0 && (
+                          <Button variant="outlined" size="small" color="warning" sx={{ mt: 1 }}>
+                            Review Suggestions
+                          </Button>
+                        )}
+                      </Box>
+
+                      {/* Knowledge Gaps */}
+                      <Box sx={{ p: 2, bgcolor: 'info.50', borderRadius: 1, border: '1px solid', borderColor: 'info.200' }}>
+                        <Typography variant="body2" color="info.main" sx={{ fontWeight: 600, mb: 1 }}>
+                          📚 Knowledge Gaps
+                        </Typography>
+                        <Typography variant="body2" color="info.main" sx={{ fontWeight: 500, mb: 1 }}>
+                          4 knowledge gaps detected
+                        </Typography>
+                        <Typography variant="caption" color="info.dark">
+                          Topics: API authentication, billing cycles, mobile app setup
+                        </Typography>
+                        <Button variant="outlined" size="small" color="info" sx={{ mt: 1 }}>
+                          Create Articles
+                        </Button>
+                      </Box>
+
+                      {/* AI Confidence Score */}
+                      <Box sx={{ p: 1.5, bgcolor: 'success.50', borderRadius: 1, border: '1px solid', borderColor: 'success.200' }}>
+                        <Stack direction="row" justifyContent="space-between" alignItems="center">
+                          <Typography variant="body2" color="success.main" sx={{ fontWeight: 600 }}>
+                            🤖 AI Confidence
+                          </Typography>
+                          <Typography variant="h6" color="success.main" sx={{ fontWeight: 700 }}>
+                            87%
+                          </Typography>
+                        </Stack>
+                        <Typography variant="caption" color="success.dark">
+                          High accuracy in current predictions
                         </Typography>
                       </Box>
                     </Stack>

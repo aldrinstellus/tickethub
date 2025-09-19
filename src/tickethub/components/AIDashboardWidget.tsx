@@ -120,7 +120,7 @@ export default function AIDashboardWidget() {
 
   return (
     <AICard>
-      <CardContent>
+      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
         <Stack spacing={1} sx={{ mb: 3 }}>
           {/* Icon, Title, and Settings Row */}
           <Stack direction="row" justifyContent="space-between" alignItems="center">

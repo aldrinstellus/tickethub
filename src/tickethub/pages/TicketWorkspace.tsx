@@ -377,6 +377,132 @@ export default function TicketWorkspace() {
                       </Typography>
                     </Box>
                   </Box>
+
+                  <Divider />
+
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <VerifiedIcon fontSize="small" color="success" />
+                    <Box>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        Premium Plan
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Subscription Tier
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <StarIcon fontSize="small" color="warning" />
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        4.8/5.0
+                      </Typography>
+                      <Stack direction="row" spacing={0.2}>
+                        {[...Array(5)].map((_, i) => (
+                          <StarIcon
+                            key={i}
+                            fontSize="small"
+                            sx={{
+                              fontSize: 14,
+                              color: i < 5 ? 'warning.main' : 'grey.300'
+                            }}
+                          />
+                        ))}
+                      </Stack>
+                    </Box>
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block', width: '100%' }}>
+                      Customer Satisfaction
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <AccountBoxIcon fontSize="small" color="primary" />
+                    <Box>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        Active since Mar 2023
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Account Status
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Stack>
+              </CardContent>
+            </Card>
+
+            <Card variant="outlined" sx={{ mb: 2 }}>
+              <CardContent>
+                <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>
+                  Recent Activity
+                </Typography>
+                <Stack spacing={2}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <HistoryIcon fontSize="small" color="primary" />
+                    <Box>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        12 Total Tickets
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        8 Resolved, 3 Open, 1 Pending
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <TrendingUpIcon fontSize="small" color="success" />
+                    <Box>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        Last Contact: 3 days ago
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Previous ticket resolved
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  <Divider />
+
+                  <Box>
+                    <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, display: 'block', mb: 1 }}>
+                      Recent Tickets
+                    </Typography>
+                    <Stack spacing={1}>
+                      <Box sx={{ p: 1, bgcolor: 'action.hover', borderRadius: 1 }}>
+                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                          #1247: Login issue with SSO
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
+                          Resolved • 3 days ago
+                        </Typography>
+                      </Box>
+                      <Box sx={{ p: 1, bgcolor: 'action.hover', borderRadius: 1 }}>
+                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                          #1198: Data export feature request
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
+                          Resolved • 1 week ago
+                        </Typography>
+                      </Box>
+                      <Box sx={{ p: 1, bgcolor: 'action.hover', borderRadius: 1 }}>
+                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                          #1156: API rate limit question
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
+                          Resolved • 2 weeks ago
+                        </Typography>
+                      </Box>
+                    </Stack>
+                  </Box>
+
+                  <Button
+                    variant="text"
+                    size="small"
+                    sx={{ alignSelf: 'flex-start', mt: 1 }}
+                    onClick={() => {/* Navigate to customer tickets */}}
+                  >
+                    View All Customer Tickets
+                  </Button>
                 </Stack>
               </CardContent>
             </Card>

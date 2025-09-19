@@ -163,31 +163,16 @@ export async function fetchTickets(): Promise<Ticket[]> {
 }
 
 export async function fetchArticles(): Promise<Article[]> {
+  console.log("fetchArticles: Using mock data to avoid API connection issues");
+
   try {
-    // Try Supabase first
-    const supabaseArticles = await supabaseFetch<Article[]>("articles");
-    if (supabaseArticles && Array.isArray(supabaseArticles)) {
-      console.log(`Successfully fetched ${supabaseArticles.length} articles from Supabase`);
-      return supabaseArticles;
-    }
-
-    // Try local API fallback
-    const remote = await tryFetch<Article[]>("/api/articles");
-    if (remote) {
-      console.log("Using articles from local API");
-      return remote;
-    }
-
-    // Use mock data as final fallback
-    console.log("Using mock article data");
-    return new Promise<Article[]>((res) =>
-      setTimeout(() => res(mockArticles), DEFAULT_DELAY)
-    );
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, DEFAULT_DELAY));
+    console.log(`fetchArticles: Returning ${mockArticles.length} mock articles`);
+    return mockArticles;
   } catch (error) {
-    console.error("Error in fetchArticles:", error);
-    return new Promise<Article[]>((res) =>
-      setTimeout(() => res(mockArticles), DEFAULT_DELAY)
-    );
+    console.error("fetchArticles: Error with mock data:", error);
+    return [];
   }
 }
 

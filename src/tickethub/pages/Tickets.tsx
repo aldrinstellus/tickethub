@@ -474,7 +474,7 @@ export default function Tickets() {
         </Paper>
 
         {/* Active Filters and Results Count */}
-        <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+        <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 1 }}>
           <Typography variant="body2" color="text.secondary">
             {filteredRows.length} tickets found
           </Typography>

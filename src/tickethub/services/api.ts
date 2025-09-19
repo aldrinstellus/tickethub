@@ -3,6 +3,17 @@ import type { Article, Ticket, Message } from "../data/mockData";
 
 const DEFAULT_DELAY = 500;
 
+// Environment validation
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+// Log Supabase configuration status on module load
+if (SUPABASE_URL && SUPABASE_KEY) {
+  console.log("Supabase configuration detected, will attempt to use live data");
+} else {
+  console.log("Supabase configuration missing, will use mock data");
+}
+
 async function tryFetch<T>(url: string): Promise<T | null> {
   try {
     const res = await fetch(url);
@@ -108,14 +119,32 @@ export async function fetchTickets() {
 }
 
 export async function fetchArticles(): Promise<Article[]> {
-  // Try Supabase first
-  const supabaseArticles = await supabaseFetch<Article[]>("articles");
-  if (supabaseArticles) return supabaseArticles;
+  try {
+    // Try Supabase first
+    const supabaseArticles = await supabaseFetch<Article[]>("articles");
+    if (supabaseArticles && Array.isArray(supabaseArticles)) {
+      console.log(`Successfully fetched ${supabaseArticles.length} articles from Supabase`);
+      return supabaseArticles;
+    }
 
-  // Fallback to mock data
-  const remote = await tryFetch<Article[]>("/api/articles");
-  if (remote) return remote;
-  return new Promise<Article[]>((res) => setTimeout(() => res(mockArticles), DEFAULT_DELAY));
+    // Try local API fallback
+    const remote = await tryFetch<Article[]>("/api/articles");
+    if (remote) {
+      console.log("Using articles from local API");
+      return remote;
+    }
+
+    // Use mock data as final fallback
+    console.log("Using mock article data");
+    return new Promise<Article[]>((res) =>
+      setTimeout(() => res(mockArticles), DEFAULT_DELAY)
+    );
+  } catch (error) {
+    console.error("Error in fetchArticles:", error);
+    return new Promise<Article[]>((res) =>
+      setTimeout(() => res(mockArticles), DEFAULT_DELAY)
+    );
+  }
 }
 
 /**
@@ -293,18 +322,34 @@ export async function updateTicketPriority(id: string, priority: Ticket['priorit
  * Fetch messages for a specific ticket
  */
 export async function fetchMessages(ticketId: string): Promise<Message[]> {
-  // Try Supabase first
-  const supabaseMessages = await supabaseFetch<Message[]>(`messages?ticket_id=eq.${encodeURIComponent(ticketId)}&order=created_at.asc`);
-  if (supabaseMessages) return supabaseMessages;
+  try {
+    // Try Supabase first
+    const supabaseMessages = await supabaseFetch<Message[]>(`messages?ticket_id=eq.${encodeURIComponent(ticketId)}&order=created_at.asc`);
+    if (supabaseMessages && Array.isArray(supabaseMessages)) {
+      console.log(`Successfully fetched ${supabaseMessages.length} messages from Supabase for ticket ${ticketId}`);
+      return supabaseMessages;
+    }
 
-  // Fallback to mock data
-  const remote = await tryFetch<Message[]>(`/api/messages?ticket_id=${ticketId}`);
-  if (remote) return remote;
+    // Try local API fallback
+    const remote = await tryFetch<Message[]>(`/api/messages?ticket_id=${ticketId}`);
+    if (remote) {
+      console.log(`Using messages from local API for ticket ${ticketId}`);
+      return remote;
+    }
 
-  // Return filtered mock messages
-  return new Promise<Message[]>((res) =>
-    setTimeout(() => res(mockMessages.filter(m => m.ticket_id === ticketId)), DEFAULT_DELAY)
-  );
+    // Return filtered mock messages
+    const filteredMessages = mockMessages.filter(m => m.ticket_id === ticketId);
+    console.log(`Using ${filteredMessages.length} mock messages for ticket ${ticketId}`);
+    return new Promise<Message[]>((res) =>
+      setTimeout(() => res(filteredMessages), DEFAULT_DELAY)
+    );
+  } catch (error) {
+    console.error(`Error in fetchMessages for ticket ${ticketId}:`, error);
+    const filteredMessages = mockMessages.filter(m => m.ticket_id === ticketId);
+    return new Promise<Message[]>((res) =>
+      setTimeout(() => res(filteredMessages), DEFAULT_DELAY)
+    );
+  }
 }
 
 /**

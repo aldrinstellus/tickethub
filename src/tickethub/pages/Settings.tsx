@@ -471,9 +471,7 @@ export default function Settings() {
                       src={getDummyAvatarUrl(member)}
                       alt={member}
                       sx={{ width: 32, height: 32 }}
-                    >
-                      {member.split(' ').map(n => n[0]).join('')}
-                    </Avatar>
+                    />
                     <Box sx={{ flexGrow: 1 }}>
                       <Typography variant="body1">{member}</Typography>
                       <Typography variant="caption" color="text.secondary">

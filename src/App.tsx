@@ -95,7 +95,9 @@ function TestComponent() {
         <div style={{ marginTop: '20px', padding: '10px', background: 'rgba(0,0,0,0.3)' }}>
           <p>🎯 Now testing actual TicketHubApp component:</p>
           <div style={{ background: 'white', color: 'black', padding: '10px', borderRadius: '5px' }}>
-            <TicketHubComponent />
+            <BrowserRouter>
+              <TicketHubComponent />
+            </BrowserRouter>
           </div>
         </div>
       )}

@@ -56,7 +56,7 @@ export default function QuickCreateTicket() {
       <Fab
         color="primary"
         aria-label="New Ticket"
-        sx={{ position: "fixed", right: 24, bottom: 24, zIndex: 1400 }}
+        sx={{ position: "fixed", right: 24, bottom: 24, zIndex: 1400, minHeight: 56, minWidth: 56 }}
         onClick={() => setOpen(true)}
       >
         <AddIcon />
@@ -65,19 +65,19 @@ export default function QuickCreateTicket() {
       <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
         <DialogTitle>Create New Ticket</DialogTitle>
         <DialogContent>
-          <TextField label="Subject" fullWidth margin="dense" value={subject} onChange={(e) => setSubject(e.target.value)} />
-          <TextField label="Customer" fullWidth margin="dense" value={customer} onChange={(e) => setCustomer(e.target.value)} />
-          <TextField select label="Priority" fullWidth margin="dense" value={priority} onChange={(e) => setPriority(e.target.value as any)}>
+          <TextField label="Subject" fullWidth margin="dense" value={subject} onChange={(e) => setSubject(e.target.value)} sx={{ '& .MuiInputBase-input': { minHeight: 44 } }} />
+          <TextField label="Customer" fullWidth margin="dense" value={customer} onChange={(e) => setCustomer(e.target.value)} sx={{ '& .MuiInputBase-input': { minHeight: 44 } }} />
+          <TextField select label="Priority" fullWidth margin="dense" value={priority} onChange={(e) => setPriority(e.target.value as any)} sx={{ '& .MuiInputBase-input': { minHeight: 44 } }}>
             <MenuItem value="Low">Low</MenuItem>
             <MenuItem value="Normal">Normal</MenuItem>
             <MenuItem value="High">High</MenuItem>
             <MenuItem value="Urgent">Urgent</MenuItem>
           </TextField>
-          <TextField label="Initial message" multiline fullWidth minRows={4} margin="dense" value={body} onChange={(e) => setBody(e.target.value)} />
+          <TextField label="Initial message" multiline fullWidth minRows={4} margin="dense" value={body} onChange={(e) => setBody(e.target.value)} sx={{ '& .MuiInputBase-input': { minHeight: 44 } }} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button variant="contained" onClick={handleSubmit}>Create</Button>
+          <Button onClick={() => setOpen(false)} sx={{ minHeight: 44 }}>Cancel</Button>
+          <Button variant="contained" onClick={handleSubmit} sx={{ minHeight: 44 }}>Create</Button>
         </DialogActions>
       </Dialog>
     </>

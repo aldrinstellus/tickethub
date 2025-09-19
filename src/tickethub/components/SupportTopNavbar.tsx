@@ -34,21 +34,21 @@ export default function SupportTopNavbar() {
           color: "text.primary",
         }}
       >
-        <Toolbar sx={{ justifyContent: "space-between", minHeight: "64px !important" }}>
-          {/* Left side - Logo and title (mobile only) */}
-          <Stack 
-            direction="row" 
-            spacing={1} 
-            sx={{ 
+        <Toolbar sx={{ justifyContent: "space-between", minHeight: "64px !important", px: 2 }}>
+          {/* Left side - Wordmark (Logo and Title) */}
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
               alignItems: "center",
-              display: { xs: "flex", md: "none" }
+              minWidth: "200px"
             }}
           >
             <TicketHubLogo />
-            <Typography 
-              variant="h6" 
-              component="div" 
-              sx={{ 
+            <Typography
+              variant="h5"
+              component="div"
+              sx={{
                 fontFamily: '"Special Gothic Condensed One", sans-serif',
                 fontWeight: 600
               }}
@@ -57,22 +57,27 @@ export default function SupportTopNavbar() {
             </Typography>
           </Stack>
 
-          {/* Center/Left on desktop - Search */}
-          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: { xs: "center", md: "flex-start" } }}>
-            <Box sx={{ ml: { md: 2 }, maxWidth: "400px", width: "100%" }}>
+          {/* Center - Search */}
+          <Box sx={{
+            flexGrow: 1,
+            display: "flex",
+            justifyContent: "center",
+            mx: 2
+          }}>
+            <Box sx={{ maxWidth: "500px", width: "100%" }}>
               <CrmSearch />
             </Box>
           </Box>
 
-          {/* Right side - Actions */}
-          <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+          {/* Right side - Notifications and Controls */}
+          <Stack direction="row" spacing={1} sx={{ alignItems: "center", minWidth: "120px", justifyContent: "flex-end" }}>
             <MenuButton showBadge aria-label="Open notifications">
               <NotificationsRoundedIcon />
             </MenuButton>
             <ColorModeIconDropdown />
-            
+
             {/* Mobile menu button */}
-            <IconButton 
+            <IconButton
               sx={{ display: { xs: "flex", md: "none" } }}
               onClick={toggleMobileMenu(true)}
               aria-label="Open menu"

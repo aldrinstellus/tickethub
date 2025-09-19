@@ -9,7 +9,6 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import SupportMenuContent from "./SupportMenuContent";
-import { TicketHubLogo } from "./SupportAppNavbar";
 import { useUser } from "../contexts/UserContext";
 
 const drawerWidth = 240;
@@ -44,13 +43,6 @@ export default function SupportSideMenu() {
         },
       }}
     >
-      <Box sx={{ display: "flex", p: 1.5 }}>
-        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-          <TicketHubLogo />
-          <Typography variant="h2" component="div" sx={{ fontFamily: '"Special Gothic Condensed One", sans-serif', fontWeight: 900, fontSize: '2.5rem' }}>TicketHub</Typography>
-        </Stack>
-      </Box>
-      <Divider />
       <Box sx={{ overflow: "auto", height: "100%", display: "flex", flexDirection: "column" }}>
         <SupportMenuContent />
       </Box>

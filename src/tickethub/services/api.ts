@@ -1,4 +1,4 @@
-import { tickets as mockTickets, Article, Ticket } from "../data/mockData";
+import { tickets as mockTickets, articles as mockArticles, Article, Ticket } from "../data/mockData";
 
 const DEFAULT_DELAY = 500;
 
@@ -17,7 +17,10 @@ async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promis
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
   const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
-  if (!supabaseUrl || !supabaseKey) return null;
+  if (!supabaseUrl || !supabaseKey) {
+    console.log("Supabase config missing, using fallback data");
+    return null;
+  }
 
   try {
     const url = `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/${endpoint}`;
@@ -31,10 +34,14 @@ async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promis
       },
     });
 
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.warn(`Supabase API error: ${res.status} ${res.statusText}`);
+      return null;
+    }
     const data = await res.json();
     return data as T;
   } catch (e) {
+    console.warn("Supabase fetch failed, using fallback:", e);
     return null;
   }
 }
@@ -58,7 +65,7 @@ export async function fetchArticles(): Promise<Article[]> {
   // Fallback to mock data
   const remote = await tryFetch<Article[]>("/api/articles");
   if (remote) return remote;
-  return new Promise<Article[]>((res) => setTimeout(() => res(mockTickets as unknown as Article[]), DEFAULT_DELAY));
+  return new Promise<Article[]>((res) => setTimeout(() => res(mockArticles), DEFAULT_DELAY));
 }
 
 /**

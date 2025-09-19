@@ -117,9 +117,19 @@ export default function SupportDashboard() {
   ];
 
   return (
-    <Box sx={{ width: "100%" }}>
-      {/* Header */}
-      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Box sx={{ width: "100%" }}>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
+          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
         <Box>
           <Typography variant="h5">Dashboard</Typography>
           <Typography variant="caption" color="text.secondary">Home &gt; Dashboard</Typography>
@@ -128,24 +138,40 @@ export default function SupportDashboard() {
           <Typography variant="body2" color="text.secondary">{now.toLocaleString()}</Typography>
           <Chip label="All systems operational" color="success" size="small" />
           <Button variant="contained" startIcon={<AddRoundedIcon />} onClick={() => window.dispatchEvent(new CustomEvent('open-quick-create'))}>New Ticket</Button>
+          </Stack>
         </Stack>
-      </Stack>
+      </motion.div>
 
-      {/* Metrics */}
-      <Grid container spacing={2} sx={{ mb: 3 }}>
-        {statCardsData.map((card, idx) => (
-          <Grid item xs={12} sm={6} md={3} key={idx}>
-            <CrmStatCard
-              title={card.title}
-              value={card.value}
-              interval={card.interval}
-              trend={card.trend as "up" | "down"}
-              trendValue={card.trendValue}
-              data={card.data as number[]}
-            />
-          </Grid>
-        ))}
-      </Grid>
+        {/* Metrics */}
+        <Grid container spacing={2} sx={{ mb: 3 }}>
+          <AnimatePresence>
+            {statCardsData.map((card, idx) => (
+              <Grid item xs={12} sm={6} md={3} key={idx}>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: 0.1 + (idx * 0.1),
+                    type: "spring",
+                    stiffness: 100
+                  }}
+                  whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                >
+                  <CrmStatCard
+                    title={card.title}
+                    value={card.value}
+                    interval={card.interval}
+                    trend={card.trend as "up" | "down"}
+                    trendValue={card.trendValue}
+                    data={card.data as number[]}
+                  />
+                </motion.div>
+              </Grid>
+            ))}
+          </AnimatePresence>
+        </Grid>
 
       {/* Main content */}
       <Grid container spacing={2}>
@@ -229,6 +255,7 @@ export default function SupportDashboard() {
           </Stack>
         </Grid>
       </Grid>
-    </Box>
+      </Box>
+    </motion.div>
   );
 }

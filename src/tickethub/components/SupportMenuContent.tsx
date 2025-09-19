@@ -8,6 +8,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
+import Tooltip from "@mui/material/Tooltip";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import ConfirmationNumberRoundedIcon from "@mui/icons-material/ConfirmationNumberRounded";
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
@@ -29,7 +30,11 @@ const secondaryListItems = [
   { text: "Settings", icon: <SettingsRoundedIcon />, path: "/settings" },
 ];
 
-export default function SupportMenuContent() {
+interface SupportMenuContentProps {
+  collapsed?: boolean;
+}
+
+export default function SupportMenuContent({ collapsed = false }: SupportMenuContentProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -47,10 +52,33 @@ export default function SupportMenuContent() {
       <List dense>
         {mainListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: "block" }}>
-            <ListItemButton selected={isSelected(item.path)} onClick={() => handleNavigation(item.path)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
+            <Tooltip
+              title={collapsed ? item.text : ""}
+              placement="right"
+              arrow
+              disableHoverListener={!collapsed}
+            >
+              <ListItemButton
+                selected={isSelected(item.path)}
+                onClick={() => handleNavigation(item.path)}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: collapsed ? 'center' : 'initial',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: collapsed ? 'auto' : 3,
+                    justifyContent: 'center',
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                {!collapsed && <ListItemText primary={item.text} />}
+              </ListItemButton>
+            </Tooltip>
           </ListItem>
         ))}
       </List>
@@ -59,10 +87,33 @@ export default function SupportMenuContent() {
         <List dense>
           {secondaryListItems.map((item, index) => (
             <ListItem key={index} disablePadding sx={{ display: "block" }}>
-              <ListItemButton selected={isSelected(item.path)} onClick={() => handleNavigation(item.path)}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
-              </ListItemButton>
+              <Tooltip
+                title={collapsed ? item.text : ""}
+                placement="right"
+                arrow
+                disableHoverListener={!collapsed}
+              >
+                <ListItemButton
+                  selected={isSelected(item.path)}
+                  onClick={() => handleNavigation(item.path)}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: collapsed ? 'center' : 'initial',
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: collapsed ? 'auto' : 3,
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  {!collapsed && <ListItemText primary={item.text} />}
+                </ListItemButton>
+              </Tooltip>
             </ListItem>
           ))}
         </List>

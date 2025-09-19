@@ -4,7 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import AppTheme from "./shared-theme/AppTheme";
-import TicketHubApp from "./tickethub/TicketHubApp";
+// import TicketHubApp from "./tickethub/TicketHubApp";
 
 class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error?: Error}> {
   constructor(props: {children: React.ReactNode}) {
@@ -51,6 +51,22 @@ function NotFound() {
   );
 }
 
+function TestTicketHub() {
+  return (
+    <Box sx={{ p: 4, minHeight: '100vh', bgcolor: 'background.default' }}>
+      <Typography variant="h2" gutterBottom sx={{ color: 'primary.main' }}>
+        🎫 TicketHub
+      </Typography>
+      <Typography variant="h5" color="text.secondary" gutterBottom>
+        Testing Import Issue
+      </Typography>
+      <Typography variant="body1" sx={{ mt: 2 }}>
+        If you see this, the issue was with TicketHubApp import
+      </Typography>
+    </Box>
+  );
+}
+
 export default function App() {
   return (
     <AppTheme>
@@ -58,7 +74,7 @@ export default function App() {
       <BrowserRouter>
         <ErrorBoundary>
           <Routes>
-            <Route path="/*" element={<TicketHubApp />} />
+            <Route path="/*" element={<TestTicketHub />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ErrorBoundary>

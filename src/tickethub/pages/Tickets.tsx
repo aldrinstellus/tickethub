@@ -564,8 +564,16 @@ export default function Tickets() {
                   }
                 }}
                 checkboxSelection
-                rowSelectionModel={selectedRows}
-                onRowSelectionModelChange={setSelectedRows}
+                onSelectionModelChange={(newModel) => {
+                  // Normalize selection model to array of ids
+                  try {
+                    const modelArray = Array.isArray(newModel) ? newModel : [newModel];
+                    setSelectedRows(modelArray as any);
+                  } catch (e) {
+                    console.warn('Failed to update selection model', e);
+                    setSelectedRows([]);
+                  }
+                }}
                 pageSizeOptions={[25, 50, 100]}
                 initialState={{
                   pagination: { paginationModel: { pageSize: 25 } },

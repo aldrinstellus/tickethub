@@ -287,6 +287,31 @@ export default function TicketWorkspace() {
 
   const RightColumn = (
     <>
+      {/* AI Insights Widget */}
+      {ticket && (
+        <Box sx={{ mb: 2 }}>
+          <AIInsightsWidget
+            ticket={ticket}
+            messages={messages}
+            articles={related}
+            compact={false}
+          />
+        </Box>
+      )}
+
+      {/* AI Response Suggestions */}
+      {ticket && (
+        <Box sx={{ mb: 2 }}>
+          <AIResponseSuggestions
+            ticket={ticket}
+            messages={messages}
+            articles={related}
+            onResponseSelect={(response) => setDraft(response)}
+            onResponseEdit={(response) => setDraft(response)}
+          />
+        </Box>
+      )}
+
       {/* Suggested Articles Based on Ticket */}
       <Card variant="outlined" sx={{ mb: 2 }}>
         <CardContent>

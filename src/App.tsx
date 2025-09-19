@@ -102,7 +102,7 @@ export default function App() {
         <CssBaseline enableColorScheme />
         <Routes>
           <Route path="/crm/*" element={<CrmDashboard />} />
-          <Route path="/*" element={<MinimalTicketHub />} />
+          <Route path="/*" element={<TestAppTheme />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

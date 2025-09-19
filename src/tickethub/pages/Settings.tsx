@@ -228,101 +228,365 @@ export default function Settings() {
   return (
     <Box sx={{ width: "100%" }}>
       <PageHeader title="Settings" />
-      <Stack spacing={3} sx={{ maxWidth: 720 }}>
-        {/* Error Display */}
-        {saveError && (
-          <Alert severity="error" onClose={() => setSaveError("")}>
-            {saveError}
-          </Alert>
-        )}
 
-        <Typography variant="h6" sx={{ mt: 2 }}>Workspace Settings</Typography>
+      {/* Error Display */}
+      {saveError && (
+        <Alert severity="error" onClose={() => setSaveError("")} sx={{ mb: 3 }}>
+          {saveError}
+        </Alert>
+      )}
 
-        <TextField
-          label="Workspace Name"
-          value={settings.workspaceName}
-          onChange={(e) => handleChange('workspaceName', e.target.value)}
-          error={!!errors.workspaceName}
-          helperText={errors.workspaceName || "The name of your support workspace"}
-          required
-        />
+      {/* Tabs */}
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+        <Tabs
+          value={activeTab}
+          onChange={(e, newValue) => setActiveTab(newValue)}
+          aria-label="settings tabs"
+        >
+          <Tab icon={<WorkspaceIcon />} label="Workspace" />
+          <Tab icon={<NotificationsIcon />} label="Notifications" />
+          <Tab icon={<SecurityIcon />} label="Security" />
+          <Tab icon={<PeopleIcon />} label="Team" />
+          <Tab icon={<IntegrationInstructionsIcon />} label="Integrations" />
+        </Tabs>
+      </Box>
 
-        <TextField
-          label="Admin Email"
-          type="email"
-          value={settings.adminEmail}
-          onChange={(e) => handleChange('adminEmail', e.target.value)}
-          error={!!errors.adminEmail}
-          helperText={errors.adminEmail || "Primary administrator email address (optional)"}
-          placeholder="admin@company.com"
-        />
+      {/* Workspace Settings Tab */}
+      <TabPanel value={activeTab} index={0}>
+        <Card variant="outlined">
+          <CardContent>
+            <Typography variant="h6" sx={{ mb: 3 }}>Workspace Configuration</Typography>
+            <Stack spacing={3}>
+              <TextField
+                label="Workspace Name"
+                value={settings.workspaceName}
+                onChange={(e) => handleChange('workspaceName', e.target.value)}
+                error={!!errors.workspaceName}
+                helperText={errors.workspaceName || "The name of your support workspace"}
+                required
+              />
 
-        <FormControl fullWidth>
-          <InputLabel>Timezone</InputLabel>
-          <Select
-            value={settings.timezone}
-            label="Timezone"
-            onChange={(e) => handleChange('timezone', e.target.value)}
-          >
-            <MenuItem value="UTC">UTC (Coordinated Universal Time)</MenuItem>
-            <MenuItem value="EST">EST (Eastern Standard Time)</MenuItem>
-            <MenuItem value="PST">PST (Pacific Standard Time)</MenuItem>
-            <MenuItem value="GMT">GMT (Greenwich Mean Time)</MenuItem>
-            <MenuItem value="CST">CST (Central Standard Time)</MenuItem>
-            <MenuItem value="MST">MST (Mountain Standard Time)</MenuItem>
-          </Select>
-        </FormControl>
+              <TextField
+                label="Admin Email"
+                type="email"
+                value={settings.adminEmail}
+                onChange={(e) => handleChange('adminEmail', e.target.value)}
+                error={!!errors.adminEmail}
+                helperText={errors.adminEmail || "Primary administrator email address (optional)"}
+                placeholder="admin@company.com"
+              />
 
-        <TextField
-          label="Default Signature"
-          value={settings.defaultSignature}
-          onChange={(e) => handleChange('defaultSignature', e.target.value)}
-          error={!!errors.defaultSignature}
-          helperText={errors.defaultSignature || "This signature will be added to all outgoing emails"}
-          multiline
-          minRows={4}
-          required
-        />
+              <FormControl fullWidth>
+                <InputLabel>Timezone</InputLabel>
+                <Select
+                  value={settings.timezone}
+                  label="Timezone"
+                  onChange={(e) => handleChange('timezone', e.target.value)}
+                >
+                  <MenuItem value="UTC">UTC (Coordinated Universal Time)</MenuItem>
+                  <MenuItem value="EST">EST (Eastern Standard Time)</MenuItem>
+                  <MenuItem value="PST">PST (Pacific Standard Time)</MenuItem>
+                  <MenuItem value="GMT">GMT (Greenwich Mean Time)</MenuItem>
+                  <MenuItem value="CST">CST (Central Standard Time)</MenuItem>
+                  <MenuItem value="MST">MST (Mountain Standard Time)</MenuItem>
+                </Select>
+              </FormControl>
 
-        <Typography variant="h6" sx={{ mt: 3 }}>Notification Settings</Typography>
+              <TextField
+                label="Default Signature"
+                value={settings.defaultSignature}
+                onChange={(e) => handleChange('defaultSignature', e.target.value)}
+                error={!!errors.defaultSignature}
+                helperText={errors.defaultSignature || "This signature will be added to all outgoing emails"}
+                multiline
+                minRows={4}
+                required
+              />
+            </Stack>
+          </CardContent>
+        </Card>
+      </TabPanel>
 
-        <FormControlLabel
-          control={
-            <Switch
-              checked={settings.emailNotifications}
-              onChange={(e) => handleChange('emailNotifications', e.target.checked)}
-            />
-          }
-          label="Email notifications for new tickets"
-        />
+      {/* Notifications Tab */}
+      <TabPanel value={activeTab} index={1}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 3 }}>Email Notifications</Typography>
+                <Stack spacing={2}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={settings.emailNotifications}
+                        onChange={(e) => handleChange('emailNotifications', e.target.checked)}
+                      />
+                    }
+                    label="New ticket notifications"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={settings.escalationNotifications}
+                        onChange={(e) => handleChange('escalationNotifications', e.target.checked)}
+                      />
+                    }
+                    label="Escalation alerts"
+                  />
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
 
-        {/* Action Buttons */}
-        <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
-          <Button
-            variant="contained"
-            onClick={handleSave}
-            disabled={!hasChanges || isSaving || Object.keys(errors).some(key => errors[key])}
-            startIcon={isSaving ? <CircularProgress size={20} /> : undefined}
-          >
-            {isSaving ? 'Saving...' : 'Save Changes'}
-          </Button>
+          <Grid item xs={12} md={6}>
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 3 }}>Other Notifications</Typography>
+                <Stack spacing={2}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={settings.slackNotifications}
+                        onChange={(e) => handleChange('slackNotifications', e.target.checked)}
+                      />
+                    }
+                    label="Slack notifications"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={settings.pushNotifications}
+                        onChange={(e) => handleChange('pushNotifications', e.target.checked)}
+                      />
+                    }
+                    label="Browser push notifications"
+                  />
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </TabPanel>
 
+      {/* Security Tab */}
+      <TabPanel value={activeTab} index={2}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 3 }}>Authentication</Typography>
+                <Stack spacing={3}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={settings.twoFactorAuth}
+                        onChange={(e) => handleChange('twoFactorAuth', e.target.checked)}
+                      />
+                    }
+                    label="Two-factor authentication (2FA)"
+                  />
+
+                  <FormControl fullWidth>
+                    <InputLabel>Session Timeout</InputLabel>
+                    <Select
+                      value={settings.sessionTimeout}
+                      label="Session Timeout"
+                      onChange={(e) => handleChange('sessionTimeout', e.target.value)}
+                    >
+                      <MenuItem value={60}>1 hour</MenuItem>
+                      <MenuItem value={240}>4 hours</MenuItem>
+                      <MenuItem value={480}>8 hours</MenuItem>
+                      <MenuItem value={720}>12 hours</MenuItem>
+                      <MenuItem value={1440}>24 hours</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 3 }}>Access Control</Typography>
+                <Stack spacing={2}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={settings.allowTeamAccess}
+                        onChange={(e) => handleChange('allowTeamAccess', e.target.checked)}
+                      />
+                    }
+                    label="Allow team member access"
+                  />
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </TabPanel>
+
+      {/* Team Tab */}
+      <TabPanel value={activeTab} index={3}>
+        <Card variant="outlined">
+          <CardContent>
+            <Typography variant="h6" sx={{ mb: 3 }}>Team Configuration</Typography>
+            <Stack spacing={3}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={settings.autoAssignTickets}
+                    onChange={(e) => handleChange('autoAssignTickets', e.target.checked)}
+                  />
+                }
+                label="Auto-assign new tickets"
+              />
+
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={settings.roundRobinAssignment}
+                    onChange={(e) => handleChange('roundRobinAssignment', e.target.checked)}
+                  />
+                }
+                label="Round-robin assignment"
+              />
+
+              <TextField
+                label="Working Hours"
+                value={settings.workingHours}
+                onChange={(e) => handleChange('workingHours', e.target.value)}
+                helperText="Default working hours for the team"
+                placeholder="9:00 AM - 5:00 PM"
+              />
+
+              <Divider />
+
+              <Typography variant="subtitle1">Team Members</Typography>
+              <Stack spacing={2}>
+                {['Alex Thompson', 'Priya Patel', 'Marcus Johnson', 'Sarah Chen'].map((member, index) => (
+                  <Box key={member} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Avatar sx={{ width: 32, height: 32 }}>
+                      {member.split(' ').map(n => n[0]).join('')}
+                    </Avatar>
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Typography variant="body1">{member}</Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Support Agent
+                      </Typography>
+                    </Box>
+                    <Chip size="small" label="Active" color="success" />
+                    <IconButton size="small">
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                ))}
+              </Stack>
+            </Stack>
+          </CardContent>
+        </Card>
+      </TabPanel>
+
+      {/* Integrations Tab */}
+      <TabPanel value={activeTab} index={4}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 2 }}>Slack</Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  Connect with Slack for real-time notifications
+                </Typography>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={settings.slackConnected}
+                      onChange={(e) => handleChange('slackConnected', e.target.checked)}
+                    />
+                  }
+                  label="Enable Slack integration"
+                />
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} md={4}>
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 2 }}>Zendesk</Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  Sync tickets with your Zendesk instance
+                </Typography>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={settings.zendeskSync}
+                      onChange={(e) => handleChange('zendeskSync', e.target.checked)}
+                    />
+                  }
+                  label="Enable Zendesk sync"
+                />
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} md={4}>
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 2 }}>Salesforce</Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  Connect with Salesforce CRM
+                </Typography>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={settings.salesforceIntegration}
+                      onChange={(e) => handleChange('salesforceIntegration', e.target.checked)}
+                    />
+                  }
+                  label="Enable Salesforce integration"
+                />
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </TabPanel>
+
+      {/* Floating Action Buttons */}
+      <Box sx={{
+        position: 'fixed',
+        bottom: 24,
+        right: 24,
+        display: 'flex',
+        gap: 2,
+        zIndex: 1000
+      }}>
+        {hasChanges && (
           <Button
             variant="outlined"
             onClick={handleReset}
-            disabled={!hasChanges || isSaving}
+            disabled={isSaving}
           >
             Reset Changes
           </Button>
-        </Stack>
-
-        {/* Display current state for testing */}
-        {hasChanges && (
-          <Alert severity="info" sx={{ mt: 2 }}>
-            You have unsaved changes. Click "Save Changes" to persist your settings.
-          </Alert>
         )}
-      </Stack>
+
+        <Button
+          variant="contained"
+          onClick={handleSave}
+          disabled={!hasChanges || isSaving || Object.keys(errors).some(key => errors[key])}
+          startIcon={isSaving ? <CircularProgress size={20} /> : undefined}
+        >
+          {isSaving ? 'Saving...' : 'Save Changes'}
+        </Button>
+      </Box>
+
+      {/* Change Indicator */}
+      {hasChanges && (
+        <Alert severity="info" sx={{ position: 'fixed', bottom: 100, right: 24, zIndex: 1000 }}>
+          You have unsaved changes.
+        </Alert>
+      )}
 
       {/* Success Snackbar */}
       <Snackbar

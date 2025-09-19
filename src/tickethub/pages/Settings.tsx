@@ -31,11 +31,58 @@ import EditIcon from "@mui/icons-material/Edit";
 import PageHeader from "../components/PageHeader";
 
 interface SettingsData {
+  // Workspace settings
   workspaceName: string;
   adminEmail: string;
   timezone: string;
   defaultSignature: string;
+
+  // Notification settings
   emailNotifications: boolean;
+  slackNotifications: boolean;
+  pushNotifications: boolean;
+  escalationNotifications: boolean;
+
+  // Security settings
+  twoFactorAuth: boolean;
+  sessionTimeout: number;
+  allowTeamAccess: boolean;
+
+  // Team settings
+  autoAssignTickets: boolean;
+  roundRobinAssignment: boolean;
+  workingHours: string;
+
+  // Integration settings
+  slackConnected: boolean;
+  zendeskSync: boolean;
+  salesforceIntegration: boolean;
+}
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`settings-tabpanel-${index}`}
+      aria-labelledby={`settings-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ py: 3 }}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
 }
 
 const SETTINGS_STORAGE_KEY = 'tickethub-settings';

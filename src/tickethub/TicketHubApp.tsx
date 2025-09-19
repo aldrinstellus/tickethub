@@ -28,6 +28,7 @@ import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Playground from "./pages/Playground";
 import QuickCreateTicket from "./components/QuickCreateTicket";
+import { UserProvider } from "./contexts/UserContext";
 
 const xThemeComponents = {
   ...chartsCustomizations,
@@ -39,7 +40,8 @@ const xThemeComponents = {
 export default function TicketHubApp() {
   return (
     <AppTheme themeComponents={xThemeComponents}>
-      <CssBaseline enableColorScheme />
+      <UserProvider>
+        <CssBaseline enableColorScheme />
       <Box sx={{ display: "flex", height: "100vh" }}>
         <SupportSideMenu />
         <SupportAppNavbar />
@@ -82,6 +84,7 @@ export default function TicketHubApp() {
           <QuickCreateTicket />
         </Box>
       </Box>
+      </UserProvider>
     </AppTheme>
   );
 }

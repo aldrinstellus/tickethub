@@ -19,6 +19,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import InputAdornment from '@mui/material/InputAdornment';
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";

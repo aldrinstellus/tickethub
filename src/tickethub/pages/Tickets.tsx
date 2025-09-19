@@ -363,8 +363,8 @@ export default function Tickets() {
         {/* Search and Basic Filters */}
         <Paper sx={{ p: 3, mb: 3 }}>
           <Grid container spacing={2} alignItems="center">
-            {/* Search Bar occupying most space */}
-            <Grid item xs={12} md={9}>
+            {/* Search Bar - full width */}
+            <Grid item xs={12}>
               <TextField
                 fullWidth
                 placeholder="Search tickets by ID, customer, or subject..."
@@ -373,48 +373,58 @@ export default function Tickets() {
                 InputProps={{
                   startAdornment: <SearchRoundedIcon sx={{ mr: 1, color: 'text.secondary' }} />,
                 }}
+                size="small"
+                variant="outlined"
               />
             </Grid>
 
-            {/* Filters grouped at the end */}
-            <Grid item xs={12} md={3}>
-              <Stack direction="row" spacing={1} alignItems="center" justifyContent="flex-end">
-                <FormControl size="small" sx={{ minWidth: 120 }}>
-                  <InputLabel>Priority</InputLabel>
-                  <Select
-                    value={filters.priority}
-                    label="Priority"
-                    onChange={(e) => handleFilterChange('priority', e.target.value)}
-                  >
-                    {PRIORITY_OPTIONS.map(option => (
-                      <MenuItem key={option} value={option}>{option}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+            {/* Filters row - Material UI style, aligned to end on wide screens */}
+            <Grid item xs={12}>
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={1}
+                alignItems={{ xs: 'stretch', sm: 'center' }}
+                justifyContent="flex-end"
+                sx={{ width: '100%' }}
+              >
+                <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                  <FormControl size="small" sx={{ minWidth: 140 }}>
+                    <InputLabel>Priority</InputLabel>
+                    <Select
+                      value={filters.priority}
+                      label="Priority"
+                      onChange={(e) => handleFilterChange('priority', e.target.value)}
+                    >
+                      {PRIORITY_OPTIONS.map(option => (
+                        <MenuItem key={option} value={option}>{option}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-                <FormControl size="small" sx={{ minWidth: 120 }}>
-                  <InputLabel>Status</InputLabel>
-                  <Select
-                    value={filters.status}
-                    label="Status"
-                    onChange={(e) => handleFilterChange('status', e.target.value)}
-                  >
-                    {STATUS_OPTIONS.map(option => (
-                      <MenuItem key={option} value={option}>{option}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                  <FormControl size="small" sx={{ minWidth: 140 }}>
+                    <InputLabel>Status</InputLabel>
+                    <Select
+                      value={filters.status}
+                      label="Status"
+                      onChange={(e) => handleFilterChange('status', e.target.value)}
+                    >
+                      {STATUS_OPTIONS.map(option => (
+                        <MenuItem key={option} value={option}>{option}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-                <Button
-                  variant="outlined"
-                  size="small"
-                  startIcon={<FilterListRoundedIcon />}
-                  endIcon={showAdvancedFilters ? <ExpandLessRoundedIcon /> : <ExpandMoreRoundedIcon />}
-                  onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-                  sx={{ minWidth: 140 }}
-                >
-                  Advanced Filters
-                </Button>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={<FilterListRoundedIcon />}
+                    endIcon={showAdvancedFilters ? <ExpandLessRoundedIcon /> : <ExpandMoreRoundedIcon />}
+                    onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                    sx={{ minWidth: 140 }}
+                  >
+                    Advanced Filters
+                  </Button>
+                </Stack>
               </Stack>
             </Grid>
           </Grid>

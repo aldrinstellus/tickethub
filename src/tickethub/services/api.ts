@@ -188,20 +188,39 @@ export async function createTicket(ticket: Ticket): Promise<Ticket> {
  * Fetch a single ticket by ID from Supabase or mock data.
  */
 export async function fetchTicketById(id: string): Promise<Ticket | null> {
-  // Try Supabase first
-  const supabaseTicket = await supabaseFetch<Ticket[]>(`tickets?id=eq.${encodeURIComponent(id)}`);
-  if (supabaseTicket && supabaseTicket.length > 0) return supabaseTicket[0];
+  try {
+    // Try Supabase first
+    const supabaseTicket = await supabaseFetch<Ticket[]>(`tickets?id=eq.${encodeURIComponent(id)}`);
+    if (supabaseTicket && Array.isArray(supabaseTicket) && supabaseTicket.length > 0) {
+      console.log(`Successfully fetched ticket ${id} from Supabase`);
+      return supabaseTicket[0];
+    }
 
-  // Fallback to mock data
-  return mockTickets.find(t => t.id === id) || null;
+    // Try local API fallback
+    const remote = await tryFetch<Ticket>(`/api/tickets/${id}`);
+    if (remote) {
+      console.log(`Using ticket ${id} from local API`);
+      return remote;
+    }
+
+    // Mock data fallback
+    const mockTicket = mockTickets.find((t) => t.id === id) || null;
+    if (mockTicket) {
+      console.log(`Using mock ticket data for ${id}`);
+    } else {
+      console.warn(`Ticket ${id} not found in any data source`);
+    }
+    return mockTicket;
+  } catch (error) {
+    console.error(`Error fetching ticket ${id}:`, error);
+    return mockTickets.find((t) => t.id === id) || null;
+  }
 }
 
 /**
  * Update ticket status
  */
 export async function updateTicketStatus(id: string, status: Ticket['status']): Promise<Ticket | null> {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
   if (supabaseUrl && supabaseKey) {
     try {

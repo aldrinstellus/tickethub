@@ -159,10 +159,36 @@ export default function SupportDashboard() {
         >
           <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 2 }}>
             <PageHeader title="Dashboard" />
-            <Stack direction="row" spacing={2} alignItems="center">
-              <Typography variant="body2" color="text.secondary">{now.toLocaleString()}</Typography>
-              <Chip label="All systems operational" color="success" size="small" />
-            </Stack>
+            <Chip
+              label="All systems operational"
+              color="success"
+              size="small"
+              icon={
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    backgroundColor: 'success.main',
+                    animation: 'pulse 2s infinite',
+                    '@keyframes pulse': {
+                      '0%': {
+                        opacity: 1,
+                        transform: 'scale(1)',
+                      },
+                      '50%': {
+                        opacity: 0.5,
+                        transform: 'scale(1.2)',
+                      },
+                      '100%': {
+                        opacity: 1,
+                        transform: 'scale(1)',
+                      },
+                    },
+                  }}
+                />
+              }
+            />
           </Stack>
         </motion.div>
 

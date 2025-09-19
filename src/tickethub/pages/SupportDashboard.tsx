@@ -80,13 +80,13 @@ export default function SupportDashboard() {
             <Typography variant="subtitle1" sx={{ mb: 1 }}>
               Tickets by Priority (7 days)
             </Typography>
-            <BarChart
-              height={280}
-              series={[
-                { data: [22, 46, 38, 18], label: "Count" },
-              ]}
-              xAxis={[{ data: ["Urgent", "High", "Normal", "Low"], scaleType: "band" }]}
-            />
+            <ReactECharts option={{
+              tooltip: { trigger: 'axis' },
+              xAxis: { type: 'category', data: ['Urgent','High','Normal','Low'] },
+              yAxis: { type: 'value' },
+              series: [{ data: [22,46,38,18], type: 'bar', itemStyle: { color: '#1976d2' } }],
+              toolbox: { feature: { saveAsImage: {} } },
+            }} style={{ height: 280, width: '100%' }} />
           </Box>
         </Grid>
         <Grid item xs={12} md={4}>

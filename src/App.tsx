@@ -64,66 +64,21 @@ function NotFound() {
   );
 }
 
-function TestComponent() {
-  const [renderStatus, setRenderStatus] = React.useState("🔄 Testing render...");
-  const [TicketHubComponent, setTicketHubComponent] = React.useState<React.ComponentType | null>(null);
-
-  React.useEffect(() => {
-    async function testRender() {
-      try {
-        console.log("Loading TicketHubApp for rendering test...");
-        const module = await import("./tickethub/TicketHubApp");
-        setTicketHubComponent(() => module.default);
-        setRenderStatus("✅ Component Loaded");
-      } catch (error) {
-        console.error("TicketHubApp render error:", error);
-        setRenderStatus(`❌ Render Error: ${error instanceof Error ? error.message : String(error)}`);
-      }
-    }
-    testRender();
-  }, []);
-
-  return (
-    <div style={{ background: 'blue', color: 'white', padding: '20px', fontSize: '24px' }}>
-      <h1>Testing Step by Step</h1>
-      <p>1. Basic React: ✅</p>
-      <p>2. AppTheme: ✅</p>
-      <p>3. TicketHubApp Import: ✅</p>
-      <p>4. TicketHubApp Render: {renderStatus}</p>
-
-      {TicketHubComponent && (
-        <div style={{ marginTop: '20px', padding: '10px', background: 'rgba(0,0,0,0.3)' }}>
-          <p>🎯 Now testing actual TicketHubApp component:</p>
-          <div style={{ background: 'white', color: 'black', padding: '10px', borderRadius: '5px' }}>
-            <BrowserRouter>
-              <TicketHubComponent />
-            </BrowserRouter>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function App() {
-  console.log("App component loading - testing step by step...");
-
-  try {
-    return (
-      <ErrorBoundary>
-        <AppTheme>
-          <CssBaseline />
-          <TestComponent />
-        </AppTheme>
-      </ErrorBoundary>
-    );
-  } catch (error) {
-    console.error("Error in App component:", error);
-    return (
-      <div style={{ background: 'red', color: 'white', padding: '20px' }}>
-        <h1>App Error</h1>
-        <p>Error: {error instanceof Error ? error.message : String(error)}</p>
-      </div>
-    );
-  }
+  console.log("TicketHub application starting...");
+  
+  return (
+    <ErrorBoundary>
+      <AppTheme>
+        <CssBaseline />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/*" element={<TicketHubApp />} />
+            <Route path="/crm" element={<CrmDashboard />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AppTheme>
+    </ErrorBoundary>
+  );
 }

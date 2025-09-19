@@ -108,13 +108,59 @@ export default function Analytics() {
 
   const currentPeriod = getCurrentPeriodInfo();
 
-  // Mock data
-  const kpiData = [
-    { title: "Avg First Response", value: "1.8h", interval: "Last 30 days", trend: "down", trendValue: "-12%", data: [2.4, 2.2, 2.0, 1.9, 1.8, 1.7, 1.8] },
-    { title: "Resolution Time", value: "24.5h", interval: "Last 30 days", trend: "down", trendValue: "-8%", data: [28, 26, 25, 24, 23, 24, 24.5] },
-    { title: "CSAT Score", value: "94%", interval: "Last 30 days", trend: "up", trendValue: "+2%", data: [92, 92, 93, 94, 95, 94, 94] },
-    { title: "SLA Compliance", value: "96%", interval: "Last 30 days", trend: "up", trendValue: "+1%", data: [94, 95, 95, 96, 96, 97, 96] },
-  ];
+  // Generate dynamic mock data based on selected period
+  const generateKpiData = () => {
+    const dataPoints = Math.min(currentPeriod.days, 30); // Limit chart points for readability
+    const interval = currentPeriod.label;
+
+    // Generate sample data arrays
+    const generateTrendData = (baseValue: number, variance: number) => {
+      return Array.from({ length: 7 }, (_, i) => {
+        const trend = (Math.random() - 0.5) * variance;
+        return Math.max(0, baseValue + trend);
+      });
+    };
+
+    // Adjust base values based on period length
+    const periodMultiplier = currentPeriod.days > 90 ? 1.1 : currentPeriod.days > 30 ? 1.05 : 1;
+
+    return [
+      {
+        title: "Avg First Response",
+        value: `${(1.8 * periodMultiplier).toFixed(1)}h`,
+        interval,
+        trend: "down" as const,
+        trendValue: currentPeriod.days > 90 ? "-15%" : "-12%",
+        data: generateTrendData(1.8 * periodMultiplier, 0.6)
+      },
+      {
+        title: "Resolution Time",
+        value: `${(24.5 * periodMultiplier).toFixed(1)}h`,
+        interval,
+        trend: "down" as const,
+        trendValue: currentPeriod.days > 90 ? "-10%" : "-8%",
+        data: generateTrendData(24.5 * periodMultiplier, 4)
+      },
+      {
+        title: "CSAT Score",
+        value: `${Math.min(99, Math.round(94 + (currentPeriod.days > 90 ? 2 : 0)))}%`,
+        interval,
+        trend: "up" as const,
+        trendValue: currentPeriod.days > 90 ? "+3%" : "+2%",
+        data: generateTrendData(94 + (currentPeriod.days > 90 ? 2 : 0), 2)
+      },
+      {
+        title: "SLA Compliance",
+        value: `${Math.min(99, Math.round(96 + (currentPeriod.days > 180 ? 1 : 0)))}%`,
+        interval,
+        trend: "up" as const,
+        trendValue: currentPeriod.days > 180 ? "+2%" : "+1%",
+        data: generateTrendData(96 + (currentPeriod.days > 180 ? 1 : 0), 1.5)
+      },
+    ];
+  };
+
+  const kpiData = generateKpiData();
 
   const priorityDistribution = [
     { label: 'Low', value: 35, color: '#4caf50' },

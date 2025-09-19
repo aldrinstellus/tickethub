@@ -29,6 +29,8 @@ import Settings from "./pages/Settings";
 import Playground from "./pages/Playground";
 import FederatedSearch from "./components/FederatedSearch";
 import NewTicketModal from "./components/NewTicketModal";
+import AIChatFAB from "./components/AIChatFAB";
+import AIChatModal from "./components/AIChatModal";
 import { UserProvider } from "./contexts/UserContext";
 import { SidebarProvider, useSidebar } from "./contexts/SidebarContext";
 import { SearchProvider } from "./contexts/SearchContext";
@@ -99,10 +101,14 @@ export default function TicketHubApp() {
           <SidebarProvider>
             <SearchProvider>
               <TicketCreationProvider>
-                <CssBaseline enableColorScheme />
-                <TicketHubAppInner />
-                <FederatedSearch />
-                <NewTicketModal />
+                <AIChatProvider>
+                  <CssBaseline enableColorScheme />
+                  <TicketHubAppInner />
+                  <FederatedSearch />
+                  <NewTicketModal />
+                  <AIChatFAB />
+                  <AIChatModal />
+                </AIChatProvider>
               </TicketCreationProvider>
             </SearchProvider>
           </SidebarProvider>

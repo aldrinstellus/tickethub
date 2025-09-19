@@ -143,11 +143,11 @@ export default function AIInsightsWidget({
 
   React.useEffect(() => {
     async function generateInsights() {
-      if (!ticket) return;
-      
+      if (!ticket || !ticket.id) return;
+
       setLoading(true);
       setError(null);
-      
+
       try {
         const aiInsights = await aiAssistanceService.generateInsights(ticket, messages, articles);
         setInsights(aiInsights);
@@ -160,7 +160,7 @@ export default function AIInsightsWidget({
     }
 
     generateInsights();
-  }, [ticket, messages, articles]);
+  }, [ticket?.id, ticket?.subject, ticket?.description, ticket?.status, ticket?.priority]);
 
   const handleAccordionChange = (panel: string) => (
     event: React.SyntheticEvent, 

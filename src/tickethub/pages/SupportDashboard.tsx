@@ -173,8 +173,13 @@ export default function SupportDashboard() {
           </AnimatePresence>
         </Grid>
 
-      {/* Main content */}
-      <Grid container spacing={2}>
+        {/* Main content */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
+          <Grid container spacing={2}>
         <Grid item xs={12} md={7}>
           <Stack spacing={2}>
             <Card variant="outlined">
@@ -253,8 +258,9 @@ export default function SupportDashboard() {
               </CardContent>
             </Card>
           </Stack>
+          </Grid>
         </Grid>
-      </Grid>
+      </motion.div>
       </Box>
     </motion.div>
   );

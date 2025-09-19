@@ -24,6 +24,7 @@ import TicketWorkspace from "./pages/TicketWorkspace";
 import KnowledgeBase from "./pages/KnowledgeBase";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
+import Playground from "./pages/Playground";
 
 const xThemeComponents = {
   ...chartsCustomizations,

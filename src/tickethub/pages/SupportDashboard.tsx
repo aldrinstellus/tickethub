@@ -360,10 +360,10 @@ export default function SupportDashboard() {
             </Box>
           </Box>
 
-          {/* RIGHT COLUMN (30%) - Intelligence Hub */}
+          {/* RIGHT COLUMN (38%) - Intelligence Hub */}
           <Box
             sx={{
-              flex: "0 0 30%",
+              flex: "0 0 38%",
               display: "flex",
               flexDirection: "column",
               overflow: "hidden"

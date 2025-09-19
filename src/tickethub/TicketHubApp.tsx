@@ -66,8 +66,9 @@ export default function TicketHubApp() {
               <Route index element={<SupportDashboard />} />
               <Route path="tickets" element={<Tickets />} />
               <Route path="tickets/:id" element={<TicketWorkspace />} />
-              <Route path="knowledge" element={<KnowledgeBase />} />
-              <Route path="reports" element={<Reports />} />
+              <Route path="knowledge-base" element={<KnowledgeBase />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="surveys" element={<Surveys />} />
               <Route path="playground" element={<Playground />} />
               <Route path="settings" element={<Settings />} />
             </Routes>

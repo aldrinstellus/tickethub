@@ -212,11 +212,70 @@ export default function Analytics() {
         >
           <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
             <PageHeader title="Analytics" />
-            <Stack direction="row" spacing={1}>
-              <Button variant="outlined" size="small">Export Report</Button>
-              <Button variant="contained" size="small">Schedule Report</Button>
+            <Stack direction="row" spacing={2} alignItems="center">
+              {/* Time Period Selector */}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <CalendarTodayIcon fontSize="small" color="primary" />
+                  <FormControl size="small" sx={{ minWidth: 150 }}>
+                    <InputLabel>Time Period</InputLabel>
+                    <Select
+                      value={selectedPeriod}
+                      label="Time Period"
+                      onChange={(e) => handlePeriodChange(e.target.value)}
+                    >
+                      {timePeriods.map((period) => (
+                        <MenuItem key={period.value} value={period.value}>
+                          {period.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+
+                  {/* Custom Date Range Pickers */}
+                  {showCustomDates && (
+                    <>
+                      <DatePicker
+                        label="Start Date"
+                        value={customStartDate}
+                        onChange={(newValue) => setCustomStartDate(newValue)}
+                        slotProps={{ textField: { size: 'small', sx: { minWidth: 120 } } }}
+                      />
+                      <DatePicker
+                        label="End Date"
+                        value={customEndDate}
+                        onChange={(newValue) => setCustomEndDate(newValue)}
+                        slotProps={{ textField: { size: 'small', sx: { minWidth: 120 } } }}
+                        minDate={customStartDate}
+                      />
+                    </>
+                  )}
+                </Stack>
+              </LocalizationProvider>
+
+              {/* Action Buttons */}
+              <Stack direction="row" spacing={1}>
+                <Button variant="outlined" size="small">Export Report</Button>
+                <Button variant="contained" size="small">Schedule Report</Button>
+              </Stack>
             </Stack>
           </Stack>
+
+          {/* Current Period Info */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          >
+            <Box sx={{ mb: 2 }}>
+              <Chip
+                label={`Showing data for ${currentPeriod.label}`}
+                color="primary"
+                variant="outlined"
+                size="small"
+              />
+            </Box>
+          </motion.div>
         </motion.div>
 
         {/* KPI Cards */}

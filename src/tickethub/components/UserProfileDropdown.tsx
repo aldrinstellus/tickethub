@@ -164,6 +164,7 @@ export default function UserProfileDropdown() {
           overlap="circular"
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           variant="dot"
+          statuscolor={currentStatus.color}
         >
           <Avatar
             alt={user.name}

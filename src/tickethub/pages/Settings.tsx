@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 export default function Settings() {
-  const [name, setName] = React.useState("TicketHub AI");
+  const [name, setName] = React.useState("TicketHub");
   const [signature, setSignature] = React.useState("Best regards,\nTicketHub Support Team");
 
   return (

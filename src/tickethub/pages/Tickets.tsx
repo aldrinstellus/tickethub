@@ -372,7 +372,11 @@ export default function Tickets() {
                 value={filters.search}
                 onChange={(e) => handleFilterChange('search', e.target.value)}
                 InputProps={{
-                  startAdornment: <SearchRoundedIcon sx={{ mr: 1, color: 'text.secondary' }} />,
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchRoundedIcon color="action" />
+                    </InputAdornment>
+                  ),
                 }}
                 size="small"
                 variant="outlined"

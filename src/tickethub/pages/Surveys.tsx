@@ -293,6 +293,8 @@ export default function Surveys() {
                                   </Stack>
                                 </Box>
                               }
+                              primaryTypographyProps={{ component: 'div' }}
+                              secondaryTypographyProps={{ component: 'div' }}
                             />
                             <ListItemSecondaryAction>
                               <Stack direction="row" spacing={1}>

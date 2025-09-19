@@ -13,6 +13,7 @@ import ConfirmationNumberRoundedIcon from "@mui/icons-material/ConfirmationNumbe
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import AssessmentRoundedIcon from "@mui/icons-material/AssessmentRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import ShowChartRoundedIcon from "@mui/icons-material/ShowChartRounded";
 
 const mainListItems = [
   { text: "Dashboard", icon: <DashboardRoundedIcon />, path: "/support" },

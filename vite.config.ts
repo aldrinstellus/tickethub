@@ -1,5 +1,4 @@
 import { defineConfig } from "vite";
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -7,8 +6,13 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
-    hmr: {
-      overlay: false,
+    hmr: { overlay: false },
+    watch: {
+      usePolling: true,
+      interval: 200,
     },
+  },
+  optimizeDeps: {
+    exclude: ["@mui/icons-material"],
   },
 });

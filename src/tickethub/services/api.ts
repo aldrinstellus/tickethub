@@ -260,30 +260,35 @@ export async function updateTicketStatus(id: string, status: Ticket['status']): 
  * Assign ticket to agent
  */
 export async function assignTicket(id: string, assignee: string): Promise<Ticket | null> {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
-
-  if (supabaseUrl && supabaseKey) {
+  if (SUPABASE_URL && SUPABASE_KEY) {
     try {
-      const url = `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/tickets?id=eq.${encodeURIComponent(id)}`;
+      const url = `${SUPABASE_URL.replace(/\/+$/, "")}/rest/v1/tickets?id=eq.${encodeURIComponent(id)}`;
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+
       const res = await fetch(url, {
         method: "PATCH",
+        signal: controller.signal,
         headers: {
           "Content-Type": "application/json",
-          apikey: supabaseKey,
-          Authorization: `Bearer ${supabaseKey}`,
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
           Prefer: "return=representation",
         },
         body: JSON.stringify({ assignee, updated_at: new Date().toISOString() }),
       });
 
+      clearTimeout(timeoutId);
+
       if (res.ok) {
         const data = await res.json();
         const updated = Array.isArray(data) ? data[0] : data;
+        console.log(`Successfully assigned ticket ${id} to ${assignee}`);
         return updated || null;
       }
     } catch (err) {
-      // ignore and fallback
+      console.warn(`Error assigning ticket ${id}:`, err);
     }
   }
 

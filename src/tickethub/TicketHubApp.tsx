@@ -26,7 +26,6 @@ import Surveys from "./pages/Surveys";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Playground from "./pages/Playground";
-import QuickCreateTicket from "./components/QuickCreateTicket";
 import FederatedSearch from "./components/FederatedSearch";
 import { UserProvider } from "./contexts/UserContext";
 import { SidebarProvider, useSidebar } from "./contexts/SidebarContext";
@@ -82,7 +81,6 @@ function TicketHubAppInner() {
             </Routes>
             <Outlet />
           </Stack>
-          <QuickCreateTicket />
         </Box>
       </Box>
     </>

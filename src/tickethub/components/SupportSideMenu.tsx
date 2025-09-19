@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import SupportMenuContent from "./SupportMenuContent";
 import { TicketHubLogo } from "./SupportAppNavbar";
+import { useUser } from "../contexts/UserContext";
 
 const drawerWidth = 240;
 
@@ -23,6 +24,12 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export default function SupportSideMenu() {
+  const { user } = useUser();
+
+  if (!user) {
+    return null;
+  }
+
   return (
     <Drawer
       variant="permanent"
@@ -47,15 +54,15 @@ export default function SupportSideMenu() {
         direction="row"
         sx={{ p: 2, gap: 1, alignItems: "center", borderTop: "1px solid", borderColor: "divider" }}
       >
-        <Avatar sizes="small" alt="Aldrin Stellus" sx={{ width: 36, height: 36, bgcolor: "primary.main" }}>
-          AS
+        <Avatar sizes="small" alt={user.name} sx={{ width: 36, height: 36, bgcolor: "primary.main" }}>
+          {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
         </Avatar>
         <Box sx={{ mr: "auto" }}>
           <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: "16px" }}>
-            Aldrin Stellus
+            {user.name}
           </Typography>
           <Typography variant="caption" sx={{ color: "text.secondary" }}>
-            admin@tickethub.ai
+            {user.email}
           </Typography>
         </Box>
       </Stack>

@@ -63,8 +63,26 @@ function NotFound() {
   );
 }
 
+function SimpleTest() {
+  return (
+    <Box sx={{ p: 4, backgroundColor: 'white', color: 'black', minHeight: '100vh' }}>
+      <Typography variant="h4" gutterBottom>
+        React is working!
+      </Typography>
+      <Typography variant="body1">
+        If you can see this, React is mounting correctly.
+      </Typography>
+    </Box>
+  );
+}
+
 export default function App() {
   console.log("App component rendering...");
+
+  // Temporarily show simple test instead of full app
+  if (window.location.search.includes('test')) {
+    return <SimpleTest />;
+  }
 
   return (
     <ErrorBoundary>

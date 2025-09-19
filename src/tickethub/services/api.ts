@@ -238,3 +238,64 @@ export async function updateTicketPriority(id: string, priority: Ticket['priorit
   }
   return null;
 }
+
+/**
+ * Fetch messages for a specific ticket
+ */
+export async function fetchMessages(ticketId: string): Promise<Message[]> {
+  // Try Supabase first
+  const supabaseMessages = await supabaseFetch<Message[]>(`messages?ticket_id=eq.${encodeURIComponent(ticketId)}&order=created_at.asc`);
+  if (supabaseMessages) return supabaseMessages;
+
+  // Fallback to mock data
+  const remote = await tryFetch<Message[]>(`/api/messages?ticket_id=${ticketId}`);
+  if (remote) return remote;
+
+  // Return filtered mock messages
+  return new Promise<Message[]>((res) =>
+    setTimeout(() => res(mockMessages.filter(m => m.ticket_id === ticketId)), DEFAULT_DELAY)
+  );
+}
+
+/**
+ * Create a new message
+ */
+export async function createMessage(message: Omit<Message, 'id' | 'created_at' | 'updated_at'>): Promise<Message> {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+  const fullMessage: Message = {
+    ...message,
+    id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+
+  if (supabaseUrl && supabaseKey) {
+    try {
+      const url = `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/messages`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+          Prefer: "return=representation",
+        },
+        body: JSON.stringify(fullMessage),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const created = Array.isArray(data) ? data[0] : data;
+        return created || fullMessage;
+      }
+    } catch (err) {
+      console.warn("Failed to create message in Supabase:", err);
+    }
+  }
+
+  // Fallback to in-memory persistence
+  mockMessages.push(fullMessage);
+  return fullMessage;
+}

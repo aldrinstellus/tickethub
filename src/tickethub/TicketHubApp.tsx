@@ -47,7 +47,7 @@ function TicketHubAppInner() {
   return (
     <>
       <SupportTopNavbar />
-      <Box sx={{ display: "flex", height: "100vh", pt: "64px" }}>
+      <Box sx={{ display: "flex", height: "100vh", pt: `${LAYOUT_SPACING.NAVBAR_HEIGHT}px` }}>
         <SupportSideMenu />
         <Box
           component="main"
@@ -61,11 +61,10 @@ function TicketHubAppInner() {
           })}
         >
           <Stack
-            spacing={2}
+            spacing={LAYOUT_SPACING.SECTION_SPACING}
             sx={{
               alignItems: "stretch",
-              px: { xs: 2, sm: 3 },
-              py: { xs: 2, sm: 3 },
+              ...RESPONSIVE_SPACING.pagePadding,
               '& > *': {
                 width: '100% !important',
                 maxWidth: '100% !important',

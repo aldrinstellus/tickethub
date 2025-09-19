@@ -13,6 +13,21 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
 import Snackbar from "@mui/material/Snackbar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import Chip from "@mui/material/Chip";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import WorkspaceIcon from "@mui/icons-material/Workspaces";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import SecurityIcon from "@mui/icons-material/Security";
+import IntegrationInstructionsIcon from "@mui/icons-material/IntegrationInstructions";
+import PeopleIcon from "@mui/icons-material/People";
+import EditIcon from "@mui/icons-material/Edit";
 import PageHeader from "../components/PageHeader";
 
 interface SettingsData {

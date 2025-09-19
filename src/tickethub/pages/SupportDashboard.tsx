@@ -449,16 +449,7 @@ export default function SupportDashboard() {
                     transition={{ duration: 0.4, delay: 0.5 }}
                   >
                     <AIInsightsWidget
-                      ticket={ticketsData[0] || {
-                        id: 'demo',
-                        subject: 'Demo Ticket for AI Analysis',
-                        description: 'This is a demo ticket used for AI insights demonstration.',
-                        status: 'Open',
-                        priority: 'Medium',
-                        created_at: new Date().toISOString(),
-                        customer_id: 'demo-customer',
-                        assignee: 'Demo Agent'
-                      }}
+                      ticket={ticketsData[0] || DEMO_TICKET}
                       compact={false}
                     />
                   </motion.div>

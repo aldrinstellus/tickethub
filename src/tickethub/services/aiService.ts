@@ -95,6 +95,55 @@ class AnthropicProvider implements AIProvider {
   }
 }
 
+// OpenRouter Provider
+class OpenRouterProvider implements AIProvider {
+  name = "OpenRouter";
+  private apiKey: string;
+
+  constructor(apiKey: string) {
+    this.apiKey = apiKey;
+  }
+
+  async generateResponse(prompt: string, context: Article[] = []): Promise<string> {
+    try {
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${this.apiKey}`,
+          "HTTP-Referer": window.location.origin,
+          "X-Title": "TicketHub AI Assistant",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "anthropic/claude-3.5-haiku", // Fast, cost-effective model
+          messages: [
+            {
+              role: "system",
+              content: "You are an AI assistant for TicketHub, a customer support platform. Help users with ticket management, knowledge base queries, and general support tasks. Be concise, helpful, and professional."
+            },
+            {
+              role: "user",
+              content: `${prompt}\n\n${context.length > 0 ? `Available knowledge: ${context.map(a => `${a.title}: ${a.content}`).join('\n')}` : ''}`
+            }
+          ],
+          max_tokens: 300,
+          temperature: 0.7
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`OpenRouter API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.choices[0]?.message?.content || "I'm sorry, I couldn't generate a response.";
+    } catch (error) {
+      console.error("OpenRouter API error:", error);
+      throw error;
+    }
+  }
+}
+
 // Enhanced Mock Provider (fallback)
 class EnhancedMockProvider implements AIProvider {
   name = "Enhanced Mock";
@@ -178,10 +227,14 @@ class AIService {
 
   constructor() {
     // Try to initialize real providers if API keys are available
+    const openRouterKey = import.meta.env.VITE_OPENROUTER_API_KEY;
     const openaiKey = import.meta.env.VITE_OPENAI_API_KEY;
     const anthropicKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
 
-    if (openaiKey) {
+    if (openRouterKey) {
+      this.provider = new OpenRouterProvider(openRouterKey);
+      console.log("AI Service: Using OpenRouter provider");
+    } else if (openaiKey) {
       this.provider = new OpenAIProvider(openaiKey);
       console.log("AI Service: Using OpenAI provider");
     } else if (anthropicKey) {

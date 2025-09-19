@@ -21,6 +21,7 @@ export default function KnowledgeBase() {
   const [query, setQuery] = React.useState("");
   const [articles, setArticles] = React.useState<Article[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
 
   React.useEffect(() => {
     let mounted = true;

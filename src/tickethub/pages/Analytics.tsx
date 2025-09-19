@@ -13,6 +13,7 @@ import { LineChart, PieChart } from "@mui/x-charts";
 import ReactECharts from "echarts-for-react";
 import { motion, AnimatePresence } from "framer-motion";
 import CrmStatCard from "../../crm/components/CrmStatCard";
+import PageHeader from "../components/PageHeader";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -109,7 +110,7 @@ export default function Analytics() {
           transition={{ duration: 0.4, delay: 0.1 }}
         >
           <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
-            <Typography variant="h5">Analytics Dashboard</Typography>
+            <PageHeader title="Analytics" />
             <Stack direction="row" spacing={1}>
               <Button variant="outlined" size="small">Export Report</Button>
               <Button variant="contained" size="small">Schedule Report</Button>

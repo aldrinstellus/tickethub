@@ -27,9 +27,11 @@ import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Playground from "./pages/Playground";
 import FederatedSearch from "./components/FederatedSearch";
+import NewTicketModal from "./components/NewTicketModal";
 import { UserProvider } from "./contexts/UserContext";
 import { SidebarProvider, useSidebar } from "./contexts/SidebarContext";
 import { SearchProvider } from "./contexts/SearchContext";
+import { TicketCreationProvider } from "./contexts/TicketCreationContext";
 
 const xThemeComponents = {
   ...chartsCustomizations,
@@ -93,9 +95,12 @@ export default function TicketHubApp() {
       <UserProvider>
         <SidebarProvider>
           <SearchProvider>
-            <CssBaseline enableColorScheme />
-            <TicketHubAppInner />
-            <FederatedSearch />
+            <TicketCreationProvider>
+              <CssBaseline enableColorScheme />
+              <TicketHubAppInner />
+              <FederatedSearch />
+              <NewTicketModal />
+            </TicketCreationProvider>
           </SearchProvider>
         </SidebarProvider>
       </UserProvider>

@@ -12,7 +12,7 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import MenuOpenRoundedIcon from "@mui/icons-material/MenuOpenRounded";
 import MenuButton from "../../dashboard/components/MenuButton";
 import ColorModeIconDropdown from "../../shared-theme/ColorModeIconDropdown";
-import CrmSearch from "../../crm/components/CrmSearch";
+import EnhancedSearch from "./EnhancedSearch";
 import { TicketHubLogo } from "./SupportAppNavbar";
 import SupportSideMenuMobile from "./SupportSideMenuMobile";
 import { useSidebar } from "../contexts/SidebarContext";
@@ -86,7 +86,7 @@ export default function SupportTopNavbar() {
             mx: 2
           }}>
             <Box sx={{ maxWidth: "500px", width: "100%" }}>
-              <CrmSearch />
+              <EnhancedSearch />
             </Box>
           </Box>
 

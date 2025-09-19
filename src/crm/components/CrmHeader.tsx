@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import MenuButton from "../../dashboard/components/MenuButton";
 import ColorModeIconDropdown from "../../shared-theme/ColorModeIconDropdown";
-import CrmSearch from "./CrmSearch";
+import EnhancedSearch from "../../tickethub/components/EnhancedSearch";
 import CrmNavbarBreadcrumbs from "./CrmNavbarBreadcrumbs";
 import Button from "@mui/material/Button";
 import CalendarTodayRoundedIcon from "@mui/icons-material/CalendarTodayRounded";
@@ -29,7 +29,7 @@ export default function CrmHeader() {
         </Typography>
       </Stack>
       <Stack direction="row" sx={{ gap: 1 }}>
-        <CrmSearch />
+        <EnhancedSearch />
         <Button
           variant="outlined"
           size="small"

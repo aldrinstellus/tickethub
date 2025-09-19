@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import MenuButton from "../../dashboard/components/MenuButton";
 import ColorModeIconDropdown from "../../shared-theme/ColorModeIconDropdown";
-import CrmSearch from "../../crm/components/CrmSearch";
+import EnhancedSearch from "./EnhancedSearch";
 import SupportNavbarBreadcrumbs from "./SupportNavbarBreadcrumbs";
 
 export default function SupportHeader() {
@@ -27,7 +27,7 @@ export default function SupportHeader() {
         </Typography>
       </Stack>
       <Stack direction="row" sx={{ gap: 1 }}>
-        <CrmSearch />
+        <EnhancedSearch />
         <MenuButton showBadge aria-label="Open notifications">
           <NotificationsRoundedIcon />
         </MenuButton>

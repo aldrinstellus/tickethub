@@ -47,6 +47,7 @@ import { articles, generateAiResponse, Ticket, Article } from "../data/mockData"
 import type { Message as TicketMessage } from "../data/mockData";
 import { fetchTicketById, fetchArticles, fetchMessages, createMessage, updateTicketStatus, assignTicket, updateTicketPriority } from "../services/api";
 import { useUser } from "../contexts/UserContext";
+import { useRealTime } from "../contexts/RealTimeContext";
 import PageHeader from "../components/PageHeader";
 
 // SLA calculation function

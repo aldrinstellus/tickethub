@@ -199,10 +199,10 @@ export default function SupportDashboard() {
         {/* Two Column Layout with Independent Scrolling */}
         <Box sx={{ display: "flex", flex: 1, gap: 3, overflow: "hidden", px: 1 }}>
 
-          {/* LEFT COLUMN (70%) - Command Center */}
+          {/* LEFT COLUMN (62%) - Command Center */}
           <Box
             sx={{
-              flex: "0 0 70%",
+              flex: "0 0 62%",
               display: "flex",
               flexDirection: "column",
               overflow: "hidden"

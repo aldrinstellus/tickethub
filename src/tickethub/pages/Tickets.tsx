@@ -40,7 +40,7 @@ export default function Tickets() {
             rows={tickets}
             columns={columns}
             getRowId={(row) => row.id}
-            onRowClick={(params) => navigate(`/support/tickets/${params.id}`)}
+            onRowClick={(params) => navigate(`/tickets/${params.id}`)}
           />
         </Box>
       </Box>

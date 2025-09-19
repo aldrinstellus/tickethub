@@ -73,10 +73,10 @@ interface RealTimeProviderProps {
 export function RealTimeProvider({ children }: RealTimeProviderProps) {
   const [notifications, setNotifications] = React.useState<RealTimeNotification[]>([]);
   const [onlineUsers, setOnlineUsers] = React.useState<OnlineUser[]>([
-    { id: '1', name: 'Alex Thompson', status: 'online' },
-    { id: '2', name: 'Priya Patel', status: 'away' },
-    { id: '3', name: 'Marcus Johnson', status: 'online' },
-    { id: '4', name: 'Sarah Chen', status: 'busy' },
+    { id: '1', name: 'Alex Thompson', avatar: '/static/images/avatar/2.jpg', status: 'online' },
+    { id: '2', name: 'Priya Patel', avatar: '/static/images/avatar/3.jpg', status: 'away' },
+    { id: '3', name: 'Marcus Johnson', avatar: '/static/images/avatar/4.jpg', status: 'online' },
+    { id: '4', name: 'Sarah Chen', avatar: '/static/images/avatar/5.jpg', status: 'busy' },
   ]);
   const [currentUserStatus, setCurrentUserStatus] = React.useState<OnlineUser['status']>('online');
   const [isConnected, setIsConnected] = React.useState(true);

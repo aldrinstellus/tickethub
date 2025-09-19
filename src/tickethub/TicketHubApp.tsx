@@ -60,6 +60,10 @@ export default function TicketHubApp() {
               px: 3,
               pb: 5,
               mt: { xs: 8, md: 0 },
+              '& > *': {
+                width: '100% !important',
+                maxWidth: '100% !important',
+              },
             }}
           >
             <SupportHeader />

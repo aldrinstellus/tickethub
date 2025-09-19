@@ -331,8 +331,8 @@ export default function Surveys() {
                       height={250}
                       slotProps={{
                         legend: {
-                          direction: 'column',
-                          position: { vertical: 'middle', horizontal: 'right' },
+                          direction: 'vertical',
+                          position: { vertical: 'middle', horizontal: 'end' },
                         },
                       }}
                     />

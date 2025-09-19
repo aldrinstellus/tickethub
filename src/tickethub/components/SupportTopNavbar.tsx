@@ -14,6 +14,7 @@ import MenuButton from "../../dashboard/components/MenuButton";
 import ColorModeIconDropdown from "../../shared-theme/ColorModeIconDropdown";
 import SearchTrigger from "./SearchTrigger";
 import RealTimeNotifications from "./RealTimeNotifications";
+import UserProfileDropdown from "./UserProfileDropdown";
 import { TicketHubLogo } from "./SupportAppNavbar";
 import SupportSideMenuMobile from "./SupportSideMenuMobile";
 import { useSidebar } from "../contexts/SidebarContext";

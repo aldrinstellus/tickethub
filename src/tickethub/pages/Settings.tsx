@@ -467,7 +467,11 @@ export default function Settings() {
               <Stack spacing={2}>
                 {['Alex Thompson', 'Priya Patel', 'Marcus Johnson', 'Sarah Chen'].map((member, index) => (
                   <Box key={member} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Avatar sx={{ width: 32, height: 32 }}>
+                    <Avatar
+                      src={getDummyAvatarUrl(member)}
+                      alt={member}
+                      sx={{ width: 32, height: 32 }}
+                    >
                       {member.split(' ').map(n => n[0]).join('')}
                     </Avatar>
                     <Box sx={{ flexGrow: 1 }}>

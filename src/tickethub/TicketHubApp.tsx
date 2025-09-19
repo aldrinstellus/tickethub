@@ -22,6 +22,8 @@ import SupportDashboard from "./pages/SupportDashboard";
 import Tickets from "./pages/Tickets";
 import TicketWorkspace from "./pages/TicketWorkspace";
 import KnowledgeBase from "./pages/KnowledgeBase";
+import Analytics from "./pages/Analytics";
+import Surveys from "./pages/Surveys";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Playground from "./pages/Playground";

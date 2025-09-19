@@ -28,6 +28,7 @@ import Settings from "./pages/Settings";
 import Playground from "./pages/Playground";
 import QuickCreateTicket from "./components/QuickCreateTicket";
 import { UserProvider } from "./contexts/UserContext";
+import { SidebarProvider } from "./contexts/SidebarContext";
 
 const xThemeComponents = {
   ...chartsCustomizations,

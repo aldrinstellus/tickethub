@@ -31,7 +31,7 @@ export default function SupportHeader() {
       </Stack>
       <Stack direction="row" sx={{ gap: 1 }}>
         <CrmSearch />
-        <Button variant="contained" size="small" startIcon={<AddRoundedIcon />}>New Ticket</Button>
+        <Button variant="contained" size="small" startIcon={<AddRoundedIcon />} onClick={() => window.dispatchEvent(new CustomEvent('open-quick-create'))}>New Ticket</Button>
         <MenuButton showBadge aria-label="Open notifications">
           <NotificationsRoundedIcon />
         </MenuButton>

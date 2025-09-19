@@ -159,10 +159,12 @@ export default function SupportDashboard() {
                 <List>
                   {recent.map((t) => (
                     <React.Fragment key={t.id}>
-                      <ListItem button onClick={() => navigate(`/tickets/${t.id}`)}>
-                        <Avatar sx={{ width: 36, height: 36, mr: 2 }}>{t.customer.split(' ').map(s=>s[0]).slice(0,2).join('')}</Avatar>
-                        <ListItemText primary={`${t.id} — ${t.subject}`} secondary={`${t.customer} • ${timeAgo(t.updatedAt)} • ${t.assignee}`} />
-                        <Chip label={t.priority} color={t.priority === 'Urgent' ? 'error' : t.priority === 'High' ? 'warning' : t.priority === 'Normal' ? 'default' : 'success'} size="small" />
+                      <ListItem disablePadding>
+                        <ListItemButton onClick={() => navigate(`/tickets/${t.id}`)} sx={{ width: '100%' }}>
+                          <Avatar sx={{ width: 36, height: 36, mr: 2 }}>{t.customer.split(' ').map(s=>s[0]).slice(0,2).join('')}</Avatar>
+                          <ListItemText primary={`${t.id} — ${t.subject}`} secondary={`${t.customer} • ${timeAgo(t.updatedAt)} • ${t.assignee}`} />
+                          <Chip label={t.priority} color={t.priority === 'Urgent' ? 'error' : t.priority === 'High' ? 'warning' : t.priority === 'Normal' ? 'default' : 'success'} size="small" />
+                        </ListItemButton>
                       </ListItem>
                       <Divider />
                     </React.Fragment>

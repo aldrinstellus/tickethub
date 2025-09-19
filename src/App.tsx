@@ -76,6 +76,20 @@ function SimpleTest() {
   );
 }
 
+// Minimal TicketHub test
+function MinimalTicketHub() {
+  return (
+    <Box sx={{ p: 4, backgroundColor: 'white', color: 'black', minHeight: '100vh' }}>
+      <Typography variant="h4" gutterBottom>
+        Minimal TicketHub Test
+      </Typography>
+      <Typography variant="body1">
+        Testing TicketHub components step by step...
+      </Typography>
+    </Box>
+  );
+}
+
 export default function App() {
   console.log("App component rendering...");
 
@@ -85,7 +99,7 @@ export default function App() {
         <CssBaseline enableColorScheme />
         <Routes>
           <Route path="/crm/*" element={<CrmDashboard />} />
-          <Route path="/*" element={<TicketHubApp />} />
+          <Route path="/*" element={<MinimalTicketHub />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -4,7 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import AppTheme from "./shared-theme/AppTheme";
-// import TicketHubApp from "./tickethub/TicketHubApp";
+import TicketHubApp from "./tickethub/TicketHubApp";
 
 class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error?: Error}> {
   constructor(props: {children: React.ReactNode}) {
@@ -91,7 +91,7 @@ export default function App() {
       <BrowserRouter>
         <ErrorBoundary>
           <Routes>
-            <Route path="/*" element={<MinimalTicketHub />} />
+            <Route path="/*" element={<TicketHubApp />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ErrorBoundary>

@@ -1,21 +1,11 @@
 import * as React from "react";
 import { Outlet, Routes, Route } from "react-router-dom";
-import type {} from "@mui/x-date-pickers/themeAugmentation";
-import type {} from "@mui/x-charts/themeAugmentation";
-import type {} from "@mui/x-data-grid-pro/themeAugmentation";
-import type {} from "@mui/x-tree-view/themeAugmentation";
 import { alpha } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import AppTheme from "../shared-theme/AppTheme";
 import { RESPONSIVE_SPACING, LAYOUT_SPACING } from "../shared-theme/spacingTokens";
-import {
-  chartsCustomizations,
-  dataGridCustomizations,
-  datePickersCustomizations,
-  treeViewCustomizations,
-} from "../dashboard/theme/customizations";
 import SupportSideMenu from "./components/SupportSideMenu";
 import SupportTopNavbar from "./components/SupportTopNavbar";
 import SupportDashboard from "./pages/SupportDashboard";
@@ -39,10 +29,7 @@ import { RealTimeProvider } from "./contexts/RealTimeContext";
 import { AIChatProvider } from "./contexts/AIChatContext";
 
 const xThemeComponents = {
-  ...chartsCustomizations,
-  ...dataGridCustomizations,
-  ...datePickersCustomizations,
-  ...treeViewCustomizations,
+  // MUI X theme customizations removed to fix import issues
 };
 
 function TicketHubAppInner() {

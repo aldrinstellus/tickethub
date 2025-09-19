@@ -400,10 +400,9 @@ export default function SupportDashboard() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.3 }}
+                style={{ marginBottom: 24 }}
               >
-                <Box sx={{ mb: 3 }}>
-                  <AIDashboardWidget />
-                </Box>
+                <AIDashboardWidget />
               </motion.div>
 
               {/* Team Status */}

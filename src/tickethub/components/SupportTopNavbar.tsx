@@ -5,8 +5,10 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import MenuButton from "../../dashboard/components/MenuButton";
 import ColorModeIconDropdown from "../../shared-theme/ColorModeIconDropdown";
 import CrmSearch from "../../crm/components/CrmSearch";
@@ -69,8 +71,18 @@ export default function SupportTopNavbar() {
             </Box>
           </Box>
 
-          {/* Right side - Notifications and Controls */}
-          <Stack direction="row" spacing={1} sx={{ alignItems: "center", minWidth: "120px", justifyContent: "flex-end" }}>
+          {/* Right side - New Ticket, Notifications and Controls */}
+          <Stack direction="row" spacing={1} sx={{ alignItems: "center", minWidth: "200px", justifyContent: "flex-end" }}>
+            {/* New Ticket Button */}
+            <Button
+              variant="contained"
+              startIcon={<AddRoundedIcon />}
+              onClick={() => window.dispatchEvent(new CustomEvent('open-quick-create'))}
+              sx={{ display: { xs: "none", sm: "flex" } }}
+            >
+              New Ticket
+            </Button>
+
             <MenuButton showBadge aria-label="Open notifications">
               <NotificationsRoundedIcon />
             </MenuButton>

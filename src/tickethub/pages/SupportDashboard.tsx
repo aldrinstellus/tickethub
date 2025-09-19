@@ -40,22 +40,40 @@ export default function SupportDashboard() {
     return () => clearInterval(t);
   }, []);
 
+  const [ticketsData, setTicketsData] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    let mounted = true;
+    setLoading(true);
+    fetchTickets()
+      .then((data) => {
+        if (!mounted) return;
+        setTicketsData(data);
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   // Key metrics
-  const activeTickets = tickets.length;
-  const resolved = tickets.filter((t) => t.status === "Resolved" || t.status === "Closed").length;
-  const resolutionRate = tickets.length ? Math.round((resolved / tickets.length) * 100) : 0;
+  const activeTickets = ticketsData.length;
+  const resolved = ticketsData.filter((t) => t.status === "Resolved" || t.status === "Closed").length;
+  const resolutionRate = ticketsData.length ? Math.round((resolved / ticketsData.length) * 100) : 0;
   const csat = 94; // placeholder
   const avgResponse = "1.8h";
 
   // Recent tickets
-  const recent = [...tickets].sort((a, b) => +new Date(b.updatedAt) - +new Date(a.updatedAt)).slice(0, 8);
+  const recent = [...ticketsData].sort((a, b) => +new Date(b.updatedAt) - +new Date(a.updatedAt)).slice(0, 8);
 
   // AI insights: simple heuristics
-  const escalateCandidates = tickets.filter((t) => t.priority === "Urgent" || (t.priority === "High" && t.status === "Open"));
+  const escalateCandidates = ticketsData.filter((t) => t.priority === "Urgent" || (t.priority === "High" && t.status === "Open"));
 
   // Team status
   const workload: Record<string, number> = {};
-  tickets.forEach((t) => {
+  ticketsData.forEach((t) => {
     const who = t.assignee || "Unassigned";
     workload[who] = (workload[who] || 0) + 1;
   });

@@ -108,3 +108,126 @@ export async function fetchTicketById(id: string): Promise<Ticket | null> {
   // Fallback to mock data
   return mockTickets.find(t => t.id === id) || null;
 }
+
+/**
+ * Update ticket status
+ */
+export async function updateTicketStatus(id: string, status: Ticket['status']): Promise<Ticket | null> {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+  if (supabaseUrl && supabaseKey) {
+    try {
+      const url = `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/tickets?id=eq.${encodeURIComponent(id)}`;
+      const res = await fetch(url, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+          Prefer: "return=representation",
+        },
+        body: JSON.stringify({ status, updated_at: new Date().toISOString() }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const updated = Array.isArray(data) ? data[0] : data;
+        return updated || null;
+      }
+    } catch (err) {
+      // ignore and fallback
+    }
+  }
+
+  // Fallback to mock data update
+  const ticket = mockTickets.find(t => t.id === id);
+  if (ticket) {
+    ticket.status = status;
+    ticket.updatedAt = new Date().toISOString();
+    return ticket;
+  }
+  return null;
+}
+
+/**
+ * Assign ticket to agent
+ */
+export async function assignTicket(id: string, assignee: string): Promise<Ticket | null> {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+  if (supabaseUrl && supabaseKey) {
+    try {
+      const url = `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/tickets?id=eq.${encodeURIComponent(id)}`;
+      const res = await fetch(url, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+          Prefer: "return=representation",
+        },
+        body: JSON.stringify({ assignee, updated_at: new Date().toISOString() }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const updated = Array.isArray(data) ? data[0] : data;
+        return updated || null;
+      }
+    } catch (err) {
+      // ignore and fallback
+    }
+  }
+
+  // Fallback to mock data update
+  const ticket = mockTickets.find(t => t.id === id);
+  if (ticket) {
+    ticket.assignee = assignee;
+    ticket.updatedAt = new Date().toISOString();
+    return ticket;
+  }
+  return null;
+}
+
+/**
+ * Update ticket priority
+ */
+export async function updateTicketPriority(id: string, priority: Ticket['priority']): Promise<Ticket | null> {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+  if (supabaseUrl && supabaseKey) {
+    try {
+      const url = `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/tickets?id=eq.${encodeURIComponent(id)}`;
+      const res = await fetch(url, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+          Prefer: "return=representation",
+        },
+        body: JSON.stringify({ priority, updated_at: new Date().toISOString() }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const updated = Array.isArray(data) ? data[0] : data;
+        return updated || null;
+      }
+    } catch (err) {
+      // ignore and fallback
+    }
+  }
+
+  // Fallback to mock data update
+  const ticket = mockTickets.find(t => t.id === id);
+  if (ticket) {
+    ticket.priority = priority;
+    ticket.updatedAt = new Date().toISOString();
+    return ticket;
+  }
+  return null;
+}

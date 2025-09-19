@@ -9,14 +9,17 @@ import Button from "@mui/material/Button";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import MenuOpenRoundedIcon from "@mui/icons-material/MenuOpenRounded";
 import MenuButton from "../../dashboard/components/MenuButton";
 import ColorModeIconDropdown from "../../shared-theme/ColorModeIconDropdown";
 import CrmSearch from "../../crm/components/CrmSearch";
 import { TicketHubLogo } from "./SupportAppNavbar";
 import SupportSideMenuMobile from "./SupportSideMenuMobile";
+import { useSidebar } from "../contexts/SidebarContext";
 
 export default function SupportTopNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const { toggleSidebar, isExpanded } = useSidebar();
 
   const toggleMobileMenu = (newOpen: boolean) => () => {
     setMobileMenuOpen(newOpen);
@@ -37,15 +40,30 @@ export default function SupportTopNavbar() {
         }}
       >
         <Toolbar sx={{ justifyContent: "space-between", minHeight: "64px !important", px: 2 }}>
-          {/* Left side - Wordmark (Logo and Title) */}
+          {/* Left side - Wordmark (Logo and Title) with Sidebar Toggle */}
           <Stack
             direction="row"
             spacing={1}
             sx={{
               alignItems: "center",
-              minWidth: "200px"
+              minWidth: "250px"
             }}
           >
+            {/* Sidebar Toggle Button */}
+            <IconButton
+              onClick={toggleSidebar}
+              sx={{
+                display: { xs: "none", md: "flex" },
+                color: "text.primary",
+                '&:hover': {
+                  backgroundColor: "action.hover"
+                }
+              }}
+              aria-label="Toggle sidebar"
+            >
+              {isExpanded ? <MenuOpenRoundedIcon /> : <MenuRoundedIcon />}
+            </IconButton>
+
             <TicketHubLogo />
             <Typography
               variant="h4"

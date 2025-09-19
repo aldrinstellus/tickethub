@@ -315,76 +315,226 @@ export default function TicketWorkspace() {
       </Stack>
 
       <Grid container spacing={2}>
-        <Grid item xs={12} md={8}>
-          <Card variant="outlined" sx={{ mb: 2 }}>
-            <CardContent>
-              <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 2 }}>
-                <Typography variant="h6" component="h2" sx={{ mr: 1, flexGrow: 1 }}>
-                  {ticket.subject}
+        {/* Left Column - Customer Info & Ticket Details */}
+        {!isMobile && (
+          <Grid item xs={12} md={3}>
+            <Card variant="outlined" sx={{ mb: 2 }}>
+              <CardContent>
+                <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>
+                  Customer Information
                 </Typography>
-                <Chip size="small" label={ticket.priority} color={ticket.priority === "Urgent" ? "error" : ticket.priority === "High" ? "warning" : "default"} />
-                <Chip size="small" label={ticket.status} />
-              </Stack>
+                <Stack spacing={2}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <PersonIcon fontSize="small" color="primary" />
+                    <Box>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        {ticket.customer}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Customer
+                      </Typography>
+                    </Box>
+                  </Box>
 
-              <Grid container spacing={2} sx={{ mb: 2 }}>
-                <Grid item xs={12} sm={4}>
-                  <FormControl fullWidth size="small" disabled={updating}>
-                    <InputLabel>Status</InputLabel>
-                    <Select
-                      value={ticket.status}
-                      label="Status"
-                      onChange={(e) => handleStatusUpdate(e.target.value as Ticket['status'])}
-                    >
-                      <MenuItem value="Open">Open</MenuItem>
-                      <MenuItem value="Pending">Pending</MenuItem>
-                      <MenuItem value="Resolved">Resolved</MenuItem>
-                      <MenuItem value="Closed">Closed</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <FormControl fullWidth size="small" disabled={updating}>
-                    <InputLabel>Priority</InputLabel>
-                    <Select
-                      value={ticket.priority}
-                      label="Priority"
-                      onChange={(e) => handlePriorityUpdate(e.target.value as Ticket['priority'])}
-                    >
-                      <MenuItem value="Low">Low</MenuItem>
-                      <MenuItem value="Normal">Normal</MenuItem>
-                      <MenuItem value="High">High</MenuItem>
-                      <MenuItem value="Urgent">Urgent</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <FormControl fullWidth size="small" disabled={updating}>
-                    <InputLabel>Assignee</InputLabel>
-                    <Select
-                      value={ticket.assignee}
-                      label="Assignee"
-                      onChange={(e) => handleAssignUpdate(e.target.value)}
-                    >
-                      <MenuItem value="Unassigned">Unassigned</MenuItem>
-                      <MenuItem value="Alex Thompson">Alex Thompson</MenuItem>
-                      <MenuItem value="Priya Patel">Priya Patel</MenuItem>
-                      <MenuItem value="Marcus Johnson">Marcus Johnson</MenuItem>
-                      <MenuItem value="Sarah Chen">Sarah Chen</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <EmailIcon fontSize="small" color="primary" />
+                    <Box>
+                      <Typography variant="body2">
+                        {ticket.customer.toLowerCase().replace(' ', '.')}@company.com
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Email
+                      </Typography>
+                    </Box>
+                  </Box>
 
-              <Typography variant="body2" color="text.secondary">
-                {ticket.customer} • Updated {new Date(ticket.updatedAt).toLocaleString()}
-                {updating && <CircularProgress size={16} sx={{ ml: 1 }} />}
-              </Typography>
-            </CardContent>
-          </Card>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <PhoneIcon fontSize="small" color="primary" />
+                    <Box>
+                      <Typography variant="body2">
+                        +1 (555) 123-4567
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Phone
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <BusinessIcon fontSize="small" color="primary" />
+                    <Box>
+                      <Typography variant="body2">
+                        TechCorp Inc.
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Company
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Stack>
+              </CardContent>
+            </Card>
+
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>
+                  Ticket Details
+                </Typography>
+                <Stack spacing={2}>
+                  <Box>
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
+                      Status
+                    </Typography>
+                    <FormControl fullWidth size="small" disabled={updating} sx={{ mt: 0.5 }}>
+                      <Select
+                        value={ticket.status}
+                        onChange={(e) => handleStatusUpdate(e.target.value as Ticket['status'])}
+                        displayEmpty
+                      >
+                        <MenuItem value="Open">Open</MenuItem>
+                        <MenuItem value="Pending">Pending</MenuItem>
+                        <MenuItem value="Resolved">Resolved</MenuItem>
+                        <MenuItem value="Closed">Closed</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+
+                  <Box>
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
+                      Priority
+                    </Typography>
+                    <FormControl fullWidth size="small" disabled={updating} sx={{ mt: 0.5 }}>
+                      <Select
+                        value={ticket.priority}
+                        onChange={(e) => handlePriorityUpdate(e.target.value as Ticket['priority'])}
+                        displayEmpty
+                      >
+                        <MenuItem value="Low">Low</MenuItem>
+                        <MenuItem value="Normal">Normal</MenuItem>
+                        <MenuItem value="High">High</MenuItem>
+                        <MenuItem value="Urgent">Urgent</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+
+                  <Box>
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
+                      Assignee
+                    </Typography>
+                    <FormControl fullWidth size="small" disabled={updating} sx={{ mt: 0.5 }}>
+                      <Select
+                        value={ticket.assignee}
+                        onChange={(e) => handleAssignUpdate(e.target.value)}
+                        displayEmpty
+                      >
+                        <MenuItem value="Unassigned">Unassigned</MenuItem>
+                        <MenuItem value="Alex Thompson">Alex Thompson</MenuItem>
+                        <MenuItem value="Priya Patel">Priya Patel</MenuItem>
+                        <MenuItem value="Marcus Johnson">Marcus Johnson</MenuItem>
+                        <MenuItem value="Sarah Chen">Sarah Chen</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+
+                  <Divider />
+
+                  <Box>
+                    <Typography variant="caption" color="text.secondary">
+                      Created: {new Date(ticket.createdAt).toLocaleString()}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="caption" color="text.secondary">
+                      Updated: {new Date(ticket.updatedAt).toLocaleString()}
+                    </Typography>
+                  </Box>
+                  {updating && (
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <CircularProgress size={16} />
+                      <Typography variant="caption" color="text.secondary">
+                        Updating...
+                      </Typography>
+                    </Box>
+                  )}
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+        )}
+
+        {/* Middle Column - Conversation & Reply */}
+        <Grid item xs={12} md={isMobile ? 12 : 6}>
+          {isMobile && (
+            <Card variant="outlined" sx={{ mb: 2 }}>
+              <CardContent>
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 2 }}>
+                  <Typography variant="h6" component="h2" sx={{ mr: 1, flexGrow: 1 }}>
+                    {ticket.subject}
+                  </Typography>
+                  <Chip size="small" label={ticket.priority} color={ticket.priority === "Urgent" ? "error" : ticket.priority === "High" ? "warning" : "default"} />
+                  <Chip size="small" label={ticket.status} />
+                </Stack>
+
+                <Grid container spacing={2} sx={{ mb: 2 }}>
+                  <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth size="small" disabled={updating}>
+                      <InputLabel>Status</InputLabel>
+                      <Select
+                        value={ticket.status}
+                        label="Status"
+                        onChange={(e) => handleStatusUpdate(e.target.value as Ticket['status'])}
+                      >
+                        <MenuItem value="Open">Open</MenuItem>
+                        <MenuItem value="Pending">Pending</MenuItem>
+                        <MenuItem value="Resolved">Resolved</MenuItem>
+                        <MenuItem value="Closed">Closed</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth size="small" disabled={updating}>
+                      <InputLabel>Priority</InputLabel>
+                      <Select
+                        value={ticket.priority}
+                        label="Priority"
+                        onChange={(e) => handlePriorityUpdate(e.target.value as Ticket['priority'])}
+                      >
+                        <MenuItem value="Low">Low</MenuItem>
+                        <MenuItem value="Normal">Normal</MenuItem>
+                        <MenuItem value="High">High</MenuItem>
+                        <MenuItem value="Urgent">Urgent</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth size="small" disabled={updating}>
+                      <InputLabel>Assignee</InputLabel>
+                      <Select
+                        value={ticket.assignee}
+                        label="Assignee"
+                        onChange={(e) => handleAssignUpdate(e.target.value)}
+                      >
+                        <MenuItem value="Unassigned">Unassigned</MenuItem>
+                        <MenuItem value="Alex Thompson">Alex Thompson</MenuItem>
+                        <MenuItem value="Priya Patel">Priya Patel</MenuItem>
+                        <MenuItem value="Marcus Johnson">Marcus Johnson</MenuItem>
+                        <MenuItem value="Sarah Chen">Sarah Chen</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+
+                <Typography variant="body2" color="text.secondary">
+                  {ticket.customer} • Updated {new Date(ticket.updatedAt).toLocaleString()}
+                  {updating && <CircularProgress size={16} sx={{ ml: 1 }} />}
+                </Typography>
+              </CardContent>
+            </Card>
+          )}
 
           <Card variant="outlined" sx={{ mb: 2 }}>
             <CardContent>
-              <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+              <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 2, fontWeight: 600 }}>
                 Conversation
               </Typography>
               <Stack spacing={2}>
@@ -411,7 +561,7 @@ export default function TicketWorkspace() {
           <Card variant="outlined">
             <CardContent>
               <Stack direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
-                <Typography variant="subtitle2" color="text.secondary">Reply</Typography>
+                <Typography variant="subtitle2" color="text.secondary" sx={{ fontWeight: 600 }}>Reply</Typography>
                 {isMobile && (
                   <Button size="small" onClick={() => setKbOpen(true)} sx={{ minHeight: 44 }}>Open KB</Button>
                 )}
@@ -442,8 +592,9 @@ export default function TicketWorkspace() {
           </Card>
         </Grid>
 
+        {/* Right Column - Knowledge Base & Tools */}
         {!isMobile && (
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={3}>
             {RightColumn}
           </Grid>
         )}

@@ -79,14 +79,10 @@ function SimpleTest() {
 // Minimal TicketHub test
 function MinimalTicketHub() {
   return (
-    <Box sx={{ p: 4, backgroundColor: 'white', color: 'black', minHeight: '100vh' }}>
-      <Typography variant="h4" gutterBottom>
-        Minimal TicketHub Test
-      </Typography>
-      <Typography variant="body1">
-        Testing TicketHub components step by step...
-      </Typography>
-    </Box>
+    <div style={{ padding: '20px', backgroundColor: 'white', color: 'black', minHeight: '100vh' }}>
+      <h1>Minimal TicketHub (no MUI)</h1>
+      <p>Testing without Material-UI components...</p>
+    </div>
   );
 }
 

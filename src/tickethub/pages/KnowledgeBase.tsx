@@ -33,6 +33,29 @@ export default function KnowledgeBase() {
     (a) => a.title.toLowerCase().includes(query.toLowerCase()) || a.content.toLowerCase().includes(query.toLowerCase()),
   );
 
+  if (loading) {
+    return (
+      <Box sx={{ width: "100%" }}>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 2, alignItems: "center", justifyContent: "space-between" }}>
+          <Typography variant="h6">Knowledge Base</Typography>
+          <TextField size="small" placeholder="Search articles" disabled />
+        </Stack>
+        <Stack spacing={2}>
+          {[...Array(3)].map((_, i) => (
+            <Card key={i} variant="outlined">
+              <CardContent>
+                <CircularProgress size={20} sx={{ mb: 1 }} />
+                <Typography variant="body2" color="text.secondary">
+                  Loading articles...
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </Stack>
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ width: "100%" }}>
       <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 2, alignItems: "center", justifyContent: "space-between" }}>

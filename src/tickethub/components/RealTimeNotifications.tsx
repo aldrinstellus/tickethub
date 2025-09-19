@@ -229,10 +229,10 @@ export default function RealTimeNotifications() {
                       }
                       secondary={
                         <Stack spacing={0.5}>
-                          <Typography variant="body2" color="text.secondary">
+                          <Typography component="span" variant="body2" color="text.secondary">
                             {notification.message}
                           </Typography>
-                          <Typography variant="caption" color="text.secondary">
+                          <Typography component="span" variant="caption" color="text.secondary">
                             {notification.timestamp.toLocaleTimeString()}
                           </Typography>
                         </Stack>

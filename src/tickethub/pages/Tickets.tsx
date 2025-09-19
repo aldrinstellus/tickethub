@@ -45,7 +45,10 @@ export default function Tickets() {
       field: "priority",
       headerName: "Priority",
       width: 120,
-      renderCell: (params) => <Chip size="small" label={params.value} color={priorityColor(params.value)} />,
+      renderCell: (params) => {
+        const value = params?.value || "Normal";
+        return <Chip size="small" label={value} color={priorityColor(value)} />;
+      },
     },
     { field: "status", headerName: "Status", width: 130 },
     { field: "assignee", headerName: "Assignee", width: 160 },

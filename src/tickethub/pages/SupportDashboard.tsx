@@ -18,6 +18,7 @@ import CrmStatCard from "../../crm/components/CrmStatCard";
 import { useNavigate } from "react-router-dom";
 import { fetchTickets } from "../services/api";
 import { motion, AnimatePresence } from "framer-motion";
+import PageHeader from "../components/PageHeader";
 
 function timeAgo(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();

@@ -30,6 +30,7 @@ export default function TicketWorkspace() {
   const [loading, setLoading] = React.useState(true);
   const [draft, setDraft] = React.useState("");
   const [related, setRelated] = React.useState<Article[]>([]);
+  const [updating, setUpdating] = React.useState(false);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));

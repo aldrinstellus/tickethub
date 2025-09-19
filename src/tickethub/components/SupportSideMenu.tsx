@@ -39,10 +39,12 @@ export default function SupportSideMenu() {
         display: { xs: "none", md: "block" },
         [`& .${drawerClasses.paper}`]: {
           backgroundColor: "background.paper",
+          top: "64px",
+          height: "calc(100vh - 64px)",
         },
       }}
     >
-      <Box sx={{ display: "flex", mt: "calc(var(--template-frame-height, 0px) + 4px)", p: 1.5 }}>
+      <Box sx={{ display: "flex", p: 1.5 }}>
         <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
           <TicketHubLogo />
           <Typography variant="h2" component="div" sx={{ fontFamily: '"Special Gothic Condensed One", sans-serif', fontWeight: 900, fontSize: '2.5rem' }}>TicketHub</Typography>

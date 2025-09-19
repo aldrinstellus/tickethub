@@ -16,7 +16,7 @@ export default function SupportNavbarBreadcrumbs() {
 
   return (
     <Breadcrumbs separator={<NavigateNextRoundedIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 1 }}>
-      <Link component={Router.Link} underline="hover" color="inherit" to="/support" sx={{ display: "flex", alignItems: "center" }}>
+      <Link component={Router.Link} underline="hover" color="inherit" to="/" sx={{ display: "flex", alignItems: "center" }}>
         <HomeRoundedIcon sx={{ mr: 0.5 }} fontSize="small" />
         Home
       </Link>

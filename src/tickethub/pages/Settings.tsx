@@ -88,12 +88,34 @@ function TabPanel(props: TabPanelProps) {
 const SETTINGS_STORAGE_KEY = 'tickethub-settings';
 
 export default function Settings() {
+  const [activeTab, setActiveTab] = React.useState(0);
   const [settings, setSettings] = React.useState<SettingsData>({
+    // Workspace settings
     workspaceName: "TicketHub",
     adminEmail: "",
     timezone: "UTC",
     defaultSignature: "Best regards,\nTicketHub Support Team",
+
+    // Notification settings
     emailNotifications: true,
+    slackNotifications: false,
+    pushNotifications: true,
+    escalationNotifications: true,
+
+    // Security settings
+    twoFactorAuth: false,
+    sessionTimeout: 480, // 8 hours in minutes
+    allowTeamAccess: true,
+
+    // Team settings
+    autoAssignTickets: true,
+    roundRobinAssignment: false,
+    workingHours: "9:00 AM - 5:00 PM",
+
+    // Integration settings
+    slackConnected: false,
+    zendeskSync: false,
+    salesforceIntegration: false,
   });
 
   const [originalSettings, setOriginalSettings] = React.useState<SettingsData>(settings);

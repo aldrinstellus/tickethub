@@ -559,6 +559,149 @@ export default function Tickets() {
             )}
           </Box>
         </Box>
+
+        {/* Bulk Actions Menu */}
+        <Menu
+          anchorEl={bulkActionAnchor}
+          open={Boolean(bulkActionAnchor)}
+          onClose={handleBulkMenuClose}
+        >
+          <MenuItem onClick={() => { setSelectedRows([]); handleBulkMenuClose(); }}>
+            Clear Selection
+          </MenuItem>
+          <MenuItem onClick={() => {
+            setSelectedRows(filteredRows.map(row => row.id));
+            handleBulkMenuClose();
+          }}>
+            Select All ({filteredRows.length})
+          </MenuItem>
+        </Menu>
+
+        {/* Bulk Assign Dialog */}
+        <Dialog open={bulkAssignDialog} onClose={() => setBulkAssignDialog(false)} maxWidth="sm" fullWidth>
+          <DialogTitle>Assign Selected Tickets</DialogTitle>
+          <DialogContent>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              Assign {selectedRows.length} ticket{selectedRows.length !== 1 ? 's' : ''} to:
+            </Typography>
+            <FormControl fullWidth>
+              <InputLabel>Assignee</InputLabel>
+              <Select
+                value={newAssignee}
+                label="Assignee"
+                onChange={(e) => setNewAssignee(e.target.value)}
+              >
+                {TEAM_MEMBERS.filter(member => member !== 'All' && member !== 'Me').map(member => (
+                  <MenuItem key={member} value={member}>{member}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setBulkAssignDialog(false)} disabled={bulkProcessing}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleBulkAssign}
+              variant="contained"
+              disabled={!newAssignee || bulkProcessing}
+            >
+              {bulkProcessing ? 'Assigning...' : 'Assign'}
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Bulk Priority Dialog */}
+        <Dialog open={bulkPriorityDialog} onClose={() => setBulkPriorityDialog(false)} maxWidth="sm" fullWidth>
+          <DialogTitle>Change Priority</DialogTitle>
+          <DialogContent>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              Change priority for {selectedRows.length} ticket{selectedRows.length !== 1 ? 's' : ''} to:
+            </Typography>
+            <FormControl fullWidth>
+              <InputLabel>Priority</InputLabel>
+              <Select
+                value={newPriority}
+                label="Priority"
+                onChange={(e) => setNewPriority(e.target.value)}
+              >
+                {PRIORITY_OPTIONS.filter(priority => priority !== 'All').map(priority => (
+                  <MenuItem key={priority} value={priority}>{priority}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setBulkPriorityDialog(false)} disabled={bulkProcessing}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleBulkPriority}
+              variant="contained"
+              disabled={!newPriority || bulkProcessing}
+            >
+              {bulkProcessing ? 'Updating...' : 'Update Priority'}
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Bulk Status Dialog */}
+        <Dialog open={bulkStatusDialog} onClose={() => setBulkStatusDialog(false)} maxWidth="sm" fullWidth>
+          <DialogTitle>Change Status</DialogTitle>
+          <DialogContent>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              Change status for {selectedRows.length} ticket{selectedRows.length !== 1 ? 's' : ''} to:
+            </Typography>
+            <FormControl fullWidth>
+              <InputLabel>Status</InputLabel>
+              <Select
+                value={newStatus}
+                label="Status"
+                onChange={(e) => setNewStatus(e.target.value)}
+              >
+                {STATUS_OPTIONS.filter(status => status !== 'All').map(status => (
+                  <MenuItem key={status} value={status}>{status}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setBulkStatusDialog(false)} disabled={bulkProcessing}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleBulkStatus}
+              variant="contained"
+              disabled={!newStatus || bulkProcessing}
+            >
+              {bulkProcessing ? 'Updating...' : 'Update Status'}
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Bulk Delete Dialog */}
+        <Dialog open={bulkDeleteDialog} onClose={() => setBulkDeleteDialog(false)} maxWidth="sm" fullWidth>
+          <DialogTitle>Delete Selected Tickets</DialogTitle>
+          <DialogContent>
+            <Typography variant="body2" color="text.secondary">
+              Are you sure you want to delete {selectedRows.length} ticket{selectedRows.length !== 1 ? 's' : ''}?
+              This action cannot be undone.
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setBulkDeleteDialog(false)} disabled={bulkProcessing}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleBulkDelete}
+              variant="contained"
+              color="error"
+              disabled={bulkProcessing}
+            >
+              {bulkProcessing ? 'Deleting...' : 'Delete'}
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </LocalizationProvider>
   );

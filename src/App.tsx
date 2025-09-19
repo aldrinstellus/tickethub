@@ -65,18 +65,13 @@ function NotFound() {
 }
 
 export default function App() {
+  console.log("=== APP COMPONENT RENDERING ===");
+
   return (
-    <ErrorBoundary>
-      <AppTheme>
-        <CssBaseline />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/*" element={<TicketHubApp />} />
-            <Route path="/crm" element={<CrmDashboard />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </AppTheme>
-    </ErrorBoundary>
+    <div style={{ background: 'red', color: 'white', padding: '20px', fontSize: '24px' }}>
+      <h1>APP IS LOADING - RED SCREEN TEST</h1>
+      <p>Time: {new Date().toLocaleTimeString()}</p>
+      <p>If you see this, React is working and we can restore TicketHub</p>
+    </div>
   );
 }

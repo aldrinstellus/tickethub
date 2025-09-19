@@ -70,6 +70,16 @@ export default function Tickets() {
   });
 
   const [activeFilters, setActiveFilters] = React.useState<string[]>([]);
+  const [selectedRows, setSelectedRows] = React.useState<GridRowSelectionModel>([]);
+  const [bulkActionAnchor, setBulkActionAnchor] = React.useState<null | HTMLElement>(null);
+  const [bulkAssignDialog, setBulkAssignDialog] = React.useState(false);
+  const [bulkPriorityDialog, setBulkPriorityDialog] = React.useState(false);
+  const [bulkStatusDialog, setBulkStatusDialog] = React.useState(false);
+  const [bulkDeleteDialog, setBulkDeleteDialog] = React.useState(false);
+  const [newAssignee, setNewAssignee] = React.useState('');
+  const [newPriority, setNewPriority] = React.useState('');
+  const [newStatus, setNewStatus] = React.useState('');
+  const [bulkProcessing, setBulkProcessing] = React.useState(false);
 
   // Load tickets on mount
   React.useEffect(() => {

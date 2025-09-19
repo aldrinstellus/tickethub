@@ -30,7 +30,7 @@ export default function KnowledgeBase() {
   }, []);
 
   const filtered = articles.filter(
-    (a) => a.title.toLowerCase().includes(query.toLowerCase()) || a.content.toLowerCase().includes(query.toLowerCase()),
+    (a) => a?.title?.toLowerCase().includes(query.toLowerCase()) || a?.content?.toLowerCase().includes(query.toLowerCase()),
   );
 
   if (loading) {

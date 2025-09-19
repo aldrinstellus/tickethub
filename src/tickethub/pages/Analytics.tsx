@@ -398,8 +398,11 @@ export default function Analytics() {
                       <Typography variant="h6" sx={{ mb: 2 }}>CSAT Over Time</Typography>
                       <LineChart
                         height={320}
-                        series={[{ data: [92,92,93,94,95,94,94], label: 'CSAT %' }]}
-                        xAxis={[{ scaleType: 'point', data: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] }]}
+                        series={[{
+                          data: chartData.labels.map(() => 90 + Math.random() * 8),
+                          label: 'CSAT %'
+                        }]}
+                        xAxis={[{ scaleType: 'point', data: chartData.labels }]}
                       />
                     </CardContent>
                   </Card>

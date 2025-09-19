@@ -20,6 +20,7 @@ const mainListItems = [
   { text: "Tickets", icon: <ConfirmationNumberRoundedIcon />, path: "/support/tickets" },
   { text: "Knowledge Base", icon: <MenuBookRoundedIcon />, path: "/support/knowledge" },
   { text: "Reports", icon: <AssessmentRoundedIcon />, path: "/support/reports" },
+  { text: "Playground", icon: <ShowChartRoundedIcon />, path: "/support/playground" },
 ];
 
 const secondaryListItems = [

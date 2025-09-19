@@ -89,6 +89,9 @@ export default function TicketWorkspace() {
   const [updating, setUpdating] = React.useState(false);
   const [messages, setMessages] = React.useState<TicketMessage[]>([]);
   const [sendingMessage, setSendingMessage] = React.useState(false);
+  const [kbSearch, setKbSearch] = React.useState("");
+  const [selectedKbCategory, setSelectedKbCategory] = React.useState("all");
+  const [kbArticles, setKbArticles] = React.useState<Article[]>([]);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));

@@ -41,52 +41,9 @@ export default function SupportSideMenu() {
         },
       }}
     >
-      <Box sx={{ overflow: "auto", height: "100%", display: "flex", flexDirection: "column", pt: 1 }}>
+      <Box sx={{ overflow: "auto", height: "100%", pt: 1 }}>
         <SupportMenuContent collapsed={isCollapsed} />
       </Box>
-      <Stack
-        direction="row"
-        sx={{
-          p: isCollapsed ? 1 : 2,
-          gap: isCollapsed ? 0 : 1,
-          alignItems: "center",
-          borderTop: "1px solid",
-          borderColor: "divider",
-          justifyContent: isCollapsed ? "center" : "flex-start"
-        }}
-      >
-        <Avatar
-          sizes="small"
-          alt={user.name}
-          sx={{ width: 36, height: 36, bgcolor: "primary.main" }}
-          title={isCollapsed ? user.name : undefined}
-        >
-          {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
-        </Avatar>
-        {isExpanded && (
-          <>
-            <Box sx={{ mr: "auto" }}>
-              <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: "16px" }}>
-                {user.name}
-              </Typography>
-              <Typography variant="caption" sx={{ color: "text.secondary" }}>
-                {user.email}
-              </Typography>
-            </Box>
-            <IconButton
-              size="small"
-              onClick={() => {
-                if (window.confirm('Are you sure you want to logout?')) {
-                  window.location.reload(); // Simple logout - in real app would call logout()
-                }
-              }}
-              sx={{ color: 'text.secondary' }}
-            >
-              <LogoutRoundedIcon fontSize="small" />
-            </IconButton>
-          </>
-        )}
-      </Stack>
     </Drawer>
   );
 }

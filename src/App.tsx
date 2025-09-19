@@ -77,13 +77,19 @@ function SimpleTest() {
   );
 }
 
-// Minimal TicketHub test
-function MinimalTicketHub() {
+// Test AppTheme
+function TestAppTheme() {
   return (
-    <div style={{ padding: '20px', backgroundColor: 'white', color: 'black', minHeight: '100vh' }}>
-      <h1>Minimal TicketHub (no MUI)</h1>
-      <p>Testing without Material-UI components...</p>
-    </div>
+    <AppTheme>
+      <Box sx={{ p: 4, minHeight: '100vh', bgcolor: 'background.default', color: 'text.primary' }}>
+        <Typography variant="h4" gutterBottom>
+          Testing AppTheme
+        </Typography>
+        <Typography variant="body1">
+          If you see this, AppTheme is working correctly.
+        </Typography>
+      </Box>
+    </AppTheme>
   );
 }
 

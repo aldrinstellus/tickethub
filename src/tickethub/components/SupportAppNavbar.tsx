@@ -79,18 +79,18 @@ export function TicketHubLogo() {
   return (
     <Box
       sx={{
-        width: "1.75rem",
-        height: "1.75rem",
+        width: "2.5rem",
+        height: "2.5rem",
         bgcolor: "primary.main",
-        borderRadius: "8px",
+        borderRadius: "12px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         alignSelf: "center",
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+        boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.15)",
       }}
     >
-      <SupportAgentRoundedIcon sx={{ color: "white", fontSize: "1.25rem" }} />
+      <SupportAgentRoundedIcon sx={{ color: "white", fontSize: "1.8rem" }} />
     </Box>
   );
 }

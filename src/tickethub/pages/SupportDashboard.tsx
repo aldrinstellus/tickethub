@@ -24,6 +24,18 @@ import AIDashboardWidget from "../components/AIDashboardWidget";
 import AIInsightsWidget from "../components/AIInsightsWidget";
 import { getDummyAvatarUrl } from "../components/UserProfileDropdown";
 
+// Stable demo ticket object to prevent re-renders
+const DEMO_TICKET = {
+  id: 'demo-ticket-001',
+  subject: 'Demo Ticket for AI Analysis',
+  description: 'This is a demo ticket used for AI insights demonstration with various sentiment indicators.',
+  status: 'Open',
+  priority: 'Medium',
+  created_at: '2024-01-15T10:30:00Z',
+  customer_id: 'demo-customer',
+  assignee: 'Demo Agent'
+};
+
 function timeAgo(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();
   const sec = Math.floor(diff / 1000);

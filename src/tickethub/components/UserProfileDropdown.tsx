@@ -34,19 +34,9 @@ const StatusChip = styled(Chip)(({ theme }) => ({
 
 // Utility function to generate consistent dummy avatar URLs
 export const getDummyAvatarUrl = (name: string): string => {
-  const avatars = [
-    '/static/images/avatar/1.jpg',
-    '/static/images/avatar/2.jpg', 
-    '/static/images/avatar/3.jpg',
-    '/static/images/avatar/4.jpg',
-    '/static/images/avatar/5.jpg',
-    '/static/images/avatar/6.jpg',
-    '/static/images/avatar/7.jpg'
-  ];
-  
-  // Use the name to consistently pick the same avatar
-  const hash = name.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
-  return avatars[hash % avatars.length];
+  // Use DiceBear Avatars service for consistent, professional-looking avatars
+  const seed = encodeURIComponent(name.toLowerCase().replace(/\s+/g, ''));
+  return `https://api.dicebear.com/7.x/initials/svg?seed=${seed}&backgroundColor=2563eb,dc2626,ea580c,ca8a04,16a34a,7c3aed,db2777&textColor=ffffff`;
 };
 
 type UserStatus = 'online' | 'away' | 'busy' | 'dnd';

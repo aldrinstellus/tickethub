@@ -20,11 +20,12 @@ import { Theme } from '@mui/material/styles';
  * }));
  * ```
  */
+// Uniform backdrop: lighter gray at 80% opacity for all modals
+const UNIFORM_BACKDROP = 'rgba(128, 128, 128, 0.8)';
+
 export const enhancedBackdropStyles = {
   '& .MuiBackdrop-root': {
-    backgroundColor: (theme: Theme) => theme.palette.mode === 'dark' 
-      ? 'rgba(0, 0, 0, 0.8)' 
-      : 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: UNIFORM_BACKDROP,
     backdropFilter: 'blur(4px)',
     transition: 'backdrop-filter 0.2s ease-in-out',
   },
@@ -32,12 +33,11 @@ export const enhancedBackdropStyles = {
 
 /**
  * Strong backdrop for critical dialogs (e.g., delete confirmations)
+ * Uses same gray 80% overlay but slightly stronger blur for emphasis
  */
 export const strongBackdropStyles = {
   '& .MuiBackdrop-root': {
-    backgroundColor: (theme: Theme) => theme.palette.mode === 'dark' 
-      ? 'rgba(0, 0, 0, 0.9)' 
-      : 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: UNIFORM_BACKDROP,
     backdropFilter: 'blur(6px)',
     transition: 'backdrop-filter 0.2s ease-in-out',
   },
@@ -45,12 +45,11 @@ export const strongBackdropStyles = {
 
 /**
  * Light backdrop for search and info modals
+ * Also uses uniform gray 80% overlay to meet the requested spec
  */
 export const lightBackdropStyles = {
   '& .MuiBackdrop-root': {
-    backgroundColor: (theme: Theme) => theme.palette.mode === 'dark' 
-      ? 'rgba(0, 0, 0, 0.7)' 
-      : 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: UNIFORM_BACKDROP,
     backdropFilter: 'blur(8px)',
     transition: 'backdrop-filter 0.2s ease-in-out',
   },

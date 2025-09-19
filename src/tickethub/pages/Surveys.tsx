@@ -78,6 +78,76 @@ export default function Surveys() {
   const [editingQuestion, setEditingQuestion] = React.useState<SurveyQuestion | null>(null);
   const [questionDialogOpen, setQuestionDialogOpen] = React.useState(false);
 
+  // Survey creation handlers
+  const handleCreateSurvey = () => {
+    setCreateDialogOpen(true);
+    setCurrentStep(0);
+    setNewSurvey({
+      name: '',
+      type: 'Custom',
+      description: '',
+      trigger: 'manual',
+      questions: []
+    });
+  };
+
+  const handleSurveyFieldChange = (field: keyof NewSurvey, value: any) => {
+    setNewSurvey(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleAddQuestion = () => {
+    setEditingQuestion({
+      id: `q-${Date.now()}`,
+      type: 'rating',
+      question: '',
+      required: false,
+      options: []
+    });
+    setQuestionDialogOpen(true);
+  };
+
+  const handleSaveQuestion = () => {
+    if (!editingQuestion) return;
+
+    const updatedQuestions = [...newSurvey.questions];
+    const existingIndex = updatedQuestions.findIndex(q => q.id === editingQuestion.id);
+
+    if (existingIndex >= 0) {
+      updatedQuestions[existingIndex] = editingQuestion;
+    } else {
+      updatedQuestions.push(editingQuestion);
+    }
+
+    setNewSurvey(prev => ({ ...prev, questions: updatedQuestions }));
+    setQuestionDialogOpen(false);
+    setEditingQuestion(null);
+  };
+
+  const handleDeleteQuestion = (questionId: string) => {
+    setNewSurvey(prev => ({
+      ...prev,
+      questions: prev.questions.filter(q => q.id !== questionId)
+    }));
+  };
+
+  const handleSaveSurvey = () => {
+    // In a real app, this would save to the backend
+    console.log('Saving survey:', newSurvey);
+    setCreateDialogOpen(false);
+    // Could add to surveyTemplates state here
+  };
+
+  const getQuestionTypeIcon = (type: SurveyQuestion['type']) => {
+    switch (type) {
+      case 'rating': return <StarIcon fontSize="small" />;
+      case 'nps': return <ThumbUpIcon fontSize="small" />;
+      case 'multiple-choice': return <CheckBoxIcon fontSize="small" />;
+      case 'single-choice': return <RadioButtonCheckedIcon fontSize="small" />;
+      case 'text': return <ShortTextIcon fontSize="small" />;
+      default: return <ShortTextIcon fontSize="small" />;
+    }
+  };
+
   const surveyTemplates = [
     {
       id: 1,

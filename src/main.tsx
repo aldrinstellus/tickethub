@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import "./index.css";
+// import "./index.css"; // Temporarily disabled
 import App from "./App.tsx";
 
 console.log("=== MAIN.TSX EXECUTING ===");

@@ -20,7 +20,17 @@ export default function Tickets() {
     setLoading(true);
     fetchTickets().then((data) => {
       if (!mounted) return;
-      setRows(data);
+      // Ensure data is always an array with valid tickets
+      const validTickets = Array.isArray(data) ? data.filter(ticket =>
+        ticket && typeof ticket === 'object' && ticket.id && ticket.subject
+      ) : [];
+      setRows(validTickets);
+    }).catch((err) => {
+      console.error("Failed to load tickets:", err);
+      if (mounted) {
+        // Set empty array on error to prevent crashes
+        setRows([]);
+      }
     }).finally(() => {
       if (mounted) setLoading(false);
     });

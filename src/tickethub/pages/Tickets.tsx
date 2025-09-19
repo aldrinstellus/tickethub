@@ -50,13 +50,19 @@ export default function Tickets() {
       </Stack>
       <Box sx={{ width: "100%", overflowX: "auto" }}>
         <Box sx={{ height: 560, minWidth: 800 }}>
-          <DataGrid
-            density="compact"
-            rows={tickets}
-            columns={columns}
-            getRowId={(row) => row.id}
-            onRowClick={(params) => navigate(`/tickets/${params.id}`)}
-          />
+          {loading ? (
+            <Box sx={{ p: 2 }}>
+              <Skeleton variant="rectangular" width="100%" height={400} />
+            </Box>
+          ) : (
+            <DataGrid
+              density="compact"
+              rows={rows}
+              columns={columns}
+              getRowId={(row) => row.id}
+              onRowClick={(params) => navigate(`/tickets/${params.id}`)}
+            />
+          )}
         </Box>
       </Box>
     </Box>

@@ -382,7 +382,7 @@ export default function Analytics() {
           </Box>
 
           <AnimatePresence mode="wait">
-            <TabPanel value={tabValue} index={0}>
+            <TabPanel key={0} value={tabValue} index={0}>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <Card variant="outlined">

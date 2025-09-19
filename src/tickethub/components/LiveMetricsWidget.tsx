@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { styled, keyframes } from '@mui/material/styles';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import SignalWifiIcon from '@mui/icons-material/SignalWifi';
+import SignalWifi4BarIcon from '@mui/icons-material/SignalWifi4Bar';
 import SignalWifiOffIcon from '@mui/icons-material/SignalWifiOff';
 import { useRealTime } from '../contexts/RealTimeContext';
 import { motion } from 'framer-motion';

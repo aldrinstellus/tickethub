@@ -129,7 +129,19 @@ export default function TicketWorkspace() {
     }
 
     loadTicketData();
-  }, [id]);
+
+    // Subscribe to real-time updates for this ticket
+    if (id) {
+      subscribeToTicket(id);
+    }
+
+    // Cleanup: unsubscribe when component unmounts or ticket changes
+    return () => {
+      if (id) {
+        unsubscribeFromTicket(id);
+      }
+    };
+  }, [id, subscribeToTicket, unsubscribeFromTicket]);
 
   // Filter knowledge base articles based on search and category
   const filteredKbArticles = React.useMemo(() => {

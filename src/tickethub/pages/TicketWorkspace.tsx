@@ -27,9 +27,11 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { articles, generateAiResponse, Ticket, Article, Message } from "../data/mockData";
 import { fetchTicketById, fetchArticles, fetchMessages, createMessage, updateTicketStatus, assignTicket, updateTicketPriority } from "../services/api";
+import { useUser } from "../contexts/UserContext";
 
 export default function TicketWorkspace() {
   const { id } = useParams();
+  const { user } = useUser();
   const [ticket, setTicket] = React.useState<Ticket | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [draft, setDraft] = React.useState("");
@@ -102,7 +104,7 @@ export default function TicketWorkspace() {
     try {
       const newMessage = await createMessage({
         ticket_id: ticket.id,
-        author: "Aldrin Stellus", // TODO: Replace with real user context
+        author: user?.name || "Unknown Agent",
         content: draft.trim(),
         is_agent: true,
       });

@@ -1,12 +1,13 @@
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import Copyright from "../../dashboard/internals/components/Copyright";
 import CrmStatCard from "../../crm/components/CrmStatCard";
-import { BarChart } from "@mui/x-charts/BarChart";
+import ReactECharts from "echarts-for-react";
 
 const statCardsData = [
   {

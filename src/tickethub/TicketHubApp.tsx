@@ -66,6 +66,7 @@ export default function TicketHubApp() {
               <Route path="tickets/:id" element={<TicketWorkspace />} />
               <Route path="knowledge" element={<KnowledgeBase />} />
               <Route path="reports" element={<Reports />} />
+              <Route path="playground" element={<Playground />} />
               <Route path="settings" element={<Settings />} />
             </Routes>
             <Outlet />

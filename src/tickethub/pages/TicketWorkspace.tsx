@@ -22,7 +22,7 @@ import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { articles, generateAiResponse, Ticket, Article } from "../data/mockData";
-import { fetchTicketById, fetchArticles } from "../services/api";
+import { fetchTicketById, fetchArticles, updateTicketStatus, assignTicket, updateTicketPriority } from "../services/api";
 
 export default function TicketWorkspace() {
   const { id } = useParams();

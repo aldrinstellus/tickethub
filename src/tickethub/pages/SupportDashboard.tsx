@@ -354,9 +354,7 @@ export default function SupportDashboard() {
                               src={getDummyAvatarUrl(t.customer)}
                               alt={t.customer}
                               sx={{ width: 36, height: 36, mr: 2 }}
-                            >
-                              {t.customer.split(' ').map(s=>s[0]).slice(0,2).join('')}
-                            </Avatar>
+                            />
                             <ListItemText primary={`${t.id} — ${t.subject}`} secondary={`${t.customer} �� ${timeAgo(t.updatedAt)} • ${t.assignee}`} />
                             <Chip label={t.priority} color={t.priority === 'Urgent' ? 'error' : t.priority === 'High' ? 'warning' : t.priority === 'Normal' ? 'default' : 'success'} size="small" />
                           </ListItemButton>

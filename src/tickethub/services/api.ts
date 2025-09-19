@@ -352,8 +352,6 @@ export async function fetchMessages(ticketId: string): Promise<Message[]> {
  * Create a new message
  */
 export async function createMessage(message: Omit<Message, 'id' | 'created_at' | 'updated_at'>): Promise<Message> {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
   // Build local message for fallback only (id/timestamps generated locally)
   const localMessage: Message = {
@@ -367,15 +365,21 @@ export async function createMessage(message: Omit<Message, 'id' | 'created_at' |
     updated_at: new Date().toISOString(),
   };
 
-  if (supabaseUrl && supabaseKey) {
+  if (SUPABASE_URL && SUPABASE_KEY) {
     try {
-      const url = `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/messages`;
+      const url = `${SUPABASE_URL.replace(/\/+$/, "")}/rest/v1/messages`;
+
+      // Add timeout for create operations too
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout for writes
+
       const res = await fetch(url, {
         method: "POST",
+        signal: controller.signal,
         headers: {
           "Content-Type": "application/json",
-          apikey: supabaseKey,
-          Authorization: `Bearer ${supabaseKey}`,
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
           Prefer: "return=representation",
         },
         // Send only the fields Supabase should set defaults for (no id or timestamps)
@@ -387,13 +391,26 @@ export async function createMessage(message: Omit<Message, 'id' | 'created_at' |
         }),
       });
 
+      clearTimeout(timeoutId);
+
       if (res.ok) {
         const data = await res.json();
         const created = Array.isArray(data) ? data[0] : data;
+        console.log("Successfully created message in Supabase");
         return created || localMessage;
+      } else {
+        console.warn(`Failed to create message in Supabase: ${res.status} ${res.statusText}`);
       }
     } catch (err) {
-      console.warn("Failed to create message in Supabase:", err);
+      if (err instanceof Error) {
+        if (err.name === 'AbortError') {
+          console.warn("Message creation timed out, using local fallback");
+        } else {
+          console.warn("Failed to create message in Supabase:", err.message);
+        }
+      } else {
+        console.warn("Unknown error creating message in Supabase:", err);
+      }
     }
   }
 

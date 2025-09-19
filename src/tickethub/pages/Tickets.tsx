@@ -552,6 +552,7 @@ export default function Tickets() {
               </Box>
             ) : (
               <DataGrid
+                loading={loading}
                 density="compact"
                 rows={filteredRows}
                 columns={columns}

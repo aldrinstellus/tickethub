@@ -65,26 +65,36 @@ function NotFound() {
 }
 
 function TestComponent() {
-  console.log("TestComponent rendering...");
+  const [importStatus, setImportStatus] = React.useState("🔄 Testing...");
 
-  let ticketHubStatus = "❌";
-  try {
-    // Test if TicketHubApp can be imported without crashing
-    const TicketHubApp = require("./tickethub/TicketHubApp").default;
-    if (TicketHubApp) {
-      ticketHubStatus = "✅ Import Success";
+  React.useEffect(() => {
+    // Test TicketHubApp import asynchronously
+    async function testImport() {
+      try {
+        console.log("Testing TicketHubApp import...");
+        const module = await import("./tickethub/TicketHubApp");
+        console.log("TicketHubApp module loaded:", module);
+
+        if (module.default) {
+          setImportStatus("✅ Import Success");
+        } else {
+          setImportStatus("❌ No default export");
+        }
+      } catch (error) {
+        console.error("TicketHubApp import error:", error);
+        setImportStatus(`❌ Import Error: ${error instanceof Error ? error.message : String(error)}`);
+      }
     }
-  } catch (error) {
-    console.error("TicketHubApp import error:", error);
-    ticketHubStatus = `❌ Import Error: ${error instanceof Error ? error.message : String(error)}`;
-  }
+
+    testImport();
+  }, []);
 
   return (
     <div style={{ background: 'blue', color: 'white', padding: '20px', fontSize: '24px' }}>
       <h1>Testing Step by Step</h1>
       <p>1. Basic React: ✅</p>
       <p>2. AppTheme: ✅</p>
-      <p>3. TicketHubApp Import: {ticketHubStatus}</p>
+      <p>3. TicketHubApp Import: {importStatus}</p>
     </div>
   );
 }

@@ -51,6 +51,8 @@ import { fetchTicketById, fetchArticles, fetchMessages, createMessage, updateTic
 import { useUser } from "../contexts/UserContext";
 import { useRealTime } from "../contexts/RealTimeContext";
 import PageHeader from "../components/PageHeader";
+import AIInsightsWidget from "../components/AIInsightsWidget";
+import AIResponseSuggestions from "../components/AIResponseSuggestions";
 
 // SLA calculation function
 function getSLATimeRemaining(createdAt: string, priority: string): string {

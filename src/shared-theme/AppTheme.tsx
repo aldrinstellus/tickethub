@@ -20,6 +20,12 @@ interface AppThemeProps {
 export default function AppTheme(props: AppThemeProps) {
   const { children, disableCustomTheme, themeComponents } = props;
 
+  // Set dark mode preference
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-mui-color-scheme', 'dark');
+    localStorage.setItem('mui-mode', 'dark');
+  }, []);
+
   const theme = React.useMemo(() => {
     return disableCustomTheme
       ? {}
@@ -28,6 +34,7 @@ export default function AppTheme(props: AppThemeProps) {
             colorSchemeSelector: "data-mui-color-scheme",
             cssVarPrefix: "template",
           },
+          defaultColorScheme: "dark",
           colorSchemes,
           typography,
           shadows,
@@ -48,7 +55,7 @@ export default function AppTheme(props: AppThemeProps) {
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} defaultMode="dark">
       {children}
     </ThemeProvider>
   );

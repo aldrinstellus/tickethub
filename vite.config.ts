@@ -13,7 +13,7 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: ["@mui/icons-material"],
-    include: ["react-is", "prop-types", "hoist-non-react-statics"],
+    include: ["react-is", "prop-types", "hoist-non-react-statics", "@mui/x-data-grid", "@mui/x-date-pickers", "@mui/x-charts"],
     force: true,
   },
   define: {

@@ -29,7 +29,7 @@ import { RealTimeProvider } from "./contexts/RealTimeContext";
 import { AIChatProvider } from "./contexts/AIChatContext";
 
 const xThemeComponents = {
-  // MUI X theme customizations removed to fix import issues
+  // MUI X theme customizations - importing safely
 };
 
 function TicketHubAppInner() {

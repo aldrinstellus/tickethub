@@ -6,6 +6,42 @@ import Box from "@mui/material/Box";
 import CrmDashboard from "./crm/CrmDashboard";
 import TicketHubApp from "./tickethub/TicketHubApp";
 
+class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error?: Error}> {
+  constructor(props: {children: React.ReactNode}) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    console.error("React Error Boundary caught error:", error);
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error("Error details:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <Box sx={{ p: 4, color: 'white', backgroundColor: 'black', minHeight: '100vh' }}>
+          <Typography variant="h4" color="error" gutterBottom>
+            Something went wrong
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 2 }}>
+            {this.state.error?.message || "Unknown error occurred"}
+          </Typography>
+          <Typography variant="body2" component="pre" sx={{ backgroundColor: '#333', p: 2, overflow: 'auto' }}>
+            {this.state.error?.stack}
+          </Typography>
+        </Box>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 function NotFound() {
   return (
     <Box

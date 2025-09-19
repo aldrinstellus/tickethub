@@ -1,4 +1,5 @@
 import * as React from "react";
+import React from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -7,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
-import { BarChart } from "@mui/x-charts/BarChart";
+import ReactECharts from "echarts-for-react";
 
 export default function CrmSalesChart() {
   const theme = useTheme();

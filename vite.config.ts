@@ -13,7 +13,10 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: ["@mui/icons-material"],
-    include: ["react-is"],
+    include: ["react-is", "prop-types"],
     force: true,
+  },
+  define: {
+    global: "globalThis",
   },
 });

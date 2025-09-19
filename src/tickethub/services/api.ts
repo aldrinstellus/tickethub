@@ -34,7 +34,8 @@ async function tryFetch<T>(url: string): Promise<T | null> {
 async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promise<T | null> {
   // If config is missing, immediately return null to use fallback
   if (!SUPABASE_URL || !SUPABASE_KEY) {
-    return null; // Already logged in module initialization
+    console.log("Supabase configuration missing, skipping Supabase fetch");
+    return null;
   }
 
   // Validate URL format (only on first call)
@@ -45,24 +46,35 @@ async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promis
     return null;
   }
 
+  // Wrap everything in additional try-catch for maximum safety
   try {
     const url = `${SUPABASE_URL.replace(/\/+$/, "")}/rest/v1/${endpoint}`;
     console.log(`Attempting Supabase fetch: ${url}`);
 
     // Add timeout to prevent hanging requests
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    const timeoutId = setTimeout(() => {
+      console.log(`Supabase request timeout for ${endpoint}`);
+      controller.abort();
+    }, 8000); // Reduced to 8 second timeout
 
-    const res = await fetch(url, {
-      ...options,
-      signal: controller.signal,
-      headers: {
-        "Content-Type": "application/json",
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-        ...options?.headers,
-      },
-    });
+    let res;
+    try {
+      res = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          ...options?.headers,
+        },
+      });
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      console.warn(`Fetch request failed for ${endpoint}:`, fetchError instanceof Error ? fetchError.message : fetchError);
+      return null;
+    }
 
     clearTimeout(timeoutId);
 
@@ -77,7 +89,14 @@ async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promis
       return null;
     }
 
-    const data = await res.json();
+    let data;
+    try {
+      data = await res.json();
+    } catch (jsonError) {
+      console.warn(`Failed to parse JSON response from ${endpoint}:`, jsonError instanceof Error ? jsonError.message : jsonError);
+      return null;
+    }
+
     console.log(`Supabase fetch successful for endpoint: ${endpoint}, received ${Array.isArray(data) ? data.length : 1} items`);
     return data as T;
   } catch (e) {

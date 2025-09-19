@@ -83,6 +83,7 @@ export default function TicketWorkspace() {
   const { id } = useParams();
   const { user } = useUser();
   const navigate = useNavigate();
+  const { subscribeToTicket, unsubscribeFromTicket, isConnected } = useRealTime();
   const [ticket, setTicket] = React.useState<Ticket | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [draft, setDraft] = React.useState("");

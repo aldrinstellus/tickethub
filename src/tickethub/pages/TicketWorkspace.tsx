@@ -25,8 +25,8 @@ import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { articles, generateAiResponse, Ticket, Article } from "../data/mockData";
-import { fetchTicketById, fetchArticles, updateTicketStatus, assignTicket, updateTicketPriority } from "../services/api";
+import { articles, generateAiResponse, Ticket, Article, Message } from "../data/mockData";
+import { fetchTicketById, fetchArticles, fetchMessages, createMessage, updateTicketStatus, assignTicket, updateTicketPriority } from "../services/api";
 
 export default function TicketWorkspace() {
   const { id } = useParams();
@@ -35,6 +35,8 @@ export default function TicketWorkspace() {
   const [draft, setDraft] = React.useState("");
   const [related, setRelated] = React.useState<Article[]>([]);
   const [updating, setUpdating] = React.useState(false);
+  const [messages, setMessages] = React.useState<Message[]>([]);
+  const [sendingMessage, setSendingMessage] = React.useState(false);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -46,12 +48,14 @@ export default function TicketWorkspace() {
 
       setLoading(true);
       try {
-        const [ticketData, articlesData] = await Promise.all([
+        const [ticketData, articlesData, messagesData] = await Promise.all([
           fetchTicketById(id),
-          fetchArticles()
+          fetchArticles(),
+          fetchMessages(id)
         ]);
 
         setTicket(ticketData);
+        setMessages(messagesData);
         if (ticketData) {
           const relatedArticles = articlesData.filter((a) =>
             a.tags.some((t) => ticketData.tags.includes(t))
@@ -89,6 +93,27 @@ export default function TicketWorkspace() {
   const handleGenerate = () => {
     const ai = generateAiResponse(`${ticket.subject} ${ticket.body}`, related);
     setDraft(ai);
+  };
+
+  const handleSendMessage = async () => {
+    if (!ticket || !draft.trim()) return;
+
+    setSendingMessage(true);
+    try {
+      const newMessage = await createMessage({
+        ticket_id: ticket.id,
+        author: "Aldrin Stellus", // TODO: Replace with real user context
+        content: draft.trim(),
+        is_agent: true,
+      });
+
+      setMessages(prev => [...prev, newMessage]);
+      setDraft("");
+    } catch (err) {
+      console.error("Failed to send message:", err);
+    } finally {
+      setSendingMessage(false);
+    }
   };
 
   const handleStatusUpdate = async (newStatus: Ticket['status']) => {
@@ -259,12 +284,22 @@ export default function TicketWorkspace() {
                 Conversation
               </Typography>
               <Stack spacing={2}>
-                <Message author={ticket.customer} time={ticket.updatedAt}>
-                  {ticket.body}
-                </Message>
-                <Message author={ticket.assignee} time={ticket.updatedAt} agent>
-                  Thanks for reporting this. I'm checking the details and will follow up shortly.
-                </Message>
+                {messages.length > 0 ? (
+                  messages.map((message) => (
+                    <Message
+                      key={message.id}
+                      author={message.author}
+                      time={message.created_at}
+                      agent={message.is_agent}
+                    >
+                      {message.content}
+                    </Message>
+                  ))
+                ) : (
+                  <Message author={ticket.customer} time={ticket.updatedAt}>
+                    {ticket.body}
+                  </Message>
+                )}
               </Stack>
             </CardContent>
           </Card>
@@ -288,7 +323,15 @@ export default function TicketWorkspace() {
                       Insert KB
                     </Button>
                   </Stack>
-                  <Button variant="contained" endIcon={<SendRoundedIcon />} sx={{ minHeight: 44 }}>Send</Button>
+                  <Button
+                    variant="contained"
+                    endIcon={<SendRoundedIcon />}
+                    onClick={handleSendMessage}
+                    disabled={!draft.trim() || sendingMessage}
+                    sx={{ minHeight: 44 }}
+                  >
+                    {sendingMessage ? "Sending..." : "Send"}
+                  </Button>
                 </Stack>
               </Stack>
             </CardContent>

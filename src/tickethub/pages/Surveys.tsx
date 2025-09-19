@@ -395,7 +395,20 @@ export default function Surveys() {
         </motion.div>
 
         {/* Survey Creation Dialog */}
-        <Dialog open={createDialogOpen} onClose={() => setCreateDialogOpen(false)} maxWidth="md" fullWidth>
+        <Dialog
+          open={createDialogOpen}
+          onClose={() => setCreateDialogOpen(false)}
+          maxWidth="md"
+          fullWidth
+          sx={{
+            '& .MuiBackdrop-root': {
+              backgroundColor: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(0, 0, 0, 0.8)'
+                : 'rgba(0, 0, 0, 0.5)',
+              backdropFilter: 'blur(4px)',
+            },
+          }}
+        >
           <DialogTitle>
             Create New Survey
             <Typography variant="body2" color="text.secondary">

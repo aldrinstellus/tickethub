@@ -193,23 +193,14 @@ export default function AIChatModal() {
           <Typography variant="h6" component="span" sx={{ flexGrow: 1 }}>
             AI Assistant
           </Typography>
-          <ContextChip 
-            label={context.currentPage} 
+          <ContextChip
+            label={context.currentPage}
             size="small"
             icon={<PersonIcon fontSize="small" />}
           />
-          <Tooltip title="Clear chat history">
-            <IconButton 
-              size="small" 
-              onClick={clearHistory}
-              sx={{ color: 'white' }}
-            >
-              <ClearIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-          <IconButton 
-            edge="end" 
-            color="inherit" 
+          <IconButton
+            edge="end"
+            color="inherit"
             onClick={closeChat}
             aria-label="close"
           >

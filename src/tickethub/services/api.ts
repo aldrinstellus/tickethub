@@ -26,25 +26,21 @@ async function tryFetch<T>(url: string): Promise<T | null> {
 }
 
 async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promise<T | null> {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
-
   // If config is missing, immediately return null to use fallback
-  if (!supabaseUrl || !supabaseKey) {
-    console.log("Supabase config missing, using fallback data");
-    return null;
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    return null; // Already logged in module initialization
   }
 
-  // Validate URL format
+  // Validate URL format (only on first call)
   try {
-    new URL(supabaseUrl);
+    new URL(SUPABASE_URL);
   } catch {
     console.warn("Invalid Supabase URL format, using fallback data");
     return null;
   }
 
   try {
-    const url = `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/${endpoint}`;
+    const url = `${SUPABASE_URL.replace(/\/+$/, "")}/rest/v1/${endpoint}`;
 
     // Add timeout to prevent hanging requests
     const controller = new AbortController();
@@ -55,8 +51,8 @@ async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promis
       signal: controller.signal,
       headers: {
         "Content-Type": "application/json",
-        apikey: supabaseKey,
-        Authorization: `Bearer ${supabaseKey}`,
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
         ...options?.headers,
       },
     });

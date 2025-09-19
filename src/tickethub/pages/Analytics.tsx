@@ -176,25 +176,83 @@ export default function Analytics() {
     { label: 'API', value: 5 },
   ];
 
+  // Generate dynamic chart data based on time period
+  const generateChartData = () => {
+    const days = Math.min(currentPeriod.days, 30); // Limit data points for readability
+    const isWeekly = days <= 7;
+    const isMonthly = days > 90;
+
+    // Generate date labels
+    const labels = [];
+    const now = dayjs();
+
+    if (isWeekly) {
+      // Show last 7 days
+      for (let i = 6; i >= 0; i--) {
+        labels.push(now.subtract(i, 'day').format('ddd'));
+      }
+    } else if (isMonthly) {
+      // Show weeks for longer periods
+      for (let i = 7; i >= 0; i--) {
+        labels.push(`Week ${8 - i}`);
+      }
+    } else {
+      // Show days for medium periods
+      const step = Math.ceil(days / 7);
+      for (let i = 6; i >= 0; i--) {
+        labels.push(now.subtract(i * step, 'day').format('MMM D'));
+      }
+    }
+
+    // Generate response time data
+    const targetResponseTime = 2;
+    const actualResponseTimes = labels.map(() =>
+      targetResponseTime + (Math.random() - 0.5) * 1.2
+    );
+
+    // Generate volume data
+    const baseVolume = currentPeriod.days > 90 ? 20 : currentPeriod.days > 30 ? 15 : 12;
+    const createdTickets = labels.map(() =>
+      Math.round(baseVolume + (Math.random() - 0.5) * 8)
+    );
+    const resolvedTickets = labels.map((_, i) =>
+      Math.round(createdTickets[i] * (0.85 + Math.random() * 0.2))
+    );
+
+    return {
+      labels,
+      responseTime: {
+        target: labels.map(() => targetResponseTime),
+        actual: actualResponseTimes
+      },
+      volume: {
+        created: createdTickets,
+        resolved: resolvedTickets
+      }
+    };
+  };
+
+  const chartData = generateChartData();
+
   const responseTimeOption = {
     tooltip: { trigger: 'axis' },
     legend: { data: ['Target', 'Actual'], top: 10 },
-    xAxis: { type: 'category', data: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] },
+    xAxis: { type: 'category', data: chartData.labels },
     yAxis: { type: 'value', name: 'Hours' },
     series: [
-      { name: 'Target', type: 'line', data: [2, 2, 2, 2, 2, 2, 2], lineStyle: { type: 'dashed' } },
-      { name: 'Actual', type: 'line', data: [2.4, 2.1, 1.9, 2.2, 1.8, 1.7, 1.9] },
+      { name: 'Target', type: 'line', data: chartData.responseTime.target, lineStyle: { type: 'dashed' } },
+      { name: 'Actual', type: 'line', data: chartData.responseTime.actual },
     ],
   };
 
   const volumeOption = {
     tooltip: { trigger: 'axis' },
     legend: { data: ['Created', 'Resolved'], top: 10 },
-    xAxis: { type: 'category', data: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] },
+    xAxis: { type: 'category', data: chartData.labels },
     yAxis: { type: 'value', name: 'Tickets' },
     series: [
-      { name: 'Created', type: 'bar', data: [12, 14, 13, 15, 18, 16, 17] },
-      { name: 'Resolved', type: 'bar', data: [10, 12, 14, 13, 16, 15, 15] },
+      { name: 'Created', type: 'bar', data: chartData.volume.created },
+      { name: 'Resolved', type: 'bar', data: chartData.volume.resolved },
     ],
   };
 

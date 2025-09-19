@@ -45,7 +45,7 @@ import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import { articles, generateAiResponse, Ticket, Article } from "../data/mockData";
+import { articles, generateAiResponse, Ticket, Article, tickets as mockTickets, messages as mockMessages } from "../data/mockData";
 import type { Message as TicketMessage } from "../data/mockData";
 import { fetchTicketById, fetchArticles, fetchMessages, createMessage, updateTicketStatus, assignTicket, updateTicketPriority } from "../services/api";
 import { useUser } from "../contexts/UserContext";

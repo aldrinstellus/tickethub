@@ -189,7 +189,7 @@ export default function AIDashboardWidget() {
               <MetricCard>
                 <TrendingUpIcon color="warning" sx={{ mb: 1 }} />
                 <Typography variant="h5" sx={{ fontWeight: 700, color: 'warning.main' }}>
-                  {stats.accuracyScore}%
+                  {stats.accuracyScore.toFixed(2)}%
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
                   AI Accuracy
@@ -206,7 +206,7 @@ export default function AIDashboardWidget() {
               <MetricCard>
                 <AutoAwesomeIcon color="secondary" sx={{ mb: 1 }} />
                 <Typography variant="h5" sx={{ fontWeight: 700, color: 'secondary.main' }}>
-                  {stats.automationRate}%
+                  {stats.automationRate.toFixed(2)}%
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
                   Automation Rate

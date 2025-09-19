@@ -70,6 +70,7 @@ function getSLATimeRemaining(createdAt: string, priority: string): string {
 export default function TicketWorkspace() {
   const { id } = useParams();
   const { user } = useUser();
+  const navigate = useNavigate();
   const [ticket, setTicket] = React.useState<Ticket | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [draft, setDraft] = React.useState("");

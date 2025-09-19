@@ -43,7 +43,7 @@ export default function SupportSideMenu() {
         },
       }}
     >
-      <Box sx={{ overflow: "auto", height: "100%", display: "flex", flexDirection: "column" }}>
+      <Box sx={{ overflow: "auto", height: "100%", display: "flex", flexDirection: "column", pt: 1 }}>
         <SupportMenuContent />
       </Box>
       <Stack

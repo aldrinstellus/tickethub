@@ -48,7 +48,7 @@ export default function QuickCreateTicket() {
     tickets.unshift(newTicket);
     setOpen(false);
     reset();
-    navigate(`/support/tickets/${id}`);
+    navigate(`/tickets/${id}`);
   }
 
   return (

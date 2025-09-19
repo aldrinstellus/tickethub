@@ -94,6 +94,8 @@ function TicketHubAppInner() {
 }
 
 export default function TicketHubApp() {
+  console.log("TicketHubApp component rendering...");
+
   return (
     <AppTheme themeComponents={xThemeComponents}>
       <UserProvider>

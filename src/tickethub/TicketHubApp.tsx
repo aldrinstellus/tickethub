@@ -34,6 +34,7 @@ import { SidebarProvider, useSidebar } from "./contexts/SidebarContext";
 import { SearchProvider } from "./contexts/SearchContext";
 import { TicketCreationProvider } from "./contexts/TicketCreationContext";
 import { RealTimeProvider } from "./contexts/RealTimeContext";
+import { AIChatProvider } from "./contexts/AIChatContext";
 
 const xThemeComponents = {
   ...chartsCustomizations,

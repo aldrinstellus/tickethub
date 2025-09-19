@@ -133,6 +133,21 @@ function transformSupabaseTicket(dbTicket: any): Ticket {
   };
 }
 
+// Transform our TypeScript interface to Supabase schema
+function transformToSupabaseTicket(ticket: Ticket): any {
+  return {
+    id: ticket.id,
+    subject: ticket.subject,
+    customer: ticket.customer,
+    priority: ticket.priority,
+    status: ticket.status,
+    assignee: ticket.assignee,
+    updated_at: ticket.updatedAt, // Transform camelCase to snake_case
+    tags: ticket.tags || [],
+    body: ticket.body || '',
+  };
+}
+
 export async function fetchTickets() {
   console.log("Starting fetchTickets...");
 
@@ -237,7 +252,7 @@ export async function createTicket(ticket: Ticket): Promise<Ticket> {
           Authorization: `Bearer ${SUPABASE_KEY}`,
           Prefer: "return=representation",
         },
-        body: JSON.stringify(ticket),
+        body: JSON.stringify(transformToSupabaseTicket(ticket)),
       });
 
       clearTimeout(timeoutId);

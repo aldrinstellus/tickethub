@@ -60,8 +60,8 @@ export default function SupportAppNavbar() {
         >
           <Stack direction="row" spacing={1} sx={{ justifyContent: "center", mr: "auto" }}>
             <TicketHubLogo />
-            <Typography variant="h5" component="h1" sx={{ color: "text.primary" }}>
-              TicketHub AI
+            <Typography variant="h5" component="h1" sx={{ color: "text.primary", fontFamily: 'Special Elite, cursive' }}>
+              TicketHub
             </Typography>
           </Stack>
           <ColorModeIconDropdown />

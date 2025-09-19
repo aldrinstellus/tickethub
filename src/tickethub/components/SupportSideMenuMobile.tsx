@@ -54,8 +54,8 @@ export default function SupportSideMenuMobile({ open, toggleDrawer }: SupportSid
       <Box sx={{ display: "flex", flexDirection: "column", mx: 2, my: 2, gap: 1 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
           <TicketHubLogo />
-          <Typography variant="h6" component="div">
-            TicketHub AI
+          <Typography variant="h6" component="div" sx={{ fontFamily: 'Special Elite, cursive' }}>
+            TicketHub
           </Typography>
         </Box>
         <List dense>

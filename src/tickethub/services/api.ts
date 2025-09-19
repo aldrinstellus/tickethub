@@ -147,30 +147,35 @@ export async function fetchArticles(): Promise<Article[]> {
  * Create a ticket with Supabase persistence and fallback to mock data.
  */
 export async function createTicket(ticket: Ticket): Promise<Ticket> {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
-
-  if (supabaseUrl && supabaseKey) {
+  if (SUPABASE_URL && SUPABASE_KEY) {
     try {
-      const url = `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/tickets`;
+      const url = `${SUPABASE_URL.replace(/\/+$/, "")}/rest/v1/tickets`;
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+
       const res = await fetch(url, {
         method: "POST",
+        signal: controller.signal,
         headers: {
           "Content-Type": "application/json",
-          apikey: supabaseKey,
-          Authorization: `Bearer ${supabaseKey}`,
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
           Prefer: "return=representation",
         },
         body: JSON.stringify(ticket),
       });
 
+      clearTimeout(timeoutId);
+
       if (res.ok) {
         const data = await res.json();
         const created = Array.isArray(data) ? data[0] : data;
+        console.log("Successfully created ticket in Supabase");
         return created || ticket;
       }
     } catch (err) {
-      // ignore and fallback
+      console.warn("Failed to create ticket in Supabase:", err);
     }
   }
 

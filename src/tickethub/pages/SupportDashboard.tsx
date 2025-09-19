@@ -50,7 +50,17 @@ export default function SupportDashboard() {
     fetchTickets()
       .then((data) => {
         if (!mounted) return;
-        setTicketsData(data);
+        // Ensure data is always an array with valid tickets
+        const validTickets = Array.isArray(data) ? data.filter(ticket =>
+          ticket && typeof ticket === 'object' && ticket.status && ticket.priority
+        ) : [];
+        setTicketsData(validTickets);
+      })
+      .catch((err) => {
+        console.error("Failed to load dashboard tickets:", err);
+        if (mounted) {
+          setTicketsData([]);
+        }
       })
       .finally(() => {
         if (mounted) setLoading(false);

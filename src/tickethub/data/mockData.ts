@@ -72,6 +72,36 @@ export const articles: Article[] = [
     content: "Standard plans are limited to 600 requests/minute per project. Consider batching requests and using exponential backoff.",
     tags: ["api", "rate limit"],
   },
+  {
+    id: "KB-010",
+    title: "Ticket Management: Agent Workflow",
+    content: "Ticket Management is the primary workflow for agents. Best practices: 1) Triage incoming tickets immediately and assign priority and assignee; 2) Use macros for common responses to improve consistency; 3) Update ticket status and add internal notes for handoffs; 4) Escalate to the appropriate team within SLA windows. Regular checks: review open/aging tickets daily and clear backlog weekly.",
+    tags: ["ticketing", "workflow", "triage"],
+  },
+  {
+    id: "KB-011",
+    title: "AI Assistance: Using AI for Replies",
+    content: "AI Assistance is integrated throughout ticket handling to speed responses and maintain quality. How to use safely: 1) Review AI-generated drafts before sending; 2) Attach KB references and verify facts; 3) Edit AI replies to match tone and account context; 4) Use AI suggestions for subject lines and next steps. Regular checks: monitor AI suggestion accuracy and adjust prompt templates monthly.",
+    tags: ["ai", "automation", "responses"],
+  },
+  {
+    id: "KB-012",
+    title: "Knowledge Access: Quick Reference Best Practices",
+    content: "Knowledge Access enables quick reference during conversations. Tips: 1) Tag articles clearly and keep summaries concise; 2) Use article snippets in reply drafts and link full KB entries; 3) Keep an FAQ section for fastest lookup; 4) Maintain article versioning and review dates. Regular checks: perform quarterly content audits and retire or update outdated articles.",
+    tags: ["knowledge", "kb", "faq"],
+  },
+  {
+    id: "KB-013",
+    title: "Performance Tracking: Manager Dashboard",
+    content: "Performance Tracking helps managers monitor team health and improve agents. Key metrics: First Response Time, Resolution Time, CSAT, Backlog, SLA breaches. Use dashboards to set baselines and run weekly reviews. Regular checks: validate dashboards weekly and follow up on anomalies with coaching sessions.",
+    tags: ["analytics", "performance", "csat"],
+  },
+  {
+    id: "KB-014",
+    title: "Customer Satisfaction: Surveys and Follow-up",
+    content: "Customer Satisfaction collects feedback and drives improvements. Implement in-ticket CSAT, follow-up surveys for major incidents, and NPS where appropriate. Process: 1) Send CSAT after resolution; 2) Tag and triage low scores for root-cause analysis; 3) Share trends with the team monthly. Regular checks: review CSAT and survey results weekly and track recovery actions.",
+    tags: ["csat", "surveys", "feedback"],
+  },
 ];
 
 export function generateAiResponse(input: string, related: Article[]): string {

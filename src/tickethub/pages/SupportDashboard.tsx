@@ -170,19 +170,23 @@ export default function SupportDashboard() {
                     height: 8,
                     borderRadius: '50%',
                     backgroundColor: 'success.main',
-                    animation: 'pulse 2s infinite',
-                    '@keyframes pulse': {
+                    marginRight: 1,
+                    animation: 'dramaticPulse 1.5s infinite',
+                    '@keyframes dramaticPulse': {
                       '0%': {
                         opacity: 1,
                         transform: 'scale(1)',
+                        boxShadow: '0 0 0 0 rgba(76, 175, 80, 0.7)',
                       },
                       '50%': {
-                        opacity: 0.5,
-                        transform: 'scale(1.2)',
+                        opacity: 0.3,
+                        transform: 'scale(1.8)',
+                        boxShadow: '0 0 0 8px rgba(76, 175, 80, 0)',
                       },
                       '100%': {
                         opacity: 1,
                         transform: 'scale(1)',
+                        boxShadow: '0 0 0 0 rgba(76, 175, 80, 0.7)',
                       },
                     },
                   }}

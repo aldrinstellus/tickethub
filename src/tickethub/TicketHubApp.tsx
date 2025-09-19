@@ -64,8 +64,8 @@ function TicketHubAppInner() {
             spacing={2}
             sx={{
               alignItems: "stretch",
-              px: 3,
-              py: 3,
+              px: { xs: 2, sm: 3 },
+              py: { xs: 2, sm: 3 },
               '& > *': {
                 width: '100% !important',
                 maxWidth: '100% !important',

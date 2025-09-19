@@ -153,14 +153,14 @@ export default function SupportDashboard() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Box sx={{ width: "100%" }}>
-        {/* Header */}
+      <Box sx={{ width: "100%", height: "100vh", display: "flex", flexDirection: "column" }}>
+        {/* Header - Full Width */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
         >
-          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 2 }}>
+          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 2, px: 1 }}>
             <PageHeader title="Dashboard" />
             <Chip
               label="All systems operational"
@@ -196,310 +196,349 @@ export default function SupportDashboard() {
           </Stack>
         </motion.div>
 
-        {/* Live Metrics Widget */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-        >
-          <Box sx={{ mb: 3 }}>
-            <LiveMetricsWidget />
-          </Box>
-        </motion.div>
+        {/* Two Column Layout with Independent Scrolling */}
+        <Box sx={{ display: "flex", flex: 1, gap: 3, overflow: "hidden" }}>
 
-        {/* AI Dashboard Widget */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.3 }}
-        >
-          <Box sx={{ mb: 3 }}>
-            <AIDashboardWidget />
-          </Box>
-        </motion.div>
-
-        {/* Main Dashboard Layout */}
-        <Grid container spacing={3} sx={{ mb: 3 }}>
-          {/* Left Column - Business Metrics & Activity */}
-          <Grid item xs={12} lg={8}>
-            {/* Primary Business Metrics */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
+          {/* LEFT COLUMN (70%) - Command Center */}
+          <Box
+            sx={{
+              flex: "0 0 70%",
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden"
+            }}
+          >
+            <Box
+              sx={{
+                flex: 1,
+                overflowY: "auto",
+                pr: 1,
+                '&::-webkit-scrollbar': {
+                  width: '6px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  backgroundColor: 'transparent',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: 'rgba(0,0,0,0.2)',
+                  borderRadius: '3px',
+                },
+              }}
             >
-              <Typography variant="h6" sx={{ mb: 2, color: "text.primary", fontWeight: 600 }}>
-                Business Overview
-              </Typography>
-              <Grid container spacing={2} sx={{ mb: 3 }}>
-                {/* Active Tickets - Most Important */}
-                <Grid item xs={12} sm={6}>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.3 }}
-                    whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                  >
-                    <CrmStatCard
-                      title="Active Tickets"
-                      value={String(activeTickets)}
-                      interval="Last 24 hours"
-                      trend="up"
-                      trendValue="+8%"
-                      data={[12, 14, 13, 15, 18, 16, 17]}
-                    />
-                  </motion.div>
+              {/* Live Metrics Widget */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
+                <Box sx={{ mb: 3 }}>
+                  <LiveMetricsWidget />
+                </Box>
+              </motion.div>
+
+              {/* Business Overview Cards */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+              >
+                <Typography variant="h6" sx={{ mb: 2, color: "text.primary", fontWeight: 600 }}>
+                  Business Overview
+                </Typography>
+                <Grid container spacing={2} sx={{ mb: 3 }}>
+                  <Grid item xs={12} sm={6}>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.4 }}
+                      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                    >
+                      <CrmStatCard
+                        title="Active Tickets"
+                        value={String(activeTickets)}
+                        interval="Last 24 hours"
+                        trend="up"
+                        trendValue="+8%"
+                        data={[12, 14, 13, 15, 18, 16, 17]}
+                      />
+                    </motion.div>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.5 }}
+                      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                    >
+                      <CrmStatCard
+                        title="Resolution Rate"
+                        value={`${resolutionRate}%`}
+                        interval="Last 30 days"
+                        trend={resolutionRate >= 85 ? "up" : "down"}
+                        trendValue={resolutionRate >= 85 ? "+2%" : "-3%"}
+                        data={[80, 82, 83, 85, 86, 87, resolutionRate]}
+                      />
+                    </motion.div>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.6 }}
+                      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                    >
+                      <CrmStatCard
+                        title="Avg Response Time"
+                        value={avgResponse}
+                        interval="Last 7 days"
+                        trend="down"
+                        trendValue="-12%"
+                        data={[2.2, 2.0, 1.9, 1.8, 1.7, 1.9, 1.8]}
+                      />
+                    </motion.div>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.7 }}
+                      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                    >
+                      <CrmStatCard
+                        title="Customer Satisfaction"
+                        value={`${csat}%`}
+                        interval="Last 30 days"
+                        trend="up"
+                        trendValue="+2%"
+                        data={[92, 92, 93, 94, 94, 95, csat]}
+                      />
+                    </motion.div>
+                  </Grid>
                 </Grid>
+              </motion.div>
 
-                {/* Resolution Rate */}
-                <Grid item xs={12} sm={6}>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.4 }}
-                    whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                  >
-                    <CrmStatCard
-                      title="Resolution Rate"
-                      value={`${resolutionRate}%`}
-                      interval="Last 30 days"
-                      trend={resolutionRate >= 85 ? "up" : "down"}
-                      trendValue={resolutionRate >= 85 ? "+2%" : "-3%"}
-                      data={[80, 82, 83, 85, 86, 87, resolutionRate]}
-                    />
-                  </motion.div>
-                </Grid>
-              </Grid>
-            </motion.div>
-          </Grid>
-
-          {/* Right Column - Team Performance & Intelligence */}
-          <Grid item xs={12} lg={4}>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.5 }}
-            >
-              <Typography variant="h6" sx={{ mb: 2, color: "text.primary", fontWeight: 600 }}>
-                Team Performance
-              </Typography>
-              <Grid container spacing={2} sx={{ mb: 3 }}>
-                {/* Average Response Time */}
-                <Grid item xs={12}>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.6 }}
-                    whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                  >
-                    <CrmStatCard
-                      title="Avg Response Time"
-                      value={avgResponse}
-                      interval="Last 7 days"
-                      trend="down"
-                      trendValue="-12%"
-                      data={[2.2, 2.0, 1.9, 1.8, 1.7, 1.9, 1.8]}
-                    />
-                  </motion.div>
-                </Grid>
-
-                {/* Customer Satisfaction */}
-                <Grid item xs={12}>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.7 }}
-                    whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                  >
-                    <CrmStatCard
-                      title="Customer Satisfaction"
-                      value={`${csat}%`}
-                      interval="Last 30 days"
-                      trend="up"
-                      trendValue="+2%"
-                      data={[92, 92, 93, 94, 94, 95, csat]}
-                    />
-                  </motion.div>
-                </Grid>
-              </Grid>
-            </motion.div>
-          </Grid>
-        </Grid>
-
-        {/* Secondary Content Layout */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-        >
-          <Grid container spacing={3}>
-            {/* Left Column - Current Activity */}
-            <Grid item xs={12} lg={8}>
-              <Typography variant="h6" sx={{ mb: 2, color: "text.primary", fontWeight: 600 }}>
-                Current Activity
-              </Typography>
-              <Card variant="outlined">
-                <CardContent>
-                  <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
-                    <Typography variant="h6">Recent Tickets</Typography>
-                    <Button variant="text" onClick={() => navigate('/tickets')}>View All Tickets</Button>
-                  </Stack>
-
-                  <List>
-                    {recent.map((t) => (
-                      <React.Fragment key={t.id}>
-                        <ListItem disablePadding>
-                          <ListItemButton onClick={() => navigate(`/tickets/${t.id}`)} sx={{ width: '100%' }}>
-                            <Avatar
-                              src={getDummyAvatarUrl(t.customer)}
-                              alt={t.customer}
-                              sx={{ width: 36, height: 36, mr: 2 }}
-                            />
-                            <ListItemText primary={`${t.id} — ${t.subject}`} secondary={`${t.customer} �� ${timeAgo(t.updatedAt)} • ${t.assignee}`} />
-                            <Chip label={t.priority} color={t.priority === 'Urgent' ? 'error' : t.priority === 'High' ? 'warning' : t.priority === 'Normal' ? 'default' : 'success'} size="small" />
-                          </ListItemButton>
-                        </ListItem>
-                        <Divider />
-                      </React.Fragment>
-                    ))}
-                  </List>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            {/* Right Column - Team Intelligence */}
-            <Grid item xs={12} lg={4}>
-              <Typography variant="h6" sx={{ mb: 2, color: "text.primary", fontWeight: 600 }}>
-                Team Intelligence
-              </Typography>
-              <Stack spacing={2}>
-                <Card variant="outlined">
-                  <CardContent>
-                    <Typography variant="h6" sx={{ mb: 2 }}>Team Status</Typography>
-                    <Box>
-                      {Object.entries(workload).map(([user, count]) => (
-                        <Stack key={user} direction="row" alignItems="center" spacing={1} sx={{ mb: 1.5 }}>
-                          <Avatar
-                            src={getDummyAvatarUrl(user)}
-                            alt={user}
-                            sx={{ width: 32, height: 32 }}
-                          />
-                          <Box sx={{ flexGrow: 1 }}>
-                            <Typography variant="body2" sx={{ fontWeight: 500 }}>{user}</Typography>
-                            <Typography variant="caption" color="text.secondary">{count} open tickets</Typography>
-                          </Box>
-                          <Chip
-                            label={count}
-                            size="small"
-                            color={count > 3 ? "warning" : count > 1 ? "default" : "success"}
-                          />
-                        </Stack>
-                      ))}
-                    </Box>
-                  </CardContent>
-                </Card>
-
+              {/* Recent Tickets List */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.8 }}
+              >
+                <Typography variant="h6" sx={{ mb: 2, color: "text.primary", fontWeight: 600 }}>
+                  Current Activity
+                </Typography>
                 <Card variant="outlined">
                   <CardContent>
                     <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
-                      <Typography variant="h6">AI Insights</Typography>
-                      <Button variant="text" color="primary" size="small">
-                        View AI Recommendations
-                      </Button>
+                      <Typography variant="h6">Recent Tickets</Typography>
+                      <Button variant="text" onClick={() => navigate('/tickets')}>View All Tickets</Button>
                     </Stack>
-                    <Stack spacing={2}>
-                      {/* Escalation Predictions */}
-                      <Box sx={{ p: 2, bgcolor: 'error.50', borderRadius: 1, border: '1px solid', borderColor: 'error.200' }}>
-                        <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
-                          <Typography variant="body2" color="error.main" sx={{ fontWeight: 600 }}>
-                            ⚠️ Escalation Risk
-                          </Typography>
-                        </Stack>
-                        <Typography variant="body2" color="error.main" sx={{ fontWeight: 500, mb: 1 }}>
-                          {escalateCandidates.length} tickets likely to escalate
-                        </Typography>
-                        <Typography variant="caption" color="error.dark">
-                          Predicted within next 2-4 hours based on response patterns
-                        </Typography>
-                        {escalateCandidates.length > 0 && (
-                          <Button variant="outlined" size="small" color="error" sx={{ mt: 1 }}>
-                            View High-Risk Tickets
-                          </Button>
-                        )}
-                      </Box>
 
-                      {/* Priority Suggestions */}
-                      <Box sx={{ p: 2, bgcolor: 'warning.50', borderRadius: 1, border: '1px solid', borderColor: 'warning.200' }}>
-                        <Typography variant="body2" color="warning.main" sx={{ fontWeight: 600, mb: 1 }}>
-                          📊 Priority Adjustments
-                        </Typography>
-                        <Typography variant="body2" color="warning.main" sx={{ fontWeight: 500, mb: 1 }}>
-                          {escalateCandidates.length > 0 ? 3 : 0} priority changes suggested
-                        </Typography>
-                        <Typography variant="caption" color="warning.dark">
-                          AI recommends increasing priority for tickets with urgent keywords
-                        </Typography>
-                        {escalateCandidates.length > 0 && (
-                          <Button variant="outlined" size="small" color="warning" sx={{ mt: 1 }}>
-                            Review Suggestions
-                          </Button>
-                        )}
-                      </Box>
+                    <List sx={{ maxHeight: 400, overflow: 'auto' }}>
+                      {recent.map((t) => (
+                        <React.Fragment key={t.id}>
+                          <ListItem disablePadding>
+                            <ListItemButton onClick={() => navigate(`/tickets/${t.id}`)} sx={{ width: '100%' }}>
+                              <Avatar
+                                src={getDummyAvatarUrl(t.customer)}
+                                alt={t.customer}
+                                sx={{ width: 36, height: 36, mr: 2 }}
+                              />
+                              <ListItemText primary={`${t.id} — ${t.subject}`} secondary={`${t.customer} • ${timeAgo(t.updatedAt)} • ${t.assignee}`} />
+                              <Chip label={t.priority} color={t.priority === 'Urgent' ? 'error' : t.priority === 'High' ? 'warning' : t.priority === 'Normal' ? 'default' : 'success'} size="small" />
+                            </ListItemButton>
+                          </ListItem>
+                          <Divider />
+                        </React.Fragment>
+                      ))}
+                    </List>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </Box>
+          </Box>
 
-                      {/* Knowledge Gaps */}
-                      <Box sx={{ p: 2, bgcolor: 'info.50', borderRadius: 1, border: '1px solid', borderColor: 'info.200' }}>
-                        <Typography variant="body2" color="info.main" sx={{ fontWeight: 600, mb: 1 }}>
-                          📚 Knowledge Gaps
-                        </Typography>
-                        <Typography variant="body2" color="info.main" sx={{ fontWeight: 500, mb: 1 }}>
-                          4 knowledge gaps detected
-                        </Typography>
-                        <Typography variant="caption" color="info.dark">
-                          Topics: API authentication, billing cycles, mobile app setup
-                        </Typography>
-                        <Button variant="outlined" size="small" color="info" sx={{ mt: 1 }}>
-                          Create Articles
+          {/* RIGHT COLUMN (30%) - Intelligence Hub */}
+          <Box
+            sx={{
+              flex: "0 0 30%",
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden"
+            }}
+          >
+            <Box
+              sx={{
+                flex: 1,
+                overflowY: "auto",
+                pl: 1,
+                '&::-webkit-scrollbar': {
+                  width: '6px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  backgroundColor: 'transparent',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: 'rgba(0,0,0,0.2)',
+                  borderRadius: '3px',
+                },
+              }}
+            >
+              {/* AI Dashboard Widget */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+              >
+                <Box sx={{ mb: 3 }}>
+                  <AIDashboardWidget />
+                </Box>
+              </motion.div>
+
+              {/* Team Status */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.4 }}
+              >
+                <Typography variant="h6" sx={{ mb: 2, color: "text.primary", fontWeight: 600 }}>
+                  Team Intelligence
+                </Typography>
+                <Stack spacing={2}>
+                  <Card variant="outlined">
+                    <CardContent>
+                      <Typography variant="h6" sx={{ mb: 2 }}>Team Status</Typography>
+                      <Box>
+                        {Object.entries(workload).map(([user, count]) => (
+                          <Stack key={user} direction="row" alignItems="center" spacing={1} sx={{ mb: 1.5 }}>
+                            <Avatar
+                              src={getDummyAvatarUrl(user)}
+                              alt={user}
+                              sx={{ width: 32, height: 32 }}
+                            />
+                            <Box sx={{ flexGrow: 1 }}>
+                              <Typography variant="body2" sx={{ fontWeight: 500 }}>{user}</Typography>
+                              <Typography variant="caption" color="text.secondary">{count} open tickets</Typography>
+                            </Box>
+                            <Chip
+                              label={count}
+                              size="small"
+                              color={count > 3 ? "warning" : count > 1 ? "default" : "success"}
+                            />
+                          </Stack>
+                        ))}
+                      </Box>
+                    </CardContent>
+                  </Card>
+
+                  {/* AI Insights */}
+                  <Card variant="outlined">
+                    <CardContent>
+                      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+                        <Typography variant="h6">AI Insights</Typography>
+                        <Button variant="text" color="primary" size="small">
+                          View AI Recommendations
                         </Button>
-                      </Box>
-
-                      {/* AI Confidence Score */}
-                      <Box sx={{ p: 1.5, bgcolor: 'success.50', borderRadius: 1, border: '1px solid', borderColor: 'success.200' }}>
-                        <Stack direction="row" justifyContent="space-between" alignItems="center">
-                          <Typography variant="body2" color="success.main" sx={{ fontWeight: 600 }}>
-                            🤖 AI Confidence
+                      </Stack>
+                      <Stack spacing={2}>
+                        {/* Escalation Predictions */}
+                        <Box sx={{ p: 2, bgcolor: 'error.50', borderRadius: 1, border: '1px solid', borderColor: 'error.200' }}>
+                          <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                            <Typography variant="body2" color="error.main" sx={{ fontWeight: 600 }}>
+                              ⚠️ Escalation Risk
+                            </Typography>
+                          </Stack>
+                          <Typography variant="body2" color="error.main" sx={{ fontWeight: 500, mb: 1 }}>
+                            {escalateCandidates.length} tickets likely to escalate
                           </Typography>
-                          <Typography variant="h6" color="success.main" sx={{ fontWeight: 700 }}>
-                            87%
+                          <Typography variant="caption" color="error.dark">
+                            Predicted within next 2-4 hours based on response patterns
                           </Typography>
-                        </Stack>
-                        <Typography variant="caption" color="success.dark">
-                          High accuracy in current predictions
-                        </Typography>
-                      </Box>
-                    </Stack>
-                  </CardContent>
-                </Card>
+                          {escalateCandidates.length > 0 && (
+                            <Button variant="outlined" size="small" color="error" sx={{ mt: 1 }}>
+                              View High-Risk Tickets
+                            </Button>
+                          )}
+                        </Box>
 
-                <Card variant="outlined">
-                  <CardContent>
-                    <Typography variant="h6" sx={{ mb: 2 }}>Recent Team Activity</Typography>
-                    <Stack spacing={1}>
-                      <Box>
-                        <Typography variant="body2" sx={{ fontWeight: 500 }}>Alex Thompson</Typography>
-                        <Typography variant="caption" color="text.secondary">assigned TH-1042 to Priya Patel • 5m ago</Typography>
-                      </Box>
-                      <Divider />
-                      <Box>
-                        <Typography variant="body2" sx={{ fontWeight: 500 }}>Priya Patel</Typography>
-                        <Typography variant="caption" color="text.secondary">responded to TH-1043 • 20m ago</Typography>
-                      </Box>
-                    </Stack>
-                  </CardContent>
-                </Card>
-              </Stack>
-            </Grid>
-          </Grid>
-        </motion.div>
+                        {/* Priority Suggestions */}
+                        <Box sx={{ p: 2, bgcolor: 'warning.50', borderRadius: 1, border: '1px solid', borderColor: 'warning.200' }}>
+                          <Typography variant="body2" color="warning.main" sx={{ fontWeight: 600, mb: 1 }}>
+                            📊 Priority Adjustments
+                          </Typography>
+                          <Typography variant="body2" color="warning.main" sx={{ fontWeight: 500, mb: 1 }}>
+                            {escalateCandidates.length > 0 ? 3 : 0} priority changes suggested
+                          </Typography>
+                          <Typography variant="caption" color="warning.dark">
+                            AI recommends increasing priority for tickets with urgent keywords
+                          </Typography>
+                          {escalateCandidates.length > 0 && (
+                            <Button variant="outlined" size="small" color="warning" sx={{ mt: 1 }}>
+                              Review Suggestions
+                            </Button>
+                          )}
+                        </Box>
+
+                        {/* Knowledge Gaps */}
+                        <Box sx={{ p: 2, bgcolor: 'info.50', borderRadius: 1, border: '1px solid', borderColor: 'info.200' }}>
+                          <Typography variant="body2" color="info.main" sx={{ fontWeight: 600, mb: 1 }}>
+                            📚 Knowledge Gaps
+                          </Typography>
+                          <Typography variant="body2" color="info.main" sx={{ fontWeight: 500, mb: 1 }}>
+                            4 knowledge gaps detected
+                          </Typography>
+                          <Typography variant="caption" color="info.dark">
+                            Topics: API authentication, billing cycles, mobile app setup
+                          </Typography>
+                          <Button variant="outlined" size="small" color="info" sx={{ mt: 1 }}>
+                            Create Articles
+                          </Button>
+                        </Box>
+
+                        {/* AI Confidence Score */}
+                        <Box sx={{ p: 1.5, bgcolor: 'success.50', borderRadius: 1, border: '1px solid', borderColor: 'success.200' }}>
+                          <Stack direction="row" justifyContent="space-between" alignItems="center">
+                            <Typography variant="body2" color="success.main" sx={{ fontWeight: 600 }}>
+                              🤖 AI Confidence
+                            </Typography>
+                            <Typography variant="h6" color="success.main" sx={{ fontWeight: 700 }}>
+                              87%
+                            </Typography>
+                          </Stack>
+                          <Typography variant="caption" color="success.dark">
+                            High accuracy in current predictions
+                          </Typography>
+                        </Box>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+
+                  {/* Recent Team Activity */}
+                  <Card variant="outlined">
+                    <CardContent>
+                      <Typography variant="h6" sx={{ mb: 2 }}>Recent Team Activity</Typography>
+                      <Stack spacing={1}>
+                        <Box>
+                          <Typography variant="body2" sx={{ fontWeight: 500 }}>Alex Thompson</Typography>
+                          <Typography variant="caption" color="text.secondary">assigned TH-1042 to Priya Patel • 5m ago</Typography>
+                        </Box>
+                        <Divider />
+                        <Box>
+                          <Typography variant="body2" sx={{ fontWeight: 500 }}>Priya Patel</Typography>
+                          <Typography variant="caption" color="text.secondary">responded to TH-1043 • 20m ago</Typography>
+                        </Box>
+                        <Divider />
+                        <Box>
+                          <Typography variant="body2" sx={{ fontWeight: 500 }}>Marcus Johnson</Typography>
+                          <Typography variant="caption" color="text.secondary">closed TH-1038 • 12m ago</Typography>
+                        </Box>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </Stack>
+              </motion.div>
+            </Box>
+          </Box>
+        </Box>
       </Box>
     </motion.div>
   );

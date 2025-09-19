@@ -16,8 +16,7 @@ import {
   treeViewCustomizations,
 } from "../dashboard/theme/customizations";
 import SupportSideMenu from "./components/SupportSideMenu";
-import SupportAppNavbar from "./components/SupportAppNavbar";
-import SupportHeader from "./components/SupportHeader";
+import SupportTopNavbar from "./components/SupportTopNavbar";
 import SupportDashboard from "./pages/SupportDashboard";
 import Tickets from "./pages/Tickets";
 import TicketWorkspace from "./pages/TicketWorkspace";
@@ -42,9 +41,9 @@ export default function TicketHubApp() {
     <AppTheme themeComponents={xThemeComponents}>
       <UserProvider>
         <CssBaseline enableColorScheme />
-      <Box sx={{ display: "flex", height: "100vh" }}>
+      <SupportTopNavbar />
+      <Box sx={{ display: "flex", height: "100vh", pt: "64px" }}>
         <SupportSideMenu />
-        <SupportAppNavbar />
         <Box
           component="main"
           sx={(theme) => ({
@@ -60,15 +59,13 @@ export default function TicketHubApp() {
             sx={{
               alignItems: "stretch",
               px: 3,
-              pb: 5,
-              mt: { xs: 8, md: 0 },
+              py: 3,
               '& > *': {
                 width: '100% !important',
                 maxWidth: '100% !important',
               },
             }}
           >
-            <SupportHeader />
             <Routes>
               <Route index element={<SupportDashboard />} />
               <Route path="tickets" element={<Tickets />} />

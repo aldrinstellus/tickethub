@@ -559,7 +559,7 @@ export default function Tickets() {
         </Fade>
 
         {/* Tickets DataGrid */}
-        <Box sx={{ width: "100%", overflowX: "auto" }}>
+        <Box sx={{ width: "100%", overflowX: "auto", mt: 0.5 }}>
           <Box sx={{ height: { xs: 400, sm: 500, md: 600 }, minWidth: 0, width: '100%' }}>
             {loading ? (
               <Box sx={{ p: 2 }}>

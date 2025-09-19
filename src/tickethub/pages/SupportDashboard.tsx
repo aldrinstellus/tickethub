@@ -213,15 +213,10 @@ export default function SupportDashboard() {
                 flex: 1,
                 overflowY: "auto",
                 pr: 1,
+                scrollbarWidth: 'none', // Firefox
+                msOverflowStyle: 'none', // IE/Edge
                 '&::-webkit-scrollbar': {
-                  width: '6px',
-                },
-                '&::-webkit-scrollbar-track': {
-                  backgroundColor: 'transparent',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  backgroundColor: 'rgba(0,0,0,0.2)',
-                  borderRadius: '3px',
+                  display: 'none', // Chrome, Safari, Opera
                 },
               }}
             >
@@ -333,7 +328,15 @@ export default function SupportDashboard() {
                       <Button variant="text" onClick={() => navigate('/tickets')}>View All Tickets</Button>
                     </Stack>
 
-                    <List sx={{ maxHeight: 400, overflow: 'auto' }}>
+                    <List sx={{
+                      maxHeight: 400,
+                      overflow: 'auto',
+                      scrollbarWidth: 'none', // Firefox
+                      msOverflowStyle: 'none', // IE/Edge
+                      '&::-webkit-scrollbar': {
+                        display: 'none', // Chrome, Safari, Opera
+                      },
+                    }}>
                       {recent.map((t) => (
                         <React.Fragment key={t.id}>
                           <ListItem disablePadding>
@@ -371,15 +374,10 @@ export default function SupportDashboard() {
                 flex: 1,
                 overflowY: "auto",
                 pl: 1,
+                scrollbarWidth: 'none', // Firefox
+                msOverflowStyle: 'none', // IE/Edge
                 '&::-webkit-scrollbar': {
-                  width: '6px',
-                },
-                '&::-webkit-scrollbar-track': {
-                  backgroundColor: 'transparent',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  backgroundColor: 'rgba(0,0,0,0.2)',
-                  borderRadius: '3px',
+                  display: 'none', // Chrome, Safari, Opera
                 },
               }}
             >

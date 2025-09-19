@@ -15,7 +15,6 @@ import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import AssessmentRoundedIcon from "@mui/icons-material/AssessmentRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import PollRoundedIcon from "@mui/icons-material/PollRounded";
-import { TicketHubLogo } from "./SupportAppNavbar";
 
 const mainListItems = [
   { text: "Dashboard", icon: <DashboardRoundedIcon />, path: "/" },
@@ -52,12 +51,6 @@ export default function SupportSideMenuMobile({ open, toggleDrawer }: SupportSid
       sx={{ zIndex: 1300, "& .MuiDrawer-paper": { width: "280px", boxSizing: "border-box" } }}
     >
       <Box sx={{ display: "flex", flexDirection: "column", mx: 2, my: 2, gap: 1 }}>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-          <TicketHubLogo />
-          <Typography variant="h6" component="div" sx={{ fontFamily: '"Special Gothic Condensed One", sans-serif' }}>
-            TicketHub
-          </Typography>
-        </Box>
         <List dense>
           {mainListItems.map((item, index) => (
             <ListItem key={index} disablePadding>

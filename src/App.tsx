@@ -64,18 +64,18 @@ function NotFound() {
   );
 }
 
+function TestComponent() {
+  // Intentional error to test ErrorBoundary
+  throw new Error("Testing ErrorBoundary - this should show an error message");
+  return <div>This won't render</div>;
+}
+
 export default function App() {
   return (
     <ErrorBoundary>
       <AppTheme>
         <CssBaseline />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/*" element={<TicketHubApp />} />
-            <Route path="/crm" element={<CrmDashboard />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <TestComponent />
       </AppTheme>
     </ErrorBoundary>
   );

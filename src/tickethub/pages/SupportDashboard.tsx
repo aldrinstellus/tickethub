@@ -30,7 +30,7 @@ const DEMO_TICKET = {
   subject: 'Demo Ticket for AI Analysis',
   description: 'This is a demo ticket used for AI insights demonstration with various sentiment indicators.',
   status: 'Open',
-  priority: 'Medium',
+  priority: 'Normal',
   created_at: '2024-01-15T10:30:00Z',
   customer_id: 'demo-customer',
   assignee: 'Demo Agent'

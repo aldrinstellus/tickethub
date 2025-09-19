@@ -34,7 +34,7 @@ async function tryFetch<T>(url: string): Promise<T | null> {
 async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promise<T | null> {
   // If config is missing, immediately return null to use fallback
   if (!SUPABASE_URL || !SUPABASE_KEY) {
-    console.log("Supabase configuration missing, skipping Supabase fetch");
+    console.log("Supabase configuration missing, using mock data instead");
     return null;
   }
 
@@ -42,7 +42,7 @@ async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promis
   try {
     new URL(SUPABASE_URL);
   } catch {
-    console.warn("Invalid Supabase URL format, using fallback data");
+    console.warn("Invalid Supabase URL format, using mock data instead");
     return null;
   }
 
@@ -54,9 +54,9 @@ async function supabaseFetch<T>(endpoint: string, options?: RequestInit): Promis
     // Add timeout to prevent hanging requests
     const controller = new AbortController();
     const timeoutId = setTimeout(() => {
-      console.log(`Supabase request timeout for ${endpoint}`);
+      console.log(`Supabase request timeout for ${endpoint}, falling back to mock data`);
       controller.abort();
-    }, 8000); // Reduced to 8 second timeout
+    }, 5000); // Reduced to 5 second timeout
 
     let res;
     try {

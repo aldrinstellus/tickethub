@@ -32,8 +32,8 @@ export default function App() {
     <BrowserRouter>
       <CssBaseline enableColorScheme />
       <Routes>
-        <Route path="/support/*" element={<TicketHubApp />} />
-        <Route path="/*" element={<CrmDashboard />} />
+        <Route path="/crm/*" element={<CrmDashboard />} />
+        <Route path="/*" element={<TicketHubApp />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

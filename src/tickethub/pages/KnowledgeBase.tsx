@@ -129,27 +129,170 @@ export default function KnowledgeBase() {
   return (
     <Box sx={{ width: "100%" }}>
       <PageHeader title="Knowledge Base" />
-      <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 2, alignItems: "center", justifyContent: "space-between" }}>
-        <TextField size="small" placeholder="Search articles" value={query} onChange={(e) => setQuery(e.target.value)} />
-      </Stack>
+
+      {/* Search and Filter Header */}
+      <Card variant="outlined" sx={{ mb: 3 }}>
+        <CardContent>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                size="small"
+                placeholder="Search articles..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                InputProps={{
+                  startAdornment: <SearchIcon sx={{ mr: 1, color: 'text.secondary' }} />,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Stack direction="row" spacing={1} alignItems="center" justifyContent="flex-end">
+                <Typography variant="body2" color="text.secondary">
+                  {filtered.length} of {articles.length} articles
+                </Typography>
+                {(selectedCategories.length > 0 || query) && (
+                  <Button
+                    size="small"
+                    startIcon={<ClearIcon />}
+                    onClick={handleClearFilters}
+                    variant="outlined"
+                  >
+                    Clear Filters
+                  </Button>
+                )}
+              </Stack>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+
+      {/* Popular Categories */}
+      {popularCategories.length > 0 && (
+        <Card variant="outlined" sx={{ mb: 3 }}>
+          <CardContent>
+            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+              <FilterListIcon color="primary" />
+              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                Popular Categories
+              </Typography>
+            </Stack>
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+              {popularCategories.map((category) => (
+                <Chip
+                  key={category}
+                  label={`${category} (${categoryCounts[category]})`}
+                  onClick={() => handleCategoryToggle(category)}
+                  color={selectedCategories.includes(category) ? "primary" : "default"}
+                  variant={selectedCategories.includes(category) ? "filled" : "outlined"}
+                  clickable
+                  sx={{ mb: 1 }}
+                />
+              ))}
+            </Stack>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* All Categories */}
+      {allCategories.length > popularCategories.length && (
+        <Card variant="outlined" sx={{ mb: 3 }}>
+          <CardContent>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>
+              All Categories
+            </Typography>
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+              {allCategories.map((category) => (
+                <Chip
+                  key={category}
+                  label={`${category} (${categoryCounts[category]})`}
+                  onClick={() => handleCategoryToggle(category)}
+                  size="small"
+                  color={selectedCategories.includes(category) ? "primary" : "default"}
+                  variant={selectedCategories.includes(category) ? "filled" : "outlined"}
+                  clickable
+                  sx={{ mb: 1 }}
+                />
+              ))}
+            </Stack>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Active Filters */}
+      {selectedCategories.length > 0 && (
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            Active Filters:
+          </Typography>
+          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+            {selectedCategories.map((category) => (
+              <Chip
+                key={category}
+                label={category}
+                onDelete={() => handleCategoryToggle(category)}
+                color="primary"
+                size="small"
+              />
+            ))}
+          </Stack>
+        </Box>
+      )}
+
+      <Divider sx={{ mb: 3 }} />
+
+      {/* Articles List */}
       <Stack spacing={2}>
-        {filtered.map((a) => (
-          <Card key={a.id} variant="outlined">
-            <CardContent>
-              <Typography variant="subtitle1" sx={{ mb: 0.5 }}>
-                {a.title}
+        {filtered.length > 0 ? (
+          filtered.map((article) => (
+            <Card key={article.id} variant="outlined" sx={{ '&:hover': { bgcolor: 'action.hover' } }}>
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
+                  {article.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  {article.content}
+                </Typography>
+                <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                  {article.tags?.map((tag) => (
+                    <Chip
+                      key={tag}
+                      size="small"
+                      label={tag}
+                      variant="outlined"
+                      clickable
+                      onClick={() => handleCategoryToggle(tag)}
+                      color={selectedCategories.includes(tag) ? "primary" : "default"}
+                    />
+                  ))}
+                </Stack>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <Card variant="outlined">
+            <CardContent sx={{ textAlign: 'center', py: 4 }}>
+              <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
+                No articles found
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {a.content}
+                {query || selectedCategories.length > 0
+                  ? "Try adjusting your search or filters"
+                  : "No articles available"
+                }
               </Typography>
-              <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-                {a.tags.map((t) => (
-                  <Chip key={t} size="small" label={t} />
-                ))}
-              </Stack>
+              {(query || selectedCategories.length > 0) && (
+                <Button
+                  variant="outlined"
+                  onClick={handleClearFilters}
+                  sx={{ mt: 2 }}
+                >
+                  Clear All Filters
+                </Button>
+              )}
             </CardContent>
           </Card>
-        ))}
+        )}
       </Stack>
     </Box>
   );

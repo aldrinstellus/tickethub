@@ -957,7 +957,21 @@ export default function TicketWorkspace() {
         )}
       </Grid>
 
-      <Dialog fullScreen={false} open={kbOpen} onClose={() => setKbOpen(false)} fullWidth maxWidth="sm">
+      <Dialog
+        fullScreen={false}
+        open={kbOpen}
+        onClose={() => setKbOpen(false)}
+        fullWidth
+        maxWidth="sm"
+        sx={{
+          '& .MuiBackdrop-root': {
+            backgroundColor: (theme) => theme.palette.mode === 'dark'
+              ? 'rgba(0, 0, 0, 0.8)'
+              : 'rgba(0, 0, 0, 0.5)',
+            backdropFilter: 'blur(4px)',
+          },
+        }}
+      >
         <DialogTitle>
           Knowledge Base
           <IconButton aria-label="close" onClick={() => setKbOpen(false)} sx={{ position: 'absolute', right: 8, top: 8 }}>

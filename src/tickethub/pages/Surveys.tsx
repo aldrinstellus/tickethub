@@ -634,7 +634,20 @@ export default function Surveys() {
         </Dialog>
 
         {/* Question Creation Dialog */}
-        <Dialog open={questionDialogOpen} onClose={() => setQuestionDialogOpen(false)} maxWidth="sm" fullWidth>
+        <Dialog
+          open={questionDialogOpen}
+          onClose={() => setQuestionDialogOpen(false)}
+          maxWidth="sm"
+          fullWidth
+          sx={{
+            '& .MuiBackdrop-root': {
+              backgroundColor: (theme) => theme.palette.mode === 'dark'
+                ? 'rgba(0, 0, 0, 0.8)'
+                : 'rgba(0, 0, 0, 0.5)',
+              backdropFilter: 'blur(4px)',
+            },
+          }}
+        >
           <DialogTitle>
             {editingQuestion?.question ? 'Edit Question' : 'Add Question'}
           </DialogTitle>

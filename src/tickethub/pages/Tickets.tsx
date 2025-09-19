@@ -49,7 +49,14 @@ export default function Tickets() {
     },
     { field: "status", headerName: "Status", width: 130 },
     { field: "assignee", headerName: "Assignee", width: 160 },
-    { field: "updatedAt", headerName: "Updated", width: 180, valueFormatter: (p) => new Date(p.value as string).toLocaleString() },
+    { field: "updatedAt", headerName: "Updated", width: 180, valueFormatter: (p) => {
+      if (!p || !p.value) return "N/A";
+      try {
+        return new Date(p.value as string).toLocaleString();
+      } catch (error) {
+        return "Invalid Date";
+      }
+    }},
   ];
 
   return (

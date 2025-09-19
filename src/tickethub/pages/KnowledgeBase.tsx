@@ -15,7 +15,7 @@ export default function KnowledgeBase() {
   );
 
   return (
-    <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
+    <Box sx={{ width: "100%" }}>
       <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 2, alignItems: "center", justifyContent: "space-between" }}>
         <Typography variant="h6">Knowledge Base</Typography>
         <TextField size="small" placeholder="Search articles" value={query} onChange={(e) => setQuery(e.target.value)} />

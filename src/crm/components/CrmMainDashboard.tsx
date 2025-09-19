@@ -62,7 +62,7 @@ const statCardsData = [
 
 export default function CrmMainDashboard() {
   return (
-    <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
+    <Box sx={{ width: "100%" }}>
       {/* Header with action buttons */}
       <Stack
         direction="row"

@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 
 export default function Surveys() {
   return (
-    <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
+    <Box sx={{ width: "100%" }}>
       <Stack direction="row" justifyContent="space-between" sx={{ mb: 2 }}>
         <Typography variant="h6">Surveys</Typography>
         <Button variant="contained">Create Survey</Button>

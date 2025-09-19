@@ -5,7 +5,7 @@ import { LineChart } from "@mui/x-charts/LineChart";
 
 export default function Reports() {
   return (
-    <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
+    <Box sx={{ width: "100%" }}>
       <Typography variant="h6" sx={{ mb: 2 }}>
         Performance Reports
       </Typography>

@@ -82,7 +82,7 @@ export default function TicketWorkspace() {
   );
 
   return (
-    <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
+    <Box sx={{ width: "100%" }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
           <Card variant="outlined" sx={{ mb: 2 }}>

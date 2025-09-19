@@ -28,7 +28,7 @@ export default function Tickets() {
   ];
 
   return (
-    <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
+    <Box sx={{ width: "100%" }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
         <Typography variant="h6">All Tickets</Typography>
         <Button variant="contained" startIcon={<AddRoundedIcon />}>New Ticket</Button>

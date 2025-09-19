@@ -16,7 +16,7 @@ export default function Analytics() {
   };
 
   return (
-    <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
+    <Box sx={{ width: "100%" }}>
       <Typography variant="h6" sx={{ mb: 2 }}>Analytics</Typography>
       <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
         <Box sx={{ p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 1 }}>

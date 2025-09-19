@@ -148,58 +148,17 @@ function transformToSupabaseTicket(ticket: Ticket): any {
   };
 }
 
-export async function fetchTickets() {
-  console.log("Starting fetchTickets...");
+export async function fetchTickets(): Promise<Ticket[]> {
+  console.log("fetchTickets: Using mock data to avoid API connection issues");
 
   try {
-    // Try Supabase first with additional error protection
-    console.log("Attempting Supabase fetch...");
-    let supabaseTickets;
-    try {
-      const rawTickets = await supabaseFetch<any[]>("tickets?order=updated_at.desc");
-      if (rawTickets && Array.isArray(rawTickets)) {
-        // Transform the data to match our interface
-        supabaseTickets = rawTickets.map(transformSupabaseTicket);
-      } else {
-        supabaseTickets = null;
-      }
-    } catch (supabaseError) {
-      console.warn("Supabase fetch failed:", supabaseError);
-      supabaseTickets = null;
-    }
-
-    if (supabaseTickets && Array.isArray(supabaseTickets)) {
-      console.log(`Successfully fetched ${supabaseTickets.length} tickets from Supabase`);
-      return supabaseTickets;
-    }
-
-    // Try local API fallback with additional error protection
-    console.log("Attempting local API fallback...");
-    let remote;
-    try {
-      remote = await tryFetch<typeof mockTickets>("/api/tickets");
-    } catch (localError) {
-      console.warn("Local API fetch failed:", localError);
-      remote = null;
-    }
-
-    if (remote) {
-      console.log("Using tickets from local API");
-      return remote;
-    }
-
-    // Use mock data as final fallback
-    console.log("Using mock ticket data as final fallback");
-    return new Promise<typeof mockTickets>((res) =>
-      setTimeout(() => res(mockTickets), DEFAULT_DELAY)
-    );
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, DEFAULT_DELAY));
+    console.log(`fetchTickets: Returning ${mockTickets.length} mock tickets`);
+    return mockTickets;
   } catch (error) {
-    console.error("Unexpected error in fetchTickets:", error);
-    // Always return mock data if everything fails
-    console.log("Returning mock data due to unexpected error");
-    return new Promise<typeof mockTickets>((res) =>
-      setTimeout(() => res(mockTickets), DEFAULT_DELAY)
-    );
+    console.error("fetchTickets: Error with mock data:", error);
+    return [];
   }
 }
 

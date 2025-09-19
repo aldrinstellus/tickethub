@@ -29,6 +29,7 @@ import { articles, generateAiResponse, Ticket, Article } from "../data/mockData"
 import type { Message as TicketMessage } from "../data/mockData";
 import { fetchTicketById, fetchArticles, fetchMessages, createMessage, updateTicketStatus, assignTicket, updateTicketPriority } from "../services/api";
 import { useUser } from "../contexts/UserContext";
+import PageHeader from "../components/PageHeader";
 
 export default function TicketWorkspace() {
   const { id } = useParams();
@@ -213,6 +214,7 @@ export default function TicketWorkspace() {
 
   return (
     <Box sx={{ width: "100%" }}>
+      <PageHeader title={ticket?.subject || `Ticket ${id}`} />
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
           <Card variant="outlined" sx={{ mb: 2 }}>

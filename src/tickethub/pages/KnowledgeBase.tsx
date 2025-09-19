@@ -9,6 +9,7 @@ import CardContent from "@mui/material/CardContent";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Article } from "../data/mockData";
 import { fetchArticles } from "../services/api";
+import PageHeader from "../components/PageHeader";
 
 export default function KnowledgeBase() {
   const [query, setQuery] = React.useState("");
@@ -44,8 +45,8 @@ export default function KnowledgeBase() {
   if (loading) {
     return (
       <Box sx={{ width: "100%" }}>
+        <PageHeader title="Knowledge Base" />
         <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 2, alignItems: "center", justifyContent: "space-between" }}>
-          <Typography variant="h6">Knowledge Base</Typography>
           <TextField size="small" placeholder="Search articles" disabled />
         </Stack>
         <Stack spacing={2}>
@@ -66,8 +67,8 @@ export default function KnowledgeBase() {
 
   return (
     <Box sx={{ width: "100%" }}>
+      <PageHeader title="Knowledge Base" />
       <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 2, alignItems: "center", justifyContent: "space-between" }}>
-        <Typography variant="h6">Knowledge Base</Typography>
         <TextField size="small" placeholder="Search articles" value={query} onChange={(e) => setQuery(e.target.value)} />
       </Stack>
       <Stack spacing={2}>

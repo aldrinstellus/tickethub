@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import { ReactECharts } from "echarts-for-react";
+import ReactECharts from "echarts-for-react";
 import Plot from "react-plotly.js";
 import Chart from "react-apexcharts";
 import { motion } from "framer-motion";
